@@ -266,7 +266,7 @@ function doFrame() {
 function onDocumentKeyDown(event) {//TODO: introduce keyup event, and then add accelearation, so when you stop its gradual not sudden
 //TODO: when two cameras are introduced, use position relative to player(world) for zoomed out view, relative to character for 3rd person.
     var keyCode = event.which;
-    if (keyCode == 87) {//s
+    if (keyCode == 87 || keyCode== 40) {//s
 		//myPac.position.x -= PAC_SPEED;//original moving system, with no acceleration, and constant velocity
 		if(fbAcceleration>=-MAX_ACCELERATION)
 		{
@@ -276,7 +276,7 @@ function onDocumentKeyDown(event) {//TODO: introduce keyup event, and then add a
 		//back
 		myPac.rotation.y=0;
 				
-    } else if (keyCode == 83) {//w
+    } else if (keyCode == 83 || keyCode==38) {//w
 		if(fbAcceleration<=MAX_ACCELERATION)
 		{
 			fbAcceleration+=PAC_SPEED;
@@ -286,7 +286,7 @@ function onDocumentKeyDown(event) {//TODO: introduce keyup event, and then add a
 		//forward
 		myPac.rotation.y=Math.PI;
 		
-    } else if (keyCode == 65) {//a
+    } else if (keyCode == 65 || keyCode==37) {//a
 	    //myPac.position.z += PAC_SPEED;//original moving system, with no acceleration, and constant velocity
 		if(lrAcceleration<=MAX_ACCELERATION)
 		{
@@ -296,7 +296,7 @@ function onDocumentKeyDown(event) {//TODO: introduce keyup event, and then add a
 		//left
 		myPac.rotation.y=Math.PI/2;
 		
-    } else if (keyCode == 68) {//d
+    } else if (keyCode == 68 || keyCode==39) {//d
        // myPac.position.z -= PAC_SPEED;//original moving system, with no acceleration, and constant velocity
 		if(lrAcceleration>=-MAX_ACCELERATION)
 		{
