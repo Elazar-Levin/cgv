@@ -267,10 +267,11 @@ function onDocumentKeyDown(event) {//TODO: introduce keyup event, and then add a
 //TODO: when two cameras are introduced, use position relative to player(world) for zoomed out view, relative to character for 3rd person.
     var keyCode = event.which;
     if (keyCode == 87) {//s
-		//myPac.position.x -= PAC_SPEED;
+		//myPac.position.x -= PAC_SPEED;//original moving system, with no acceleration, and constant velocity
 		if(fbAcceleration>=-MAX_ACCELERATION)
 		{
 			fbAcceleration -= PAC_SPEED;
+			lrAcceleration=0;//put back in to make him only go forward and backward or left and right, not both
 		}
 		//back
 		myPac.rotation.y=0;
@@ -279,25 +280,28 @@ function onDocumentKeyDown(event) {//TODO: introduce keyup event, and then add a
 		if(fbAcceleration<=MAX_ACCELERATION)
 		{
 			fbAcceleration+=PAC_SPEED;
+			lrAcceleration=0;//comment out to make him go both left/right and forward/backward at the same time
 		}
-		//myPac.position.x += PAC_SPEED;
+		//myPac.position.x += PAC_SPEED;//original moving system, with no acceleration, and constant velocity
 		//forward
 		myPac.rotation.y=Math.PI;
 		
     } else if (keyCode == 65) {//a
-	    //myPac.position.z += PAC_SPEED;
+	    //myPac.position.z += PAC_SPEED;//original moving system, with no acceleration, and constant velocity
 		if(lrAcceleration<=MAX_ACCELERATION)
 		{
 			lrAcceleration += PAC_SPEED;
+			fbAcceleration=0; //comment out to make him go both left/right and forward/backward at the same time
 		}
 		//left
 		myPac.rotation.y=Math.PI/2;
 		
     } else if (keyCode == 68) {//d
-       // myPac.position.z -= PAC_SPEED;
+       // myPac.position.z -= PAC_SPEED;//original moving system, with no acceleration, and constant velocity
 		if(lrAcceleration>=-MAX_ACCELERATION)
 		{
 			lrAcceleration-=PAC_SPEED;
+			fbAcceleration=0;// comment out to make him go both left/right and forward/backward at the same time
 		}
 		//right
 		myPac.rotation.y=-Math.PI/2;
