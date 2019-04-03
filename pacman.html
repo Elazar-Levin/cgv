@@ -39,8 +39,15 @@ var pellet;//food pellet
 
 var level=0;// current floor pacman is on, so we can do collisions
 var cameraMode=1;//3 modes, depending on which number button pressed eg. 1 is fixed full view,2 is 3rd person, 3 is 1st person// not properly done yet
-var acceleration=true;//whether or not were using acceleration, or just straight up using speed
+var acceleration=0;//whether or not were using acceleration, or just straight up using speed or using automatic movement
 var oneAxis=false;//whether or not we can travel in more than one direction at a time
+
+var movingLeft=false;//attempting continuous movement, where pacman moves with constant velocity in the direction of the last key/s pressed
+var movingRight=false;
+var movingForward=false;
+var movingBackward=false;
+
+
 
 var lrAcceleration=0;//left/right acceleration
 var fbAcceleration=0;//forward/backward acceleration
@@ -49,7 +56,11 @@ var MAX_ACCELERATION=0.5;//fastest speed pacman can achieve
 var VETICAL_VELOCITY=0.05;//speed pacman falls if not on ground(gravity kinda)
 var PAC_RADIUS=2;//size of pacman
 var PAC_SPEED_ACC=0.02;//horizontal speed.because pacman accelerates over time, this needs to be low or hell go out of control 
-var PAC_SPEED=1;//speed when acceleration is off
+var PAC_SPEED=0.5;//speed when acceleration is off
+
+
+
+
 
 var myPac;//actual full pacman object that well be moving around
 /**
@@ -73,8 +84,8 @@ function createWorld() {
     
     // ------------------- Setup cameras and lights ----------------------
     
-    camera = new THREE.PerspectiveCamera(30, canvas.width/canvas.height, 0.1, 100);//main camera, staionary,can be used later for fixed full view with different parameters 
-    camera.position.z = 30;
+    camera = new THREE.PerspectiveCamera(30, canvas.width/canvas.height, 0.1, 500);//main camera, staionary,can be used later for fixed full view with different parameters 
+    camera.position.z = 100;
     var light;  // A light shining from the top of pacman(looks really cool).
 	var light2;//a general light at the top of the screen
 	//TODO: add ligt underneath pacman so hes not in shadow
@@ -106,14 +117,14 @@ function createWorld() {
     for (var i = 0; i < numFrames; i++) {// create the frames for pacmans animations
         offset = (i / (numFrames - 1)) * Math.PI;
         pacmanGeometries.push(new THREE.SphereGeometry(PAC_RADIUS, 16, 16, offset, Math.PI * 2 - offset * 2));
-        pacMouthGeometries.push(new THREE.SphereGeometry(PAC_RADIUS-0.02, 16, 16, offset, Math.PI *2 - offset * 2));
+        pacMouthGeometries.push(new THREE.SphereGeometry(PAC_RADIUS-0.03, 16, 16, offset, Math.PI *2 - offset * 2));
         pacmanGeometries[i].rotateX(Math.PI / 2);
         pacMouthGeometries[i].rotateX(Math.PI / 2);
     }
 
-    var pacmanMaterial = new THREE.MeshPhongMaterial({ color: 'yellow', side: THREE.DoubleSide });
+    var pacmanMaterial = new THREE.MeshPhongMaterial({ color: 'yellow', side: THREE.FrontSide });
 	
-	var pacMouthMaterial=new THREE.MeshBasicMaterial({ color: 'purple', side: THREE.DoubleSide });
+	var pacMouthMaterial=new THREE.MeshBasicMaterial({ color: 'red', side: THREE.BackSide });
 	
 	
 	var eyeMaterial=new THREE.MeshBasicMaterial({ color: 'black', side: THREE.DoubleSide });
@@ -202,10 +213,30 @@ function updateForFrame() {
 		}
 	}
 	//TODO:Consider resseting fbAcceleration when moving left and right, and vice versa(give opinions)
-	if(acceleration)
+	if(acceleration==1)
 	{
 		myPac.position.x+=fbAcceleration;//update forward and backward positions
 		myPac.position.z+=lrAcceleration;//update left and right positions
+	}
+	else if(acceleration==2)
+	{
+		if(movingLeft)
+		{
+			myPac.position.z+=PAC_SPEED;
+		}
+		if(movingRight)
+		{
+			myPac.position.z-=PAC_SPEED;
+		}
+		if(movingForward)
+		{
+			myPac.position.x+=PAC_SPEED;
+		}
+		if(movingBackward)
+		{
+			myPac.position.x-=PAC_SPEED;
+		}
+		
 	}
 	
 	
@@ -268,13 +299,13 @@ function doFrame() {
 
 }
 
-
+//TODO: make angles change based on directions being travelled in
 function onDocumentKeyDown(event) {//TODO: introduce keyup event, and then add accelearation, so when you stop its gradual not sudden
 //TODO: when two cameras are introduced, use position relative to player(world) for zoomed out view, relative to character for 3rd person.
     var keyCode = event.which;
     if (keyCode == 87 || keyCode== 40) {//s
-		//back
-		if(acceleration)
+		//backwards
+		if(acceleration==1)
 		{
 			if(fbAcceleration>=-MAX_ACCELERATION)
 			{
@@ -286,15 +317,24 @@ function onDocumentKeyDown(event) {//TODO: introduce keyup event, and then add a
 			}
 			
 		}
-		else
+		else if(acceleration==0)
 		{
 			myPac.position.x -= PAC_SPEED;//original moving system, with no acceleration, and constant velocity
+		}
+		else//set moving variables, for constant moving, even whe buttons arent pressed, like original pacman
+		{
+		
+			movingLeft=false;
+			movingRight=false;
+			movingForward=false;
+			movingBackward=true;
+			
 		}
 		myPac.rotation.y=0;
 				
     } else if (keyCode == 83 || keyCode==38) {//w
 		//forward
-		if(acceleration)
+		if(acceleration==1)
 		{
 			if(fbAcceleration<=MAX_ACCELERATION)
 			{
@@ -305,15 +345,25 @@ function onDocumentKeyDown(event) {//TODO: introduce keyup event, and then add a
 				}
 			}
 		}
-		else
+		else if(acceleration==0)
 		{
 			myPac.position.x += PAC_SPEED;//original moving system, with no acceleration, and constant velocity
+		}
+		else//set moving variables, for constant moving, even whe buttons arent pressed, like original pacman
+		{
+			
+			movingLeft=false;
+			movingRight=false;
+			movingForward=true;
+			movingBackward=false;
+						
+						
 		}
 		myPac.rotation.y=Math.PI;
 		
     } else if (keyCode == 65 || keyCode==37) {//a
 		//left
-		if(acceleration)
+		if(acceleration==1)
 		{
 			if(lrAcceleration<=MAX_ACCELERATION)
 			{
@@ -324,16 +374,24 @@ function onDocumentKeyDown(event) {//TODO: introduce keyup event, and then add a
 				}
 			}
 		}
-		else
+		else if(acceleration==0)
 		{
 			myPac.position.z += PAC_SPEED;//original moving system, with no acceleration, and constant velocity
 		}
+		else//set moving variables, for constant moving, even when buttons arent pressed, like original pacman
+		{
 		
+			movingLeft=true;
+			movingRight=false;
+			movingForward=false;
+			movingBackward=false;
+			
+		}
 		myPac.rotation.y=Math.PI/2;
 		
     } else if (keyCode == 68 || keyCode==39) {//d
 		//right
-		if(acceleration)
+		if(acceleration==1)
 		{
 			if(lrAcceleration>=-MAX_ACCELERATION)
 			{
@@ -345,9 +403,18 @@ function onDocumentKeyDown(event) {//TODO: introduce keyup event, and then add a
 			}
 
 		}
-		else
+		else if(acceleration==0)
 		{
 			myPac.position.z -= PAC_SPEED;//original moving system, with no acceleration, and constant velocity
+		}
+		else//set moving variables, for constant moving, even when buttons arent pressed, like original pacman
+		{
+		
+			movingLeft=false;
+			movingRight=true;
+			movingForward=false;
+			movingBackward=false;
+			
 		}
 		myPac.rotation.y=-Math.PI/2;
 		
@@ -370,7 +437,7 @@ function onDocumentKeyDown(event) {//TODO: introduce keyup event, and then add a
 	}
 	else if(keyCode==13)//enter
 	{
-		acceleration= !acceleration;
+		acceleration=(acceleration+1)%3;
 	}
 	else if(keyCode==187)//equals
 	{
