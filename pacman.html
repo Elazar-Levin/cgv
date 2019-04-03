@@ -29,6 +29,7 @@ var controls;  // An OrbitControls object that is used to implement
 var frameNumber = 0;  // Frame number is advanced by 1 for each frame while animating.
 
 
+
 var pacman;//yellow ball shaped thing with huge mouth
 var pacMouth;//inside of yellow ball shaped thing with huge mouth
 var pacmanGeometries = [];//set of animations for outer pacman
@@ -38,15 +39,17 @@ var pellet;//food pellet
 
 var level=0;// current floor pacman is on, so we can do collisions
 var cameraMode=1;//3 modes, depending on which number button pressed eg. 1 is fixed full view,2 is 3rd person, 3 is 1st person// not properly done yet
+var acceleration=true;//whether or not were using acceleration, or just straight up using speed
+var oneAxis=false;//whether or not we can travel in more than one direction at a time
 
 var lrAcceleration=0;//left/right acceleration
 var fbAcceleration=0;//forward/backward acceleration
 
-var MAX_ACCELERATION=0.2;//fastest speed pacman can achieve
+var MAX_ACCELERATION=0.5;//fastest speed pacman can achieve
 var VETICAL_VELOCITY=0.05;//speed pacman falls if not on ground(gravity kinda)
 var PAC_RADIUS=2;//size of pacman
-var PAC_SPEED=0.01;//horizontal speed.because pacman accelerates over time, this needs to be low or hell go out of control 
-
+var PAC_SPEED_ACC=0.02;//horizontal speed.because pacman accelerates over time, this needs to be low or hell go out of control 
+var PAC_SPEED=1;//speed when acceleration is off
 
 var myPac;//actual full pacman object that well be moving around
 /**
@@ -103,7 +106,7 @@ function createWorld() {
     for (var i = 0; i < numFrames; i++) {// create the frames for pacmans animations
         offset = (i / (numFrames - 1)) * Math.PI;
         pacmanGeometries.push(new THREE.SphereGeometry(PAC_RADIUS, 16, 16, offset, Math.PI * 2 - offset * 2));
-        pacMouthGeometries.push(new THREE.SphereGeometry(PAC_RADIUS-0.010001, 16, 16, offset, Math.PI *2 - offset * 2));
+        pacMouthGeometries.push(new THREE.SphereGeometry(PAC_RADIUS-0.02, 16, 16, offset, Math.PI *2 - offset * 2));
         pacmanGeometries[i].rotateX(Math.PI / 2);
         pacMouthGeometries[i].rotateX(Math.PI / 2);
     }
@@ -139,6 +142,7 @@ function createWorld() {
 	scene.add(floor);
     scene.add(myPac);
 	scene.add(pellet);
+	//scene.remove(pellet);
 } // end function createWorld()
 
 
@@ -198,9 +202,11 @@ function updateForFrame() {
 		}
 	}
 	//TODO:Consider resseting fbAcceleration when moving left and right, and vice versa(give opinions)
-	myPac.position.x+=fbAcceleration;//update forward and backward positions
-	myPac.position.z+=lrAcceleration;//update left and right positions
-	
+	if(acceleration)
+	{
+		myPac.position.x+=fbAcceleration;//update forward and backward positions
+		myPac.position.z+=lrAcceleration;//update left and right positions
+	}
 	
 	
 	
@@ -267,43 +273,82 @@ function onDocumentKeyDown(event) {//TODO: introduce keyup event, and then add a
 //TODO: when two cameras are introduced, use position relative to player(world) for zoomed out view, relative to character for 3rd person.
     var keyCode = event.which;
     if (keyCode == 87 || keyCode== 40) {//s
-		//myPac.position.x -= PAC_SPEED;//original moving system, with no acceleration, and constant velocity
-		if(fbAcceleration>=-MAX_ACCELERATION)
-		{
-			fbAcceleration -= PAC_SPEED;
-			lrAcceleration=0;//put back in to make him only go forward and backward or left and right, not both
-		}
 		//back
+		if(acceleration)
+		{
+			if(fbAcceleration>=-MAX_ACCELERATION)
+			{
+				fbAcceleration -= PAC_SPEED_ACC;
+				if(oneAxis)
+				{
+					lrAcceleration=0;//put back in to make him only go forward and backward or left and right, not both
+				}
+			}
+			
+		}
+		else
+		{
+			myPac.position.x -= PAC_SPEED;//original moving system, with no acceleration, and constant velocity
+		}
 		myPac.rotation.y=0;
 				
     } else if (keyCode == 83 || keyCode==38) {//w
-		if(fbAcceleration<=MAX_ACCELERATION)
-		{
-			fbAcceleration+=PAC_SPEED;
-			lrAcceleration=0;//comment out to make him go both left/right and forward/backward at the same time
-		}
-		//myPac.position.x += PAC_SPEED;//original moving system, with no acceleration, and constant velocity
 		//forward
+		if(acceleration)
+		{
+			if(fbAcceleration<=MAX_ACCELERATION)
+			{
+				fbAcceleration+=PAC_SPEED_ACC;
+				if(oneAxis)
+				{
+					lrAcceleration=0;//comment out to make him go both left/right and forward/backward at the same time
+				}
+			}
+		}
+		else
+		{
+			myPac.position.x += PAC_SPEED;//original moving system, with no acceleration, and constant velocity
+		}
 		myPac.rotation.y=Math.PI;
 		
     } else if (keyCode == 65 || keyCode==37) {//a
-	    //myPac.position.z += PAC_SPEED;//original moving system, with no acceleration, and constant velocity
-		if(lrAcceleration<=MAX_ACCELERATION)
-		{
-			lrAcceleration += PAC_SPEED;
-			fbAcceleration=0; //comment out to make him go both left/right and forward/backward at the same time
-		}
 		//left
+		if(acceleration)
+		{
+			if(lrAcceleration<=MAX_ACCELERATION)
+			{
+				lrAcceleration += PAC_SPEED_ACC;
+				if(oneAxis)
+				{
+					fbAcceleration=0; //comment out to make him go both left/right and forward/backward at the same time
+				}
+			}
+		}
+		else
+		{
+			myPac.position.z += PAC_SPEED;//original moving system, with no acceleration, and constant velocity
+		}
+		
 		myPac.rotation.y=Math.PI/2;
 		
     } else if (keyCode == 68 || keyCode==39) {//d
-       // myPac.position.z -= PAC_SPEED;//original moving system, with no acceleration, and constant velocity
-		if(lrAcceleration>=-MAX_ACCELERATION)
-		{
-			lrAcceleration-=PAC_SPEED;
-			fbAcceleration=0;// comment out to make him go both left/right and forward/backward at the same time
-		}
 		//right
+		if(acceleration)
+		{
+			if(lrAcceleration>=-MAX_ACCELERATION)
+			{
+				lrAcceleration-=PAC_SPEED_ACC;
+				if(oneAxis)
+				{
+					fbAcceleration=0;// comment out to make him go both left/right and forward/backward at the same time
+				}
+			}
+
+		}
+		else
+		{
+			myPac.position.z -= PAC_SPEED;//original moving system, with no acceleration, and constant velocity
+		}
 		myPac.rotation.y=-Math.PI/2;
 		
     } else if (keyCode == 32) {//space
@@ -323,7 +368,14 @@ function onDocumentKeyDown(event) {//TODO: introduce keyup event, and then add a
 	{
 		cameraMode=3;
 	}
-	
+	else if(keyCode==13)//enter
+	{
+		acceleration= !acceleration;
+	}
+	else if(keyCode==187)//equals
+	{
+		oneAxis= !oneAxis;
+	}
 };
 
 function resize()
