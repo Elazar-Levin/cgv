@@ -120,7 +120,7 @@ function createWorld() {
 	pellet=new THREE.Mesh(new THREE.SphereGeometry(0.5,16,16),new THREE.MeshPhongMaterial({color:'white',side: THREE.DoubleSide}));
 	pellet.position.set(3.5,-3,3.5);
 	
-	floor=new THREE.Mesh(new THREE.PlaneGeometry(1000,1000,5,5),new THREE.MeshBasicMaterial({color:'green',side: THREE.DoubleSide}));
+	floor=new THREE.Mesh(new THREE.PlaneGeometry(1000,1000,5,5),new THREE.MeshPhongMaterial({color:'green',side: THREE.DoubleSide}));
 	floor.position.set(0,-5,0);
 	floor.rotation.x=Math.PI/2;//make floor on bottom 
 	
@@ -129,6 +129,27 @@ function createWorld() {
 	var pacEye=new THREE.Mesh(pacGeometry,eyeMaterial);
 	
 	pacEye.position.set(-1,0.7,2);
+	
+	
+	var starsGeometry = new THREE.Geometry();
+
+for ( var i = 0; i < 10000; i ++ ) {
+
+	var star = new THREE.Vector3();
+	star.x = THREE.Math.randFloatSpread( 100 );
+	star.y = THREE.Math.randFloatSpread( 100 );
+	star.z = THREE.Math.randFloatSpread( 100 );
+
+	starsGeometry.vertices.push( star );
+
+}
+
+var starsMaterial = new THREE.PointsMaterial( { color: 0x888888 } );
+
+var starField = new THREE.Points( starsGeometry, starsMaterial );
+
+scene.add( starField );
+	
 	
 	
 	myPac.add(pacMouth);
