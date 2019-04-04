@@ -133,10 +133,10 @@ function createWorld() {
 	var pacGeometry=new THREE.SphereGeometry(0.3,16,16);
 	
 	
-	pellet=new THREE.Mesh(new THREE.SphereGeometry(0.5,16,16),new THREE.MeshPhongMaterial({color:'blue',side: THREE.DoubleSide}));
+	pellet=new THREE.Mesh(new THREE.SphereGeometry(0.5,16,16),new THREE.MeshPhongMaterial({color:'skyblue',side: THREE.DoubleSide}));
 	pellet.position.set(3.5,-3,3.5);
 	
-	floor=new THREE.Mesh(new THREE.PlaneGeometry(1000,1000,5,5),new THREE.MeshPhongMaterial({color:'white',side: THREE.DoubleSide}));
+	floor=new THREE.Mesh(new THREE.PlaneGeometry(1000,1000,5,5),new THREE.MeshPhongMaterial({color:'lightyellow',side: THREE.DoubleSide}));
 	floor.position.set(0,-5,0);
 	floor.rotation.x=Math.PI/2;//make floor on bottom 
 	
@@ -246,6 +246,7 @@ function updateForFrame() {
 		myPac.add(halloweenLight);
 		myPac.remove(light);
 		scene.remove(light2);
+		pacman.material.emissive.set('orange');
 
 	}
 	else
@@ -254,7 +255,7 @@ function updateForFrame() {
 		myPac.remove(halloweenLight);
 		myPac.add(light);
 		scene.add(light2);
-		
+		pacman.material.emissive.set('black');
 	}
 	
 	
@@ -313,7 +314,20 @@ function doFrame() {
 	stats.update();
 	requestAnimationFrame(doFrame);
 
+
+	
 }
+
+function collides()
+{
+
+
+
+
+}
+
+
+
 
 //TODO: make angles change based on directions being travelled in
 function onDocumentKeyDown(event) {//TODO: introduce keyup event, and then add accelearation, so when you stop its gradual not sudden
@@ -377,8 +391,8 @@ function onDocumentKeyDown(event) {//TODO: introduce keyup event, and then add a
 		}
 		myPac.rotation.y=Math.PI;
 		
-    } else if (keyCode == 68 || keyCode==39) {//d
-		//right
+    } else if (keyCode == 65 || keyCode==37) {//a
+		//left
 		if(acceleration==1)
 		{
 			if(lrAcceleration<=MAX_ACCELERATION)
@@ -405,8 +419,8 @@ function onDocumentKeyDown(event) {//TODO: introduce keyup event, and then add a
 		}
 		myPac.rotation.y=Math.PI/2;
 		
-    }  else if (keyCode == 65 || keyCode==37) {//a
-		//left
+    }  else if (keyCode == 68 || keyCode==39) {//d
+		//right
 		if(acceleration==1)
 		{
 			if(lrAcceleration>=-MAX_ACCELERATION)
