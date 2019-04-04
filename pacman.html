@@ -41,6 +41,7 @@ var level=0;// current floor pacman is on, so we can do collisions
 var cameraMode=1;//3 modes, depending on which number button pressed eg. 1 is fixed full view,2 is 3rd person, 3 is 1st person// not properly done yet
 var acceleration=0;//whether or not were using acceleration, or just straight up using speed or using automatic movement
 var oneAxis=false;//whether or not we can travel in more than one direction at a time
+var halloween=false;//whether halloween mode is on
 
 var movingLeft=false;//attempting continuous movement, where pacman moves with constant velocity in the direction of the last key/s pressed
 var movingRight=false;
@@ -53,12 +54,15 @@ var lrAcceleration=0;//left/right acceleration
 var fbAcceleration=0;//forward/backward acceleration
 
 var MAX_ACCELERATION=0.5;//fastest speed pacman can achieve
-var VETICAL_VELOCITY=0.05;//speed pacman falls if not on ground(gravity kinda)
+var VETICAL_VELOCITY=0.1;//speed pacman falls if not on ground(gravity kinda)
 var PAC_RADIUS=2;//size of pacman
 var PAC_SPEED_ACC=0.02;//horizontal speed.because pacman accelerates over time, this needs to be low or hell go out of control 
 var PAC_SPEED=0.5;//speed when acceleration is off
 
-
+var light;  // A light shining from the top of pacman(looks really cool).
+var light2;//a general light at the top of the screen
+//TODO: add ligt underneath pacman so hes not in shadow
+var halloweenLight;
 
 
 
@@ -85,19 +89,17 @@ function createWorld() {
     // ------------------- Setup cameras and lights ----------------------
     
     camera = new THREE.PerspectiveCamera(30, canvas.width/canvas.height, 0.1, 500);//main camera, staionary,can be used later for fixed full view with different parameters 
-    camera.position.z = 100;
-    var light;  // A light shining from the top of pacman(looks really cool).
-	var light2;//a general light at the top of the screen
-	//TODO: add ligt underneath pacman so hes not in shadow
-	var halloweenLight;
-    halloweenLight = new THREE.PointLight(0xffffff,1,0,2);//add this light to myPac, and disable all other lights for an awesome spooky effect
+    camera.position.z = 50;
+   
+    halloweenLight = new THREE.PointLight(0xffa500,1,0,2);//add this light to myPac, and disable all other lights for an awesome spooky effect
 	light= new THREE.PointLight(0xffffff,0.5,0,2);
     light2 = new THREE.PointLight(0xffffff,1,0,1);
     light.position.set(0,10,0);
     light2.position.set(0,30,0);
-	myPac.add(light);
-    scene.add(light2);
 	
+	
+	myPac.add(light);
+	scene.add(light2);
 	
 	//myPac.add(camera);//looks weird, because all of backgound is the same.
     scene.add(camera);
@@ -131,10 +133,10 @@ function createWorld() {
 	var pacGeometry=new THREE.SphereGeometry(0.3,16,16);
 	
 	
-	pellet=new THREE.Mesh(new THREE.SphereGeometry(0.5,16,16),new THREE.MeshPhongMaterial({color:'white',side: THREE.DoubleSide}));
+	pellet=new THREE.Mesh(new THREE.SphereGeometry(0.5,16,16),new THREE.MeshPhongMaterial({color:'blue',side: THREE.DoubleSide}));
 	pellet.position.set(3.5,-3,3.5);
 	
-	floor=new THREE.Mesh(new THREE.PlaneGeometry(1000,1000,5,5),new THREE.MeshBasicMaterial({color:'green',side: THREE.DoubleSide}));
+	floor=new THREE.Mesh(new THREE.PlaneGeometry(1000,1000,5,5),new THREE.MeshPhongMaterial({color:'white',side: THREE.DoubleSide}));
 	floor.position.set(0,-5,0);
 	floor.rotation.x=Math.PI/2;//make floor on bottom 
 	
@@ -239,7 +241,21 @@ function updateForFrame() {
 		
 	}
 	
+	if(halloween)
+	{
+		myPac.add(halloweenLight);
+		myPac.remove(light);
+		scene.remove(light2);
+
+	}
+	else
+	{
 	
+		myPac.remove(halloweenLight);
+		myPac.add(light);
+		scene.add(light2);
+		
+	}
 	
 	
 	
@@ -361,8 +377,8 @@ function onDocumentKeyDown(event) {//TODO: introduce keyup event, and then add a
 		}
 		myPac.rotation.y=Math.PI;
 		
-    } else if (keyCode == 65 || keyCode==37) {//a
-		//left
+    } else if (keyCode == 68 || keyCode==39) {//d
+		//right
 		if(acceleration==1)
 		{
 			if(lrAcceleration<=MAX_ACCELERATION)
@@ -389,8 +405,8 @@ function onDocumentKeyDown(event) {//TODO: introduce keyup event, and then add a
 		}
 		myPac.rotation.y=Math.PI/2;
 		
-    } else if (keyCode == 68 || keyCode==39) {//d
-		//right
+    }  else if (keyCode == 65 || keyCode==37) {//a
+		//left
 		if(acceleration==1)
 		{
 			if(lrAcceleration>=-MAX_ACCELERATION)
@@ -442,6 +458,10 @@ function onDocumentKeyDown(event) {//TODO: introduce keyup event, and then add a
 	else if(keyCode==187)//equals
 	{
 		oneAxis= !oneAxis;
+	}
+	else if(keyCode==72)//equals
+	{
+		halloween= !halloween;
 	}
 };
 
