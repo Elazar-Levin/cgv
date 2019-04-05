@@ -38,8 +38,8 @@ var pacMouthGeometries = [];//set of animations for innerpacman
 var floor;//main ground platform that everything stands on
 var pellet;//food pellet
 
-var pellets;//Object3D containing all pellets//might have to use array, taking a chance here
-
+var pellets;//Object3D containing all pellets
+var obstructions;//Object3D containing all walls/obstructions
 
 var level=0;// current floor pacman is on, so we can do collisions
 var cameraMode=1;//3 modes, depending on which number button pressed eg. 1 is fixed full view,2 is 3rd person, 3 is 1st person// not properly done yet
@@ -299,13 +299,13 @@ function updateForFrame() {
 	}
 	
 	
-	
+	//sphere/point/food collisions, anything pacman eats is done here, anything paman crashes into is done after this loop
 
 	var pacSphere;
 	var foodPoint;
 	
 	pacSphere = new THREE.Sphere(//set original sphers position
-	myPac.position,1.5);//make radius 1.5, so sphere only disappears inside pacman
+	myPac.position,1.7);//make radius 1.7, so sphere only disappears inside pacman
 	
 
 //	pellets.traverse(function(element) {
