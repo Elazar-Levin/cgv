@@ -38,6 +38,9 @@ var pacMouthGeometries = [];//set of animations for innerpacman
 var floor;//main ground platform that everything stands on
 var pellet;//food pellet
 
+var pellets;//Object3D containing all pellets//might have to use array, taking a chance here
+
+
 var level=0;// current floor pacman is on, so we can do collisions
 var cameraMode=1;//3 modes, depending on which number button pressed eg. 1 is fixed full view,2 is 3rd person, 3 is 1st person// not properly done yet
 var acceleration=0;//whether or not were using acceleration, or just straight up using speed or using automatic movement
@@ -79,12 +82,28 @@ function render() {
 }
 
 
+
+var pacSphere;
+var foodSphere;
+	
+
+
+
+
+
+
 /**
  * This function is called by the init() method to create the world. 
  */
 function createWorld() {
+	
+	
+
+
+
+
 	myPac = new THREE.Object3D(); //holds full pacman object	
-		
+	pellets= new THREE.Object3D();	
 		
     renderer.setClearColor("black"); // Background color for scene.
     scene = new THREE.Scene();
@@ -139,7 +158,7 @@ function createWorld() {
 	pellet=new THREE.Mesh(new THREE.SphereGeometry(0.5,16,16),new THREE.MeshPhongMaterial({color:'skyblue',side: THREE.DoubleSide,name: "pellet"}));
 	pellet.position.set(3.5,-3,3.5);
 	
-	
+	//pellets.add(pellet)
 	
 	floor=new THREE.Mesh(new THREE.PlaneGeometry(1000,1000,5,5),new THREE.MeshPhongMaterial({color:'lightyellow',side: THREE.DoubleSide}));
 	floor.position.set(0,-5,0);
@@ -151,6 +170,10 @@ function createWorld() {
 	
 	pacEye.position.set(-1,0.7,2);
 	
+	pacSphere = new THREE.Sphere(//set original sphers position
+	myPac.position,2);
+	foodSphere=new THREE.Sphere(//set original sphers position
+	pellet.position,0.5);
 	
 	myPac.add(pacMouth);
 	myPac.add(pacman);
@@ -266,6 +289,16 @@ function updateForFrame() {
 	
 	
 	
+	pacSphere.set(myPac.position,2);
+	foodSphere.set(pellet.position,0.5);
+	if(SphereIntersect(pacSphere,foodSphere))
+	{
+		
+		scene.remove(pellet);
+	
+	}
+	
+	
 	
 	
 }
@@ -323,14 +356,15 @@ function doFrame() {
 	
 }
 
-function collides(obj)
-{
 
-	
-
-
-
+function SphereIntersect(sphere, other) {
+// we are using multiplications because it's faster than calling Math.pow
+	return sphere.intersectsSphere(other);
 }
+
+
+
+
 
 
 
