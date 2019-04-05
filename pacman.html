@@ -171,14 +171,16 @@ function createWorld() {
 	for (var i=0;i<19;i++)
 	{
 		var myPellet=pellet.clone();
-		myPellet.position.set(,-3,)
-		
+		myPellet.position.set(THREE.Math.randFloatSpread( 100 ),-3,THREE.Math.randFloatSpread( 100 ));
+		pellets.add(myPellet);
 	}
 	
 	
 	
 	
-	
+
+
+
 	
 	
 	
@@ -304,14 +306,34 @@ function updateForFrame() {
 	
 	pacSphere = new THREE.Sphere(//set original sphers position
 	myPac.position,1.5);//make radius 1.5, so sphere only disappears inside pacman
-	foodPoint=pellet.position.clone();
-	//pacSphere.set(myPac.position,2);
-	if(SphereIntersect(pacSphere,foodPoint))
+	
+
+//	pellets.traverse(function(element) {
+	//	foodPoint=element.position;
+		//if(SphereIntersect(pacSphere,foodPoint))
+		//{
+			
+//			pellets.remove(element);
+//			return;
+//		}
+ //   });
+	for(var i=0;i<pellets.children.length;i++)
 	{
-		
-		pellets.remove(pellet);
+		foodPoint=pellets.children[i].position;
+		if(SphereIntersect(pacSphere,foodPoint))
+		{
+			
+			pellets.remove(pellets.children[i]);
+			return;
+		}
+	
 	
 	}
+	
+	
+	
+	
+		
 	
 	
 	
