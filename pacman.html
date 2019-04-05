@@ -83,10 +83,6 @@ function render() {
 
 
 
-var pacSphere;
-var foodSphere;
-	
-
 
 
 
@@ -170,10 +166,22 @@ function createWorld() {
 	
 	pacEye.position.set(-1,0.7,2);
 	
-	pacSphere = new THREE.Sphere(//set original sphers position
-	myPac.position,2);
-	foodSphere=new THREE.Sphere(//set original sphers position
-	pellet.position,0.5);
+	
+	pellets.add(pellet);
+	for (var i=0;i<19;i++)
+	{
+		var myPellet=pellet.clone();
+		//myPellet.position.set(,-3,)
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	myPac.add(pacMouth);
 	myPac.add(pacman);
@@ -182,7 +190,7 @@ function createWorld() {
 
 	scene.add(floor);
     scene.add(myPac);
-	scene.add(pellet);
+	scene.add(pellets);
 	//scene.remove(pellet);
 } // end function createWorld()
 
@@ -288,13 +296,18 @@ function updateForFrame() {
 	
 	
 	
+
+	var pacSphere;
+	var foodPoint;
 	
-	pacSphere.set(myPac.position,2);
-	foodSphere.set(pellet.position,0.5);
-	if(SphereIntersect(pacSphere,foodSphere))
+	pacSphere = new THREE.Sphere(//set original sphers position
+	myPac.position,1.5);//make radius 1.5, so sphere only disappears inside pacman
+	foodPoint=pellet.position.clone();
+	//pacSphere.set(myPac.position,2);
+	if(SphereIntersect(pacSphere,foodPoint))
 	{
 		
-		scene.remove(pellet);
+		pellets.remove(pellet);
 	
 	}
 	
@@ -357,9 +370,9 @@ function doFrame() {
 }
 
 
-function SphereIntersect(sphere, other) {
+function SphereIntersect(sphere, point) {
 // we are using multiplications because it's faster than calling Math.pow
-	return sphere.intersectsSphere(other);
+	return sphere.containsPoint(point);
 }
 
 
