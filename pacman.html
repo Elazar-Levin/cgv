@@ -110,8 +110,11 @@ function createWorld() {
     // ------------------- Setup cameras and lights ----------------------
     
     camera = new THREE.PerspectiveCamera(30, canvas.width/canvas.height, 0.1, 300);//main camera, staionary,can be used later for fixed full view with different parameters 
-    camera.position.z = 50;
-   
+    camera.position.z = 0;
+    camera.position.x = -100;
+    camera.position.y= 50;
+	//camera.rotation.y += 90 * Math.PI / 180;
+	
     halloweenLight = new THREE.PointLight(0xffa500,1,0,2);//add this light to myPac, and disable all other lights for an awesome spooky effect
 	light= new THREE.PointLight(0xffffff,0.5,0,2);
     light2 = new THREE.PointLight(0xffffff,1,0,1);
@@ -166,7 +169,7 @@ function createWorld() {
 	for(var i=0;i<5;i++)
 	{
 		var myWall=wall.clone();
-		myWall.position.set(wall.position.x+i*4,wall.position.y,wall.position.x);
+		myWall.position.set(wall.position.x+i*4,wall.position.y,wall.position.z);
 		obstructions.add(myWall);
 	}
 	
@@ -468,8 +471,10 @@ function updateForFrame() {
 		myPac.add(halloweenLight);
 		myPac.remove(light);
 		scene.remove(light2);
+		scene.remove(light3);
 		pacman.material.emissive.set('orange');
 		pellet.material.emissive.set('white');
+		wall.material.emissive.set('purple');
 		renderer.setClearColor("black"); 
 	}
 	else
@@ -478,8 +483,10 @@ function updateForFrame() {
 		myPac.remove(halloweenLight);
 		myPac.add(light);
 		scene.add(light2);
+		scene.add(light3);
 		pacman.material.emissive.set('black');
 		pellet.material.emissive.set('black');
+		wall.material.emissive.set('black');
 		renderer.setClearColor("blue"); 
 	}
 	
