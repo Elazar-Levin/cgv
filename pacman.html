@@ -111,8 +111,8 @@ function createWorld() {
     
     var mainCamera = new THREE.PerspectiveCamera(30, canvas.width/canvas.height, 0.1, 300);//main camera, staionary,can be used later for fixed full view with different parameters 
     mainCamera.position.z = 0;
-    mainCamera.position.x = -100;
-    mainCamera.position.y= 50;
+    mainCamera.position.x = -130;
+    mainCamera.position.y= 130;
 	//camera.rotation.y += 90 * Math.PI / 180;
 	
 	var thirdCamera = new THREE.PerspectiveCamera(30, canvas.width/canvas.height, 0.1, 300);
@@ -198,8 +198,56 @@ function createWorld() {
 		obstructions.add(myWall);
 	}
 	
+	for(var i=0;i<5;i++)//top half
+	{
+		var myWall=wall.clone();
+		myWall.position.set(-(wall.position.x-i*4)+24,wall.position.y,wall.position.z);
+		obstructions.add(myWall);
+	}
+	for(var i=0;i<5;i++)
+	{
+		var myWall=wall.clone();
+		myWall.position.set(-(wall.position.x-i*4)+24,wall.position.y,wall.position.z+10);
+		obstructions.add(myWall);
+	}
+	for(var i=0;i<5;i++)
+	{
+		var myWall=wall.clone();
+		myWall.position.set(-(wall.position.x)+24,wall.position.y,wall.position.z-i*4-4);
+		obstructions.add(myWall);
+	}
+	for(var i=0;i<5;i++)
+	{
+		var myWall=wall.clone();
+		myWall.position.set(-(wall.position.x)+24,wall.position.y,wall.position.z-i*4+30);
+		obstructions.add(myWall);
+	}
 	
-	floor=new THREE.Mesh(new THREE.PlaneGeometry(1000,1000,5,5),new THREE.MeshPhongMaterial({color:'green',side: THREE.DoubleSide}));
+	
+	/*
+	//make wall with hidden passage
+	//works, but not sure it fits inwith the decor
+	for(var i=0;i<20;i++)//width
+	{
+		for(var j=0;j<5;j++)//depth
+		{
+			for(var k=0;k<5;k++)//height
+			{
+				var myWall=wall.clone();
+				myWall.position.set(-25+4*i,-3+4*k,-100+4*j);
+				if(k!=1 && i != 10 && i!=12 && i !=11)
+				{
+					obstructions.add(myWall);
+				}
+				else
+				{
+					scene.add(myWall);
+				}
+			}
+		}
+	}
+	*/
+	floor=new THREE.Mesh(new THREE.PlaneGeometry(1000,1000,5,5),new THREE.MeshPhongMaterial({color:'green',side: THREE.BackSide}));
 	floor.position.set(0,-5,0);
 	floor.rotation.x=Math.PI/2;//make floor on bottom 
 	
@@ -208,10 +256,16 @@ function createWorld() {
 	var pacEye=new THREE.Mesh(pacGeometry,eyeMaterial);
 	
 	pacEye.position.set(-1,0.7,2);
-	for(var i=0;i<6;i++)
+	for(var i=0;i<13;i++)
 	{
 		var pellet1=pellet.clone();
-		pellet1.position.set(8-4*i,-3,12);
+		pellet1.position.set(36-4*i,-3,12);
+		pellets.add(pellet1);
+	}
+	for(var i=0;i<13;i++)
+	{
+		var pellet1=pellet.clone();
+		pellet1.position.set(12,-3,36-4*i);
 		pellets.add(pellet1);
 	}
 	pellets.add(pellet);
@@ -559,7 +613,7 @@ function distanceSphereCube(sphere,cube)
 	
 	var closestPoint=new THREE.Vector3();
 	cube.clampPoint( sphere.center, closestPoint );
-	return Math.sqrt(closestPoint.distanceToSquared( sphere.center )) - sphere.radius-0.05;//last number is offset, the space between the two shapes. the smaller this is, the more ofter unexpected collisions happen
+	return Math.sqrt(closestPoint.distanceToSquared( sphere.center )) - sphere.radius-0.1;//last number is offset, the space between the two shapes. the smaller this is, the more ofter unexpected collisions happen
 	// If that point is inside the sphere, the AABB and sphere intersect.
 				
 }
