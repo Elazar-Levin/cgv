@@ -14,6 +14,7 @@ class Character extends THREE.Object3D
 		this.y = y;
 		this.z = z;
 		this.transform = transform;
+		this.transform.position.set(0,0,0);
 		this.animations = animations;
 		this.add (transform);
 		this.movingLeft = false;
