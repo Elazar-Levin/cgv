@@ -133,7 +133,7 @@ function createWorld() {
 	scene.add(light3);
 	//myPac.add(camera);//looks weird, because all of backgound is the same.
     scene.add(camera);
-    resize();//allows game to be fullscreen without blurring
+  
 	var gl = canvas.getContext("webgl");
 	gl.viewport(0, 0, canvas.width, canvas.height);// makes the viewport the same size as the canvas
     //------------------- Create the scene's visible objects ----------------------
@@ -680,7 +680,7 @@ function init() {
 	stats=createStats();
 	document.body.appendChild( stats.domElement );
 	document.addEventListener("keydown", onDocumentKeyDown, false);
-
+	resize();//allows game to be fullscreen without blurring
     createWorld();
     installOrbitControls();
     render();
