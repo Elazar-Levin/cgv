@@ -1,4 +1,6 @@
+
 <!DOCTYPE html>
+
 <head>
 <meta charset="UTF-8">
 <title>Pacman</title>
@@ -14,10 +16,9 @@
 <script src="sources/three.js"></script>
 <script src="sources/OrbitControls.js"></script>
 <script src="sources/stats.js"></script>
-<script src="sources/WebVR.js"></script>
+<script src="sources/Character.js"></script>
+<!--<script type="module" src="sources/Character.js"></script>-->
 <script>
-
-
 
 "use strict";
 
@@ -45,8 +46,6 @@ var obstructions;//Object3D containing all walls/obstructions
 
 var level=0;// current floor pacman is on, so we can do collisions
 var cameraMode=1;//3 modes, depending on which number button pressed eg. 1 is fixed full view,2 is 3rd person, 3 is 1st person// not properly done yet
-var acceleration=0;//whether or not were using acceleration, or just straight up using speed or using automatic movement
-var oneAxis=false;//whether or not we can travel in more than one direction at a time
 var halloween=false;//whether halloween mode is on
 
 var pelletsLeft=true;
@@ -86,10 +85,6 @@ function render() {
 
 
 
-
-
-
-
 /**
  * This function is called by the init() method to create the world. 
  */
@@ -99,7 +94,8 @@ function createWorld() {
 
 
 
-
+	var trial = new Character (0.5, 0, 0, 0, new THREE.Object3D, pacmanGeometries);
+	trial.moveBackward();
 	myPac = new THREE.Object3D(); //holds full pacman object	
 	pellets= new THREE.Object3D();//	holds all food
 	obstructions=new THREE.Object3D();//holds all onstructions
@@ -278,14 +274,6 @@ function createWorld() {
 	
 	obstructions.add(wall);
 	
-	
-
-
-
-	
-	
-	
-	
 	myPac.add(pacMouth);
 	myPac.add(pacman);
 	//myPac.add(pacEye);
@@ -330,12 +318,6 @@ function updateForFrame() {
     // Update size and rotation of tempObject.  DELETE THIS!
 	
 	var pacSphere;
-	
-	
-    
-
- 
-
 	var paccy = frameNumber % 20;
     if (paccy > 10) {//do opening and closing of mouth animation
         paccy = 20 - paccy;
@@ -359,131 +341,98 @@ function updateForFrame() {
 		
 		}
 	}
-	
-	if(acceleration==1)
+
+	if(movingLeft)
 	{
-		var collides=false; 
+		var collides=false;
 		for(var i=0;i<obstructions.children.length;i++)
 		{
+			obstructions.children[i].position.z+=PAC_SPEED;
 			var obsBox= new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
 			obsBox.setFromObject(obstructions.children[i]);
-			//var obs=
-			//foodPoint=pellets.children[i].position;
+			obstructions.children[i].position.z-=PAC_SPEED;
+			
 			if(SquareIntersect(pacSphere,obsBox))
 			{
-				
 				collides=true;
-			}
-	
-	
-		}
+				obsBox.setFromObject(obstructions.children[i]);
+				myPac.position.z-=(distanceSphereCube(pacSphere,obsBox));
+			}	
+			
+		}	
 		if(!collides)
 		{
-			myPac.position.x+=fbAcceleration;//update forward and backward positions
-			myPac.position.z+=lrAcceleration;//update left and right positions
-		}
+			myPac.position.z-=PAC_SPEED;		
+		}		
+		
 	}
-	else if(acceleration==2)
+	if(movingRight)
 	{
-	
-		if(movingLeft)
+		var collides=false;
+		for(var i=0;i<obstructions.children.length;i++)
 		{
-			var collides=false;
-			for(var i=0;i<obstructions.children.length;i++)
-			{
-				obstructions.children[i].position.z+=PAC_SPEED;
-				var obsBox= new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
-				obsBox.setFromObject(obstructions.children[i]);
-				obstructions.children[i].position.z-=PAC_SPEED;
-				
-				if(SquareIntersect(pacSphere,obsBox))
-				{
-					collides=true;
-					obsBox.setFromObject(obstructions.children[i]);
-					myPac.position.z-=(distanceSphereCube(pacSphere,obsBox));
-				}	
-				
-			}	
-			if(!collides)
-			{
-				myPac.position.z-=PAC_SPEED;		
-			}		
+			obstructions.children[i].position.z-=PAC_SPEED;
+			var obsBox= new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
+			obsBox.setFromObject(obstructions.children[i]);
+			obstructions.children[i].position.z+=PAC_SPEED;
 			
-		}
-		if(movingRight)
-		{
-			var collides=false;
-			for(var i=0;i<obstructions.children.length;i++)
+			if(SquareIntersect(pacSphere,obsBox))
 			{
-				obstructions.children[i].position.z-=PAC_SPEED;
-				var obsBox= new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
+				collides=true;
 				obsBox.setFromObject(obstructions.children[i]);
-				obstructions.children[i].position.z+=PAC_SPEED;
-				
-				if(SquareIntersect(pacSphere,obsBox))
-				{
-					collides=true;
-					obsBox.setFromObject(obstructions.children[i]);
-					myPac.position.z+=(distanceSphereCube(pacSphere,obsBox));
-				}	
+				myPac.position.z+=(distanceSphereCube(pacSphere,obsBox));
 			}	
-			if(!collides)
-			{
-				myPac.position.z+=PAC_SPEED;		
-			}				
+		}	
+		if(!collides)
+		{
+			myPac.position.z+=PAC_SPEED;		
+		}				
+		
+	}
+	if(movingForward)
+	{
+		var collides=false;
+		for(var i=0;i<obstructions.children.length;i++)
+		{
+			obstructions.children[i].position.x-=PAC_SPEED;
+			var obsBox= new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
+			obsBox.setFromObject(obstructions.children[i]);
+			obstructions.children[i].position.x+=PAC_SPEED;
 			
-		}
-		if(movingForward)
-		{
-			var collides=false;
-			for(var i=0;i<obstructions.children.length;i++)
+			if(SquareIntersect(pacSphere,obsBox))
 			{
-				obstructions.children[i].position.x-=PAC_SPEED;
-				var obsBox= new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
+				collides=true;
 				obsBox.setFromObject(obstructions.children[i]);
-				obstructions.children[i].position.x+=PAC_SPEED;
-				
-				if(SquareIntersect(pacSphere,obsBox))
-				{
-					collides=true;
-					obsBox.setFromObject(obstructions.children[i]);
-					myPac.position.x+=(distanceSphereCube(pacSphere,obsBox));
-				}	
+				myPac.position.x+=(distanceSphereCube(pacSphere,obsBox));
 			}	
-			if(!collides)
-			{
-				myPac.position.x+=PAC_SPEED;	
-			}				
+		}	
+		if(!collides)
+		{
+			myPac.position.x+=PAC_SPEED;	
+		}				
+		
+	}
+	if(movingBackward)
+	{
+		var collides=false;
+		for(var i=0;i<obstructions.children.length;i++)
+		{
+			obstructions.children[i].position.x+=PAC_SPEED;
+			var obsBox= new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
+			obsBox.setFromObject(obstructions.children[i]);
+			obstructions.children[i].position.x-=PAC_SPEED;
 			
-		}
-		if(movingBackward)
-		{
-			var collides=false;
-			for(var i=0;i<obstructions.children.length;i++)
+			if(SquareIntersect(pacSphere,obsBox))
 			{
-				obstructions.children[i].position.x+=PAC_SPEED;
-				var obsBox= new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
+				collides=true;
 				obsBox.setFromObject(obstructions.children[i]);
-				obstructions.children[i].position.x-=PAC_SPEED;
-				
-				if(SquareIntersect(pacSphere,obsBox))
-				{
-					collides=true;
-					obsBox.setFromObject(obstructions.children[i]);
-					myPac.position.x-=(distanceSphereCube(pacSphere,obsBox));
-				}	
+				myPac.position.x-=(distanceSphereCube(pacSphere,obsBox));
 			}	
-			if(!collides)
-			{
-				myPac.position.x-=PAC_SPEED;	
-			}				
-		}
-		
-		
-		
-		
-		
-		
+		}	
+		if(!collides)
+		{
+			myPac.position.x-=PAC_SPEED;	
+		}				
 	}
 	
 	if(halloween)
@@ -625,126 +574,49 @@ function distanceSphereCube(sphere,cube)
 function onDocumentKeyDown(event) {//TODO: introduce keyup event, and then add accelearation, so when you stop its gradual not sudden
 //TODO: when two cameras are introduced, use position relative to player(world) for zoomed out view, relative to character for 3rd person.
     var keyCode = event.which;
-    if (keyCode == 83 || keyCode== 40) {//s
+    if (keyCode == 83 || keyCode== 40) 
+    {//s
 		//backwards
-		if(acceleration==1)
-		{
-			if(fbAcceleration>=-MAX_ACCELERATION)
-			{
-				fbAcceleration -= PAC_SPEED_ACC;
-				if(oneAxis)
-				{
-					lrAcceleration=0;//put back in to make him only go forward and backward or left and right, not both
-				}
-			}
-			
-		}
-		else if(acceleration==0)
-		{
-			myPac.position.x -= PAC_SPEED;//original moving system, with no acceleration, and constant velocity
-		}
-		else//set moving variables, for constant moving, even whe buttons arent pressed, like original pacman
-		{
-		
-			movingLeft=false;
-			movingRight=false;
-			movingForward=false;
-			movingBackward=true;
-			
-		}
+		movingLeft=false;
+		movingRight=false;
+		movingForward=false;
+		movingBackward=true;
 		myPac.rotation.y=0;
 				
-    } else if (keyCode == 87 || keyCode==38) {//w
-		//forward
-		if(acceleration==1)
-		{
-			if(fbAcceleration<=MAX_ACCELERATION)
-			{
-				fbAcceleration+=PAC_SPEED_ACC;
-				if(oneAxis)
-				{
-					lrAcceleration=0;//comment out to make him go both left/right and forward/backward at the same time
-				}
-			}
-		}
-		else if(acceleration==0)
-		{
-			myPac.position.x += PAC_SPEED;//original moving system, with no acceleration, and constant velocity
-		}
-		else//set moving variables, for constant moving, even whe buttons arent pressed, like original pacman
-		{
-			
-			movingLeft=false;
-			movingRight=false;
-			movingForward=true;
-			movingBackward=false;
-						
-						
-		}
+    }
+    else if (keyCode == 87 || keyCode==38) 
+    {//w
+		//forward	
+		movingLeft=false;
+		movingRight=false;
+		movingForward=true;
+		movingBackward=false;
 		myPac.rotation.y=Math.PI;
 		
-    } else if (keyCode == 68 || keyCode==39) {//d
+    } 
+    else if (keyCode == 68 || keyCode==39) 
+    {//d
 		//right
-	
-		if(acceleration==1)
-		{
-			if(lrAcceleration<=MAX_ACCELERATION)
-			{
-				lrAcceleration += PAC_SPEED_ACC;
-				if(oneAxis)
-				{
-					fbAcceleration=0;
-				}
-			}
-		}
-		else if(acceleration==0)
-		{
-			myPac.position.z += PAC_SPEED;//original moving system, with no acceleration, and constant velocity
-		}
-		else//set moving variables, for constant moving, even when buttons arent pressed, like original pacman
-		{
-		
-			movingLeft=false;
-			movingRight=true;
-			movingForward=false;
-			movingBackward=false;
-			
-		}
+		movingLeft=false;
+		movingRight=true;
+		movingForward=false;
+		movingBackward=false;
 		myPac.rotation.y=Math.PI/2;
 		
-    }  else if (keyCode == 65 || keyCode==37) {//a
+    }  
+    else if (keyCode == 65 || keyCode==37) 
+    {//a
 		//left
-		if(acceleration==1)
-		{
-			if(lrAcceleration>=-MAX_ACCELERATION)
-			{
-				lrAcceleration-=PAC_SPEED_ACC;
-				if(oneAxis)
-				{
-					fbAcceleration=0;// comment out to make him go both left/right and forward/backward at the same time
-				}
-			}
-
-		}
-		else if(acceleration==0)
-		{
-			myPac.position.z -= PAC_SPEED;//original moving system, with no acceleration, and constant velocity
-		}
-		else//set moving variables, for constant moving, even when buttons arent pressed, like original pacman
-		{
-		
-			movingLeft=true;
-			movingRight=false;
-			movingForward=false;
-			movingBackward=false;
-			
-		}
+		movingLeft=true;
+		movingRight=false;
+		movingForward=false;
+		movingBackward=false;
 		myPac.rotation.y=-Math.PI/2;
 		
-    } else if (keyCode == 32) {//space
+    } 
+    else if (keyCode == 32) 
+	{//space
         myPac.position.set(0, 0, 0);
-		lrAcceleration=0;
-		fbAcceleration=0;
     }
 	else if(keyCode==49)//1
 	{
@@ -758,19 +630,11 @@ function onDocumentKeyDown(event) {//TODO: introduce keyup event, and then add a
 	{
 		cameraMode=3;
 	}
-	else if(keyCode==13)//enter
-	{
-		acceleration=(acceleration+1)%3;
-	}
-	else if(keyCode==187)//equals
-	{
-		oneAxis= !oneAxis;
-	}
 	else if(keyCode==72)//h
 	{
 		halloween= !halloween;
 	}
-};
+}
 
 function resize()
 {
