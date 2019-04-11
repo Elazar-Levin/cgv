@@ -16,43 +16,43 @@ class Character extends THREE.Object3D
 		this.transform = transform;
 		this.animations = animations;
 		this.add (transform);
-		var movingLeft = false;
-		var movingRight = false;
-		var movingForward = false;
-		var movingBackward = false;
-		var myFrame = 0;
+		this.movingLeft = false;
+		this.movingRight = false;
+		this.movingForward = false;
+		this.movingBackward = false;
+		this.myFrame = 0;
 	}
 
 	moveLeft ()
 	{
-		movingLeft = true;
-		movingRight = false;
-		movingForward = false;
-		movingBackward = false;
+		this.movingLeft = true;
+		this.movingRight = false;
+		this.movingForward = false;
+		this.movingBackward = false;
 	}	
 
 	moveRight ()
 	{
-		movingLeft = false;
-		movingRight = true;
-		movingForward = false;
-		movingBackward = false;
+		this.movingLeft = false;
+		this.movingRight = true;
+		this.movingForward = false;
+		this.movingBackward = false;
 	}
 	
 	moveForward ()
 	{
-		movingLeft = false;
-		movingRight = false;
-		movingForward = true;
-		movingBackward = false;
+		this.movingLeft = false;
+		this.movingRight = false;
+		this.movingForward = true;
+		this.movingBackward = false;
 	}
 	
 	moveBackward ()
 	{
-		movingLeft = false;
-		movingRight = false;
-		movingForward = false;
-		movingBackward = true;
+		this.movingLeft = false;
+		this.movingRight = false;
+		this.movingForward = false;
+		this.movingBackward = true;
 	}
 	
 	animate (frameNumber)
