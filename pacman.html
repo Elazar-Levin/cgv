@@ -14,7 +14,7 @@
 <script src="sources/three.js"></script>
 <script src="sources/OrbitControls.js"></script>
 <script src="sources/stats.js"></script>
-<script src="sources/WebVR.js"></script>
+
 <script>
 
 
@@ -82,7 +82,7 @@ function render() {
     renderer.render(scene, camera);
 	
 }
-
+//TODO: make rotation of pacman more gradual for 3rd person perspective
 
 
 
@@ -109,7 +109,7 @@ function createWorld() {
     
     // ------------------- Setup cameras and lights ----------------------
     
-    var mainCamera = new THREE.PerspectiveCamera(30, canvas.width/canvas.height, 0.1, 300);//main camera, staionary,can be used later for fixed full view with different parameters 
+    var mainCamera = new THREE.PerspectiveCamera(30, canvas.width/canvas.height, 0.1, 500);//main camera, staionary,can be used later for fixed full view with different parameters 
     mainCamera.position.z = 0;
     mainCamera.position.x = -130;
     mainCamera.position.y= 130;
@@ -169,10 +169,14 @@ function createWorld() {
 	pellet=new THREE.Mesh(new THREE.SphereGeometry(0.5,16,16),new THREE.MeshPhongMaterial({color:'skyblue',side: THREE.DoubleSide,name: "pellet"}));
 	pellet.position.set(3.5,-3,3.5);
 	
+	var bigThing=new THREE.Mesh(new THREE.CubeGeometry(20,20,20),new THREE.MeshPhongMaterial({color:'brown',side: THREE.DoubleSide,name: "wall"}));
+	bigThing.position.set(-100,-3,-100);
+	obstructions.add(bigThing);
+	
 	wall=new THREE.Mesh(new THREE.CubeGeometry(4,4,4),new THREE.MeshPhongMaterial({color:'brown',side: THREE.DoubleSide,name: "wall"}));
 	wall.position.set(7,-3,7);
 	
-	
+	//make longer walls instea, will make everything alot better
 	for(var i=0;i<5;i++)
 	{
 		var myWall=wall.clone();
@@ -226,7 +230,7 @@ function createWorld() {
 	
 	/*
 	//make wall with hidden passage
-	//works, but not sure it fits inwith the decor
+	//works, but not sure it fits in with the decor
 	for(var i=0;i<20;i++)//width
 	{
 		for(var j=0;j<5;j++)//depth
