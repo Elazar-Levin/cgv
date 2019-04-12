@@ -41,6 +41,8 @@ var pacMouthGeometries = [];//set of animations for innerpacman
 var floor;//main ground platform that everything stands on
 var pellet;//food pellet
 var wall;//basic obstruction
+var objPac;//pacman created by Character.js. trying to set this up
+
 
 var pellets;//Object3D containing all pellets
 var obstructions;//Object3D containing all walls/obstructions
@@ -50,12 +52,6 @@ var cameraMode=1;//3 modes, depending on which number button pressed eg. 1 is fi
 var halloween=false;//whether halloween mode is on
 
 var pelletsLeft=true;
-
-var movingLeft=false;//attempting continuous movement, where pacman moves with constant velocity in the direction of the last key/s pressed
-var movingRight=false;
-var movingForward=false;
-var movingBackward=false;
-
 
 
 var lrAcceleration=0;//left/right acceleration
@@ -74,7 +70,7 @@ var halloweenLight;
 var light3;//light illuminating block
 
 
-var myPac;//actual full pacman object that well be moving around
+
 /**
  *  The render function draws the scene.
  */
@@ -95,9 +91,8 @@ function createWorld() {
 
 
 
-	var trial = new Character (0.5, 0, 0, 0, new THREE.Object3D, pacmanGeometries);
-	trial.moveBackward();
-	myPac = new THREE.Object3D(); //holds full pacman object	
+	
+	var myPac = new THREE.Object3D(); //holds full pacman object	
 	pellets= new THREE.Object3D();//	holds all food
 	obstructions=new THREE.Object3D();//holds all onstructions
 	
@@ -166,9 +161,9 @@ function createWorld() {
 	pellet=new THREE.Mesh(new THREE.SphereGeometry(0.5,16,16),new THREE.MeshPhongMaterial({color:'skyblue',side: THREE.DoubleSide,name: "pellet"}));
 	pellet.position.set(3.5,-3,3.5);
 	
-	var bigThing=new THREE.Mesh(new THREE.CubeGeometry(20,20,20),new THREE.MeshPhongMaterial({color:'brown',side: THREE.DoubleSide,name: "wall"}));
-	bigThing.position.set(-100,-3,-100);
-	obstructions.add(bigThing);
+	// bigThing=new THREE.Mesh(new THREE.CubeGeometry(20,20,20),new THREE.MeshPhongMaterial({color:'brown',side: THREE.DoubleSide,name: "wall"}));
+	//bigThing.position.set(-100,-3,-100);
+	//obstructions.add(bigThing);
 	
 	wall=new THREE.Mesh(new THREE.CubeGeometry(4,4,4),new THREE.MeshPhongMaterial({color:'brown',side: THREE.DoubleSide,name: "wall"}));
 	wall.position.set(7,-3,7);
@@ -283,9 +278,13 @@ function createWorld() {
 	myPac.add(pacman);
 	//myPac.add(pacEye);
 	
+	
+	objPac = new Character (0.5, 0, 0, 0, myPac, pacmanGeometries,obstructions,pellets);//make this pacman
+	
+	
 	scene.add(obstructions);
 	scene.add(floor);
-    scene.add(myPac);
+    scene.add(objPac);
 	scene.add(pellets);
 	//scene.remove(pellet);
 } // end function createWorld()
@@ -322,128 +321,37 @@ function updateForFrame() {
     
     // Update size and rotation of tempObject.  DELETE THIS!
 	
+	
+	
 	var pacSphere;
 	var paccy = frameNumber % 20;
     if (paccy > 10) {//do opening and closing of mouth animation
         paccy = 20 - paccy;
     }
 	
-	pacSphere = new THREE.Sphere(//set original sphers position
-	myPac.position,2);//make radius 1.7, so sphere only disappears inside pacman
+	
 	
     
+	objPac.animate(paccy);
 	
-	pacman.geometry=pacmanGeometries[paccy];
-	pacMouth.geometry=pacMouthGeometries[paccy];
 	if(level==0)//if still on ground floor
 	{
-		if(myPac.position.y-PAC_RADIUS-0.001>=floor.position.y)//stay on floor
+		//if(myPac.position.y-PAC_RADIUS-0.001>=floor.position.y)//stay on floor
+		if(objPac.y-PAC_RADIUS-0.001>=floor.position.y)
 		{
 			
-			myPac.position.y-=VETICAL_VELOCITY;
-		
+			//myPac.position.y-=VETICAL_VELOCITY;
+			objPac.setY(objPac.y-VETICAL_VELOCITY);
 		
 		
 		}
 	}
-
-	if(movingLeft)
-	{
-		var collides=false;
-		for(var i=0;i<obstructions.children.length;i++)
-		{
-			obstructions.children[i].position.z+=PAC_SPEED;
-			var obsBox= new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
-			obsBox.setFromObject(obstructions.children[i]);
-			obstructions.children[i].position.z-=PAC_SPEED;
-			
-			if(SquareIntersect(pacSphere,obsBox))
-			{
-				collides=true;
-				obsBox.setFromObject(obstructions.children[i]);
-				myPac.position.z-=(distanceSphereCube(pacSphere,obsBox));
-			}	
-			
-		}	
-		if(!collides)
-		{
-			myPac.position.z-=PAC_SPEED;		
-		}		
-		
-	}
-	if(movingRight)
-	{
-		var collides=false;
-		for(var i=0;i<obstructions.children.length;i++)
-		{
-			obstructions.children[i].position.z-=PAC_SPEED;
-			var obsBox= new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
-			obsBox.setFromObject(obstructions.children[i]);
-			obstructions.children[i].position.z+=PAC_SPEED;
-			
-			if(SquareIntersect(pacSphere,obsBox))
-			{
-				collides=true;
-				obsBox.setFromObject(obstructions.children[i]);
-				myPac.position.z+=(distanceSphereCube(pacSphere,obsBox));
-			}	
-		}	
-		if(!collides)
-		{
-			myPac.position.z+=PAC_SPEED;		
-		}				
-		
-	}
-	if(movingForward)
-	{
-		var collides=false;
-		for(var i=0;i<obstructions.children.length;i++)
-		{
-			obstructions.children[i].position.x-=PAC_SPEED;
-			var obsBox= new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
-			obsBox.setFromObject(obstructions.children[i]);
-			obstructions.children[i].position.x+=PAC_SPEED;
-			
-			if(SquareIntersect(pacSphere,obsBox))
-			{
-				collides=true;
-				obsBox.setFromObject(obstructions.children[i]);
-				myPac.position.x+=(distanceSphereCube(pacSphere,obsBox));
-			}	
-		}	
-		if(!collides)
-		{
-			myPac.position.x+=PAC_SPEED;	
-		}				
-		
-	}
-	if(movingBackward)
-	{
-		var collides=false;
-		for(var i=0;i<obstructions.children.length;i++)
-		{
-			obstructions.children[i].position.x+=PAC_SPEED;
-			var obsBox= new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
-			obsBox.setFromObject(obstructions.children[i]);
-			obstructions.children[i].position.x-=PAC_SPEED;
-			
-			if(SquareIntersect(pacSphere,obsBox))
-			{
-				collides=true;
-				obsBox.setFromObject(obstructions.children[i]);
-				myPac.position.x-=(distanceSphereCube(pacSphere,obsBox));
-			}	
-		}	
-		if(!collides)
-		{
-			myPac.position.x-=PAC_SPEED;	
-		}				
-	}
+	objPac.doCollisions();
 	
 	if(halloween)
 	{
-		myPac.add(halloweenLight);
-		myPac.remove(light);
+		objPac.transform.add(halloweenLight);
+		objPac.transform.remove(light);
 		scene.remove(light2);
 		scene.remove(light3);
 		pacman.material.emissive.set('orange');
@@ -455,8 +363,8 @@ function updateForFrame() {
 	else
 	{
 	
-		myPac.remove(halloweenLight);
-		myPac.add(light);
+		objPac.transform.remove(halloweenLight);
+		objPac.transform.add(light);
 		scene.add(light2);
 		scene.add(light3);
 		pacman.material.emissive.set('black');
@@ -467,25 +375,7 @@ function updateForFrame() {
 	}
 	
 	
-	//sphere/point/food collisions, anything pacman eats is done here, anything paman crashes into is done before this loop
-
-	var foodPoint;
-	pacSphere = new THREE.Sphere(//set original sphers position
-	myPac.position,2);//make radius 1.7, so sphere only disappears inside pacman
-
-
-	for(var i=0;i<pellets.children.length;i++)
-	{
-		foodPoint=pellets.children[i].position;
-		if(SphereIntersect(pacSphere,foodPoint))
-		{
-			
-			pellets.remove(pellets.children[i]);
-			return;
-		}
 	
-	
-	}
 	
 	
 	
@@ -512,9 +402,9 @@ function updateForFrame() {
  */
 function installOrbitControls() {
     controls = new THREE.OrbitControls(camera,canvas);
-    controls.noPan = true; 
-    controls.noZoom = true;
-    controls.staticMoving = true;
+    controls.enablePan = false; 
+    controls.enableZoom = true;
+    controls.enableDamping = false;
     function move() {
         controls.update();
         
@@ -551,77 +441,46 @@ function doFrame() {
 }
 
 
-function SphereIntersect(sphere, point) {
-// we are using multiplications because it's faster than calling Math.pow
-	return sphere.containsPoint(point);
-}
 
-function SquareIntersect(sphere,Cube)
-{
-	return sphere.intersectsBox(Cube);
-}
-
-function distanceSphereCube(sphere,cube)
-{
-	//sphere.center()
-	
-	var closestPoint=new THREE.Vector3();
-	cube.clampPoint( sphere.center, closestPoint );
-	return Math.sqrt(closestPoint.distanceToSquared( sphere.center )) - sphere.radius-0.1;//last number is offset, the space between the two shapes. the smaller this is, the more ofter unexpected collisions happen
-	// If that point is inside the sphere, the AABB and sphere intersect.
-				
-}
 
 
 
 
 //TODO: make angles change based on directions being travelled in
-function onDocumentKeyDown(event) {//TODO: introduce keyup event, and then add accelearation, so when you stop its gradual not sudden
+function onDocumentKeyDown(event) {
 //TODO: when two cameras are introduced, use position relative to player(world) for zoomed out view, relative to character for 3rd person.
     var keyCode = event.which;
     if (keyCode == 83 || keyCode== 40) 
     {//s
 		//backwards
-		movingLeft=false;
-		movingRight=false;
-		movingForward=false;
-		movingBackward=true;
-		myPac.rotation.y=0;
+		objPac.moveBackward();
+		objPac.rotation.y=0;
 				
     }
     else if (keyCode == 87 || keyCode==38) 
     {//w
 		//forward	
-		movingLeft=false;
-		movingRight=false;
-		movingForward=true;
-		movingBackward=false;
-		myPac.rotation.y=Math.PI;
+		objPac.moveForward();
+		objPac.rotation.y=Math.PI;
 		
     } 
     else if (keyCode == 68 || keyCode==39) 
     {//d
 		//right
-		movingLeft=false;
-		movingRight=true;
-		movingForward=false;
-		movingBackward=false;
-		myPac.rotation.y=Math.PI/2;
+		objPac.moveRight();
+		objPac.rotation.y=Math.PI/2;
 		
     }  
     else if (keyCode == 65 || keyCode==37) 
     {//a
 		//left
-		movingLeft=true;
-		movingRight=false;
-		movingForward=false;
-		movingBackward=false;
-		myPac.rotation.y=-Math.PI/2;
+		objPac.moveLeft();
+		objPac.rotation.y=-Math.PI/2;
 		
     } 
     else if (keyCode == 32) 
 	{//space
-        myPac.position.set(0, 0, 0);
+        objPac.setPos(0,0,0);
     }
 	else if(keyCode==49)//1
 	{
