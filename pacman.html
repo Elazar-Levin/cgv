@@ -359,7 +359,8 @@ function createStats() //allows us to see the frames per second, and the graph. 
 
 function makeCloud()
 {
-	cloudBlock=new THREE.Mesh(new THREE.CubeGeometry(10,10,10),new THREE.MeshBasicMaterial({color:'white',side: THREE.DoubleSide,name: "cloud"}));
+	//cloudBlock=new THREE.Mesh(new THREE.CubeGeometry(10,10,10),new THREE.MeshNormalMaterial({color:'white',side: THREE.DoubleSide,name: "cloud"}));//coul almost sunsetty clouds
+	cloudBlock=new THREE.Mesh(new THREE.CubeGeometry(10,10,10),new THREE.MeshPhysicalMaterial({color:'white',side: THREE.DoubleSide,name: "cloud"}));//normal, undefined clouds
 	cloud.add(cloudBlock);
 	for(var i=0;i<20;i++)
 	{
