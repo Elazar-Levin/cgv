@@ -115,7 +115,7 @@ class Character extends THREE.Object3D
 		}
 		if(inAir && this.position.y-PAC_RADIUS-0.001>highest)
 		{
-			this.setY(this.position.y-0.5);
+			this.setY(this.position.y-VETICAL_VELOCITY);
 		}
 	
 	
