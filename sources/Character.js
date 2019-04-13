@@ -2,7 +2,7 @@
 class Character extends THREE.Object3D
 {
 	
-	constructor (speed, x, y, z, transform, animations,obstructions,food=null)
+	constructor (speed, x, y, z, transform, animations,obstructions,surfaces,food=null)
 	{
 		super();
 		this.speed = speed;
@@ -10,7 +10,7 @@ class Character extends THREE.Object3D
 		this.y = y;
 		this.z = z;
 		this.transform = transform;
-		this.position.set(0,0,0);
+		this.position.set(x,y,z);
 		this.transform.position.set(0,0,0);
 		this.animations = animations;
 		this.obstructions=obstructions;
@@ -19,9 +19,11 @@ class Character extends THREE.Object3D
 		this.movingRight = false;
 		this.movingForward = false;
 		this.movingBackward = false;
+		//this.movingDown=false;
 		this.myFrame = 0;
 		this.rotationY=0;
 		this.food=food;
+		this.surfaces=surfaces;
 	}
 
 	moveLeft ()
@@ -86,22 +88,46 @@ class Character extends THREE.Object3D
 		this.myFrame = frameNumber;
 		for (var i = 0; i < this.transform.children.length; i++)
 		{
-			this.transform.children [i].geometry = this.animations [this.myFrame];
+			this.transform.children[i].geometry = this.animations [this.myFrame];
 		}//For loop
 	}
 	doCollisions()//do the collisions for this object
 	{
 		//do downward collisons first, then do horizontal collisions, probably if/else
-		var charSphere = new THREE.Sphere(this.getPos(),2);//do the left right forward backwards collisions for actual obstructions
-		if(this.movingLeft)
+		var charSphere = new THREE.Sphere(this.getPos(),2);
+	
+	
+
+		var inAir=false;
+		var highest=-Infinity;
+		for(var i =0;i<this.surfaces.children.length;i++)
+		{
+			var obsBox= new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
+			obsBox.setFromObject(this.surfaces.children[i]);
+			if(this.position.y-PAC_RADIUS-0.001>=this.surfaces.children[i].position.y)// && !this.SquareIntersect(charSphere,obsBox))
+			{
+				if(this.surfaces.children[i].position.y>=highest)
+				{
+					inAir=true;
+					highest=this.surfaces.children[i].position.y;
+				}
+			}
+		}
+		if(inAir && this.position.y-PAC_RADIUS-0.001>highest)
+		{
+			this.setY(this.position.y-0.5);
+		}
+	
+	
+		if(this.movingLeft)//do the left right forward backwards collisions for actual obstructions
 		{
 			var collides=false;
 			for(var i=0;i<this.obstructions.children.length;i++)
 			{
-				this.obstructions.children[i].position.z+=PAC_SPEED;
+				this.obstructions.children[i].position.z+=this.speed;
 				var obsBox= new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
 				obsBox.setFromObject(this.obstructions.children[i]);
-				this.obstructions.children[i].position.z-=PAC_SPEED;
+				this.obstructions.children[i].position.z-=this.speed;
 				
 				if(this.SquareIntersect(charSphere,obsBox))
 				{
@@ -114,7 +140,7 @@ class Character extends THREE.Object3D
 			}	
 			if(!collides)
 			{
-				this.setZ(this.z-PAC_SPEED);
+				this.setZ(this.z-this.speed);
 			}		
 			
 		}
@@ -123,10 +149,10 @@ class Character extends THREE.Object3D
 			var collides=false;
 			for(var i=0;i<this.obstructions.children.length;i++)
 			{
-				this.obstructions.children[i].position.z-=PAC_SPEED;
+				this.obstructions.children[i].position.z-=this.speed;
 				var obsBox= new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
 				obsBox.setFromObject(this.obstructions.children[i]);
-				this.obstructions.children[i].position.z+=PAC_SPEED;
+				this.obstructions.children[i].position.z+=this.speed;
 				
 				if(this.SquareIntersect(charSphere,obsBox))
 				{
@@ -137,7 +163,7 @@ class Character extends THREE.Object3D
 			}	
 			if(!collides)
 			{
-				this.setZ(this.z+PAC_SPEED);
+				this.setZ(this.z+this.speed);
 			}				
 			
 		}
@@ -146,10 +172,10 @@ class Character extends THREE.Object3D
 			var collides=false;
 			for(var i=0;i<this.obstructions.children.length;i++)
 			{
-				this.obstructions.children[i].position.x-=PAC_SPEED;
+				this.obstructions.children[i].position.x-=this.speed;
 				var obsBox= new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
 				obsBox.setFromObject(this.obstructions.children[i]);
-				this.obstructions.children[i].position.x+=PAC_SPEED;
+				this.obstructions.children[i].position.x+=this.speed;
 				
 				if(this.SquareIntersect(charSphere,obsBox))
 				{
@@ -160,7 +186,7 @@ class Character extends THREE.Object3D
 			}	
 			if(!collides)
 			{
-				this.setX(this.x+PAC_SPEED);
+				this.setX(this.x+this.speed);
 			}				
 			
 		}
@@ -169,10 +195,10 @@ class Character extends THREE.Object3D
 			var collides=false;
 			for(var i=0;i<this.obstructions.children.length;i++)
 			{
-				this.obstructions.children[i].position.x+=PAC_SPEED;
+				this.obstructions.children[i].position.x+=this.speed;
 				var obsBox= new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
 				obsBox.setFromObject(this.obstructions.children[i]);
-				this.obstructions.children[i].position.x-=PAC_SPEED;
+				this.obstructions.children[i].position.x-=this.speed;
 				
 				if(this.SquareIntersect(charSphere,obsBox))
 				{
@@ -184,7 +210,7 @@ class Character extends THREE.Object3D
 			if(!collides)
 			{
 				
-				this.setX(this.x-PAC_SPEED);
+				this.setX(this.x-this.speed);
 			}				
 		}
 		
@@ -194,15 +220,10 @@ class Character extends THREE.Object3D
 		if(this.food!=null)
 		{
 			//sphere/point/food collisions, anything pacman eats is done here, anything paman crashes into is done before this loop
-
-			var foodPoint;
-			var objSphere = new THREE.Sphere(this.getPos(),2);
-
-
 			for(var i=0;i<this.food.children.length;i++)
 			{
-				foodPoint=this.food.children[i].position;
-				if(this.SphereIntersect(objSphere,foodPoint))
+				var foodPoint=this.food.children[i].position;
+				if(this.SphereIntersect(charSphere,foodPoint))
 				{
 					
 					this.food.remove(this.food.children[i]);
@@ -234,5 +255,6 @@ class Character extends THREE.Object3D
 		return Math.sqrt(closestPoint.distanceToSquared( sphere.center )) - sphere.radius-0.1;//last number is offset, the space between the two shapes. the smaller this is, the more ofter unexpected collisions happen
 					
 	}
+	
 	
 }

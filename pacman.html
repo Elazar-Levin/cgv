@@ -41,11 +41,12 @@ var pacMouthGeometries = [];//set of animations for innerpacman
 var floor;//main ground platform that everything stands on
 var pellet;//food pellet
 var wall;//basic obstruction
-var objPac;//pacman created by Character.js. trying to set this up
+var objPac;//pacman created by Character.js. 
 
 
 var pellets;//Object3D containing all pellets
 var obstructions;//Object3D containing all walls/obstructions
+var surfaces;//Object3D containing all the surfaces that characters can walk on
 
 var level=0;// current floor pacman is on, so we can do collisions
 var cameraMode=1;//3 modes, depending on which number button pressed eg. 1 is fixed full view,2 is 3rd person, 3 is 1st person// not properly done yet
@@ -95,6 +96,7 @@ function createWorld() {
 	var myPac = new THREE.Object3D(); //holds full pacman object	
 	pellets= new THREE.Object3D();//	holds all food
 	obstructions=new THREE.Object3D();//holds all onstructions
+	surfaces=new THREE.Object3D();
 	
     renderer.setClearColor("blue"); // Background color for scene.
     scene = new THREE.Scene();
@@ -174,24 +176,40 @@ function createWorld() {
 		var myWall=wall.clone();
 		myWall.position.set(wall.position.x-i*4,wall.position.y,wall.position.z);
 		obstructions.add(myWall);
+		var WallCollider=new THREE.Mesh(new THREE.PlaneGeometry(4,4),new THREE.MeshBasicMaterial());
+		WallCollider.position.set(wall.position.x-i*4,wall.position.y+4,wall.position.z);
+		surfaces.add(WallCollider);
+		//surfaces.add(myWall);
 	}
 	for(var i=0;i<5;i++)
 	{
 		var myWall=wall.clone();
 		myWall.position.set(wall.position.x-i*4,wall.position.y,wall.position.z+10);
 		obstructions.add(myWall);
+		var WallCollider=new THREE.Mesh(new THREE.PlaneGeometry(4,4),new THREE.MeshBasicMaterial());
+		WallCollider.position.set(wall.position.x-i*4,wall.position.y+4,wall.position.z+10);
+		surfaces.add(WallCollider);
+		//surfaces.add(myWall);
 	}
 	for(var i=0;i<5;i++)
 	{
 		var myWall=wall.clone();
 		myWall.position.set(wall.position.x,wall.position.y,wall.position.z-i*4-4);
 		obstructions.add(myWall);
+		var WallCollider=new THREE.Mesh(new THREE.PlaneGeometry(4,4),new THREE.MeshBasicMaterial());
+		WallCollider.position.set(wall.position.x,wall.position.y+4,wall.position.z-i*4-4);
+		surfaces.add(WallCollider);
+		//surfaces.add(myWall);
 	}
 	for(var i=0;i<5;i++)
 	{
 		var myWall=wall.clone();
 		myWall.position.set(wall.position.x,wall.position.y,wall.position.z-i*4+30);
 		obstructions.add(myWall);
+		var WallCollider=new THREE.Mesh(new THREE.PlaneGeometry(4,4),new THREE.MeshBasicMaterial());
+		WallCollider.position.set(wall.position.x,wall.position.y+4,wall.position.z-i*4+30);
+		surfaces.add(WallCollider);
+		//surfaces.add(myWall);
 	}
 	
 	for(var i=0;i<5;i++)//top half
@@ -199,24 +217,39 @@ function createWorld() {
 		var myWall=wall.clone();
 		myWall.position.set(-(wall.position.x-i*4)+24,wall.position.y,wall.position.z);
 		obstructions.add(myWall);
+		var WallCollider=new THREE.Mesh(new THREE.PlaneGeometry(4,4),new THREE.MeshBasicMaterial());
+		WallCollider.position.set(-(wall.position.x-i*4)+24,wall.position.y+4,wall.position.z);
+		surfaces.add(WallCollider);
+		//surfaces.add(myWall);
 	}
 	for(var i=0;i<5;i++)
 	{
 		var myWall=wall.clone();
 		myWall.position.set(-(wall.position.x-i*4)+24,wall.position.y,wall.position.z+10);
 		obstructions.add(myWall);
+		var WallCollider=new THREE.Mesh(new THREE.PlaneGeometry(4,4),new THREE.MeshBasicMaterial());
+		WallCollider.position.set(-(wall.position.x-i*4)+24,wall.position.y+4,wall.position.z+10);
+		surfaces.add(WallCollider);
+		//surfaces.add(myWall);
 	}
 	for(var i=0;i<5;i++)
 	{
 		var myWall=wall.clone();
 		myWall.position.set(-(wall.position.x)+24,wall.position.y,wall.position.z-i*4-4);
 		obstructions.add(myWall);
+		var WallCollider=new THREE.Mesh(new THREE.PlaneGeometry(4,4),new THREE.MeshBasicMaterial());
+		WallCollider.position.set(-(wall.position.x)+24,wall.position.y+4,wall.position.z-i*4-4);
+		surfaces.add(WallCollider);
 	}
 	for(var i=0;i<5;i++)
 	{
 		var myWall=wall.clone();
 		myWall.position.set(-(wall.position.x)+24,wall.position.y,wall.position.z-i*4+30);
 		obstructions.add(myWall);
+		var WallCollider=new THREE.Mesh(new THREE.PlaneGeometry(4,4),new THREE.MeshBasicMaterial());
+		WallCollider.position.set(-(wall.position.x)+24,wall.position.y+4,wall.position.z-i*4+30);
+		surfaces.add(WallCollider);
+		//surfaces.add(myWall);
 	}
 	
 	
@@ -272,18 +305,22 @@ function createWorld() {
 		pellets.add(myPellet);
 	}
 	
-	obstructions.add(wall);
+	//obstructions.add(wall);
 	
 	myPac.add(pacMouth);
 	myPac.add(pacman);
 	//myPac.add(pacEye);
+	var floorCollider=new THREE.Mesh(new THREE.PlaneGeometry(1000,1000,5,5),new THREE.MeshBasicMaterial());
+	floorCollider.position.set(0,-5,0);
+	surfaces.add(floorCollider);
 	
 	
-	objPac = new Character (0.5, 0, 0, 0, myPac, pacmanGeometries,obstructions,pellets);//make this pacman
-	
-	
-	scene.add(obstructions);
+	objPac = new Character (0.5, 0,0, 0, myPac, pacmanGeometries,obstructions,surfaces,pellets);//make this pacman
+	//TODO: make new "floor" which is just an invisible plane used for collisions. well then set up similar planes for every obstruction//kinda set up, doesnt work
+	//scene.add(surfaces);
 	scene.add(floor);
+	scene.add(obstructions);
+	
     scene.add(objPac);
 	scene.add(pellets);
 	//scene.remove(pellet);
@@ -334,18 +371,18 @@ function updateForFrame() {
     
 	objPac.animate(paccy);
 	
-	if(level==0)//if still on ground floor
-	{
-		//if(myPac.position.y-PAC_RADIUS-0.001>=floor.position.y)//stay on floor
-		if(objPac.y-PAC_RADIUS-0.001>=floor.position.y)
-		{
-			
-			//myPac.position.y-=VETICAL_VELOCITY;
-			objPac.setY(objPac.y-VETICAL_VELOCITY);
-		
-		
-		}
-	}
+	//if(level==0)//if still on ground floor
+	//{
+	//	//if(myPac.position.y-PAC_RADIUS-0.001>=floor.position.y)//stay on floor
+	//	if(objPac.y-PAC_RADIUS-0.001>=floor.position.y)
+	//	{
+	//		
+	//		//myPac.position.y-=VETICAL_VELOCITY;
+	//		objPac.setY(objPac.y-VETICAL_VELOCITY);
+	//	
+	//	
+	//	}
+	//}
 	objPac.doCollisions();
 	
 	if(halloween)
