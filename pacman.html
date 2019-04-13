@@ -359,7 +359,7 @@ function createStats() //allows us to see the frames per second, and the graph. 
 
 function makeCloud()
 {
-	//cloudBlock=new THREE.Mesh(new THREE.CubeGeometry(10,10,10),new THREE.MeshNormalMaterial({color:'white',side: THREE.DoubleSide,name: "cloud"}));//coul almost sunsetty clouds
+	//cloudBlock=new THREE.Mesh(new THREE.CubeGeometry(10,10,10),new THREE.MeshNormalMaterial({color:'white',side: THREE.DoubleSide,name: "cloud"}));//coul almost sunsetty clouds//actually throws error
 	cloudBlock=new THREE.Mesh(new THREE.CubeGeometry(10,10,10),new THREE.MeshPhysicalMaterial({color:'white',side: THREE.DoubleSide,name: "cloud"}));//greyish very defined clouds
 	//cloudBlock=new THREE.Mesh(new THREE.CubeGeometry(10,10,10),new THREE.MeshToonMaterial({color:'white',side: THREE.DoubleSide,name: "cloud"}));//normal, undefined clouds
 	cloud.add(cloudBlock);
@@ -390,7 +390,7 @@ function makeClouds()//make a set distance, the use the distance formula , and t
 
 function makeSun()
 {
-	sunBlock=new THREE.Mesh(new THREE.CubeGeometry(10,10,10),new THREE.MeshPhongMaterial({color:'yellow',side: THREE.DoubleSide,name: "sun",emissive:"yellow"}));
+	sunBlock=new THREE.Mesh(new THREE.CubeGeometry(10,10,10),new THREE.MeshToonMaterial({color:'yellow',side: THREE.DoubleSide,name: "sun"}));
 	sun.add(sunBlock);
 	for(var i=0;i<4;i++)
 	{
@@ -505,7 +505,7 @@ function updateForFrame() {
 		wall.material.emissive.set('purple');
 		floor.material.color.set('white');
 		renderer.setClearColor("black"); 
-		sunBlock.material.emissive.set('white');
+		//sunBlock.material.emissive.set('white');
 	}
 	else
 	{
@@ -519,7 +519,7 @@ function updateForFrame() {
 		wall.material.emissive.set('black');
 		renderer.setClearColor("blue"); 
 		floor.material.color.set('green');
-		sunBlock.material.emissive.set('yellow');
+		//sunBlock.material.emissive.set('yellow');
 	}
 	
 	
