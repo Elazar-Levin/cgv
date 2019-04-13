@@ -109,7 +109,7 @@ function createWorld() {
     
     // ------------------- Setup cameras and lights ----------------------
     
-    var mainCamera = new THREE.PerspectiveCamera(30, canvas.width/canvas.height, 0.1, 1000);//main camera, staionary,can be used later for fixed full view with different parameters 
+    var mainCamera = new THREE.PerspectiveCamera(30, canvas.width/canvas.height, 0.1, 10000);//main camera, staionary,can be used later for fixed full view with different parameters 
     mainCamera.position.z = 0;
     mainCamera.position.x = -130;
     mainCamera.position.y= 130;
@@ -170,10 +170,10 @@ function createWorld() {
 	
 	makeSun();
 	//one cloud
-	//makeCloud();
+	makeCloud();
 	//many clouds
 	
-	//makeClouds();
+	makeClouds();
 	
 	pellet=new THREE.Mesh(new THREE.SphereGeometry(0.5,16,16),new THREE.MeshPhongMaterial({color:'skyblue',side: THREE.DoubleSide,name: "pellet"}));
 	pellet.position.set(3.5,-3,3.5);
@@ -333,7 +333,7 @@ function createWorld() {
 	objPac = new Character (0.5, 0,0, 0, myPac, pacmanGeometries,obstructions,surfaces,pellets);//make this pacman
 	//TODO: make new "floor" which is just an invisible plane used for collisions. well then set up similar planes for every obstruction//kinda set up, doesnt work
 	//scene.add(surfaces);
-	clouds.add(cloud);
+	//clouds.add(cloud);
 	
 	scene.add(clouds);
 	scene.add(floor);
@@ -361,7 +361,7 @@ function makeCloud()
 {
 	cloudBlock=new THREE.Mesh(new THREE.CubeGeometry(10,10,10),new THREE.MeshBasicMaterial({color:'white',side: THREE.DoubleSide,name: "cloud"}));
 	cloud.add(cloudBlock);
-	for(var i=0;i<50;i++)
+	for(var i=0;i<20;i++)
 	{
 		var myCloud=cloudBlock.clone();
 		myCloud.position.set(THREE.Math.randFloatSpread( 20 ),THREE.Math.randFloatSpread( 20 ),THREE.Math.randFloatSpread( 50 ));
@@ -369,12 +369,15 @@ function makeCloud()
 	}
 	
 }
-function makeClouds()
-{
+function makeClouds()//make a set distance, the use the distance formula , and two variables to set the position
+{//dont do this. dynamically create and destroy clouds as time goes on
+	
 	for(var i=0;i<100;i++)
 	{
+		cloud=new THREE.Object3D();
+		makeCloud();
 		var myCloud=cloud.clone();
-		myCloud.position.set(THREE.Math.randFloatSpread( 500),THREE.Math.randFloatSpread( 300),THREE.Math.randFloatSpread( 500 ));
+		myCloud.position.set(Math.random()*(2000)-1000,150,Math.random()*(2000)-1000);
 		clouds.add(myCloud);
 		
 	
