@@ -185,89 +185,7 @@ function createWorld() {
 	wall=new THREE.Mesh(new THREE.CubeGeometry(4,4,4),new THREE.MeshPhongMaterial({color:'brown',side: THREE.DoubleSide,name: "wall"}));
 	wall.position.set(7,-3,7);
 	
-	//make longer walls instea, will make everything alot better
-	for(var i=0;i<5;i++)
-	{
-		var myWall=wall.clone();
-		myWall.position.set(wall.position.x-i*4,wall.position.y,wall.position.z);
-		obstructions.add(myWall);
-		var WallCollider=new THREE.Mesh(new THREE.PlaneGeometry(4,4),new THREE.MeshBasicMaterial());
-		WallCollider.position.set(wall.position.x-i*4,wall.position.y+4,wall.position.z);
-		surfaces.add(WallCollider);
-		//surfaces.add(myWall);
-	}
-	for(var i=0;i<5;i++)
-	{
-		var myWall=wall.clone();
-		myWall.position.set(wall.position.x-i*4,wall.position.y,wall.position.z+10);
-		obstructions.add(myWall);
-		var WallCollider=new THREE.Mesh(new THREE.PlaneGeometry(4,4),new THREE.MeshBasicMaterial());
-		WallCollider.position.set(wall.position.x-i*4,wall.position.y+4,wall.position.z+10);
-		surfaces.add(WallCollider);
-		//surfaces.add(myWall);
-	}
-	for(var i=0;i<5;i++)
-	{
-		var myWall=wall.clone();
-		myWall.position.set(wall.position.x,wall.position.y,wall.position.z-i*4-4);
-		obstructions.add(myWall);
-		var WallCollider=new THREE.Mesh(new THREE.PlaneGeometry(4,4),new THREE.MeshBasicMaterial());
-		WallCollider.position.set(wall.position.x,wall.position.y+4,wall.position.z-i*4-4);
-		surfaces.add(WallCollider);
-		//surfaces.add(myWall);
-	}
-	for(var i=0;i<5;i++)
-	{
-		var myWall=wall.clone();
-		myWall.position.set(wall.position.x,wall.position.y,wall.position.z-i*4+30);
-		obstructions.add(myWall);
-		var WallCollider=new THREE.Mesh(new THREE.PlaneGeometry(4,4),new THREE.MeshBasicMaterial());
-		WallCollider.position.set(wall.position.x,wall.position.y+4,wall.position.z-i*4+30);
-		surfaces.add(WallCollider);
-		//surfaces.add(myWall);
-	}
-	
-	for(var i=0;i<5;i++)//top half
-	{
-		var myWall=wall.clone();
-		myWall.position.set(-(wall.position.x-i*4)+24,wall.position.y,wall.position.z);
-		obstructions.add(myWall);
-		var WallCollider=new THREE.Mesh(new THREE.PlaneGeometry(4,4),new THREE.MeshBasicMaterial());
-		WallCollider.position.set(-(wall.position.x-i*4)+24,wall.position.y+4,wall.position.z);
-		surfaces.add(WallCollider);
-		//surfaces.add(myWall);
-	}
-	for(var i=0;i<5;i++)
-	{
-		var myWall=wall.clone();
-		myWall.position.set(-(wall.position.x-i*4)+24,wall.position.y,wall.position.z+10);
-		obstructions.add(myWall);
-		var WallCollider=new THREE.Mesh(new THREE.PlaneGeometry(4,4),new THREE.MeshBasicMaterial());
-		WallCollider.position.set(-(wall.position.x-i*4)+24,wall.position.y+4,wall.position.z+10);
-		surfaces.add(WallCollider);
-		//surfaces.add(myWall);
-	}
-	for(var i=0;i<5;i++)
-	{
-		var myWall=wall.clone();
-		myWall.position.set(-(wall.position.x)+24,wall.position.y,wall.position.z-i*4-4);
-		obstructions.add(myWall);
-		var WallCollider=new THREE.Mesh(new THREE.PlaneGeometry(4,4),new THREE.MeshBasicMaterial());
-		WallCollider.position.set(-(wall.position.x)+24,wall.position.y+4,wall.position.z-i*4-4);
-		surfaces.add(WallCollider);
-	}
-	for(var i=0;i<5;i++)
-	{
-		var myWall=wall.clone();
-		myWall.position.set(-(wall.position.x)+24,wall.position.y,wall.position.z-i*4+30);
-		obstructions.add(myWall);
-		var WallCollider=new THREE.Mesh(new THREE.PlaneGeometry(4,4),new THREE.MeshBasicMaterial());
-		WallCollider.position.set(-(wall.position.x)+24,wall.position.y+4,wall.position.z-i*4+30);
-		surfaces.add(WallCollider);
-		//surfaces.add(myWall);
-	}
-	
-	
+	makeLevel(1);
 	/*
 	//make wall with hidden passage
 	//works, but not sure it fits in with the decor
@@ -295,6 +213,37 @@ function createWorld() {
 	floor.position.set(0,-5,0);
 	floor.rotation.x=Math.PI/2;//make floor on bottom 
 	
+	/*heart shape, probably wont use
+	var shape = new THREE.Shape();
+	var x = -2.5;
+	var y = -5;
+	shape.moveTo(x + 2.5, y + 2.5);
+	shape.bezierCurveTo(x + 2.5, y + 2.5, x + 2, y, x, y);
+	shape.bezierCurveTo(x - 3, y, x - 3, y + 3.5, x - 3, y + 3.5);
+	shape.bezierCurveTo(x - 3, y + 5.5, x - 1.5, y + 7.7, x + 2.5, y + 9.5);
+	shape.bezierCurveTo(x + 6, y + 7.7, x + 8, y + 4.5, x + 8, y + 3.5);
+	shape.bezierCurveTo(x + 8, y + 3.5, x + 8, y, x + 5, y);
+	shape.bezierCurveTo(x + 3.5, y, x + 2.5, y + 2.5, x + 2.5, y + 2.5);
+
+	var extrudeSettings = {
+	  steps: 6,
+	  depth: 1,
+	  bevelEnabled: true,
+	  bevelThickness: 2,
+	  bevelSize: 5,
+	  bevelSegments: 5,
+	};
+
+	var geometry = new THREE.ExtrudeBufferGeometry(shape, extrudeSettings);
+	var heart=new THREE.Mesh(geometry,new THREE.MeshBasicMaterial({color:'red',side: THREE.DoubleSide}));
+	heart.scale.set(0.05,0.05,0.05);
+	heart.rotation.set(0,0,Math.PI);
+	heart.position.set(-10,0,0);
+	var heartContainer=new THREE.Object3D();
+	heartContainer.add(heart);
+	heartContainer.position.set(0,0,-5);
+	camera.add(heartContainer);
+	*/
 	pacman=new THREE.Mesh(pacmanGeometries[10],pacmanMaterial);
 	pacMouth=new THREE.Mesh(pacMouthGeometries[10],pacMouthMaterial);	
 	var pacEye=new THREE.Mesh(pacGeometry,eyeMaterial);
@@ -388,9 +337,11 @@ function makeClouds()//make a set distance, the use the distance formula , and t
 	//sun.position.set(500,100,500);
 }
 
+
+
 function makeSun()
 {
-	sunBlock=new THREE.Mesh(new THREE.CubeGeometry(10,10,10),new THREE.MeshToonMaterial({color:'yellow',side: THREE.DoubleSide,name: "sun"}));
+	sunBlock=new THREE.Mesh(new THREE.BoxGeometry(10,10,10),new THREE.MeshLambertMaterial({color:'yellow',side: THREE.DoubleSide,name: "sun",emissive: "yellow",emissiveIntensity:0.1}));
 	sun.add(sunBlock);
 	for(var i=0;i<4;i++)
 	{
@@ -455,6 +406,41 @@ function makeSun()
 	
 }
 
+function makeBlock(x,y,z,width,height,depth)
+{
+	var newWall=new THREE.Mesh(new THREE.CubeGeometry(width,height,depth),new THREE.MeshPhongMaterial({color:'brown',side: THREE.DoubleSide,name: "wall"}));
+	newWall.position.set(x,y,z);
+	obstructions.add(newWall);
+}
+
+function makeLevel(levelNo)
+{
+	if(levelNo==1)
+	{
+		//make surfaces or something, so that characters can walk on walls 
+		//start of cross thing
+		makeBlock(-3,-3,7,24,4,4);
+		
+		makeBlock(-3,-3,17,24,4,4);
+	
+		makeBlock(7,-3,-5,4,4,20);
+		
+		makeBlock(7,-3,29,4,4,20);
+	
+		makeBlock(27,-3,7,24,4,4);
+	
+		makeBlock(27,-3,17,24,4,4);
+	
+		makeBlock(17,-3,-5,4,4,20);
+	
+		makeBlock(17,-3,29,4,4,20);
+		//end of cross thing
+		
+		
+	
+	}
+
+}
 
 
 /**
