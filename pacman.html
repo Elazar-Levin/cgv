@@ -605,11 +605,6 @@ function onDocumentKeyDown(event) {
 		
 	//	objPac.moveBackward();
 		objPac.futureDir="down";
-		while (!objPac.canMoveBackward)
-		{
-			
-		}//While loop to only change direction once u can move left
-		objPac.moveBackward();
 		objPac.rotation.y=0;
 				
     }
@@ -617,12 +612,6 @@ function onDocumentKeyDown(event) {
     {//w
 		//forward	
 	//	objPac.moveForward();
-		objPac.futureDir="up";
-		while (!objPac.canMoveForward)
-		{
-			
-		}//While loop to only change direction once u can move left
-		objPac.moveForward();
 		objPac.rotation.y=Math.PI;
 		
     } 
@@ -631,11 +620,6 @@ function onDocumentKeyDown(event) {
 		//right
 		//objPac.moveRight();
 		objPac.futureDir="right";
-		while (!objPac.canMoveRight)
-		{
-			
-		}//While loop to only change direction once u can move left
-		objPac.moveRight();
 		objPac.rotation.y=Math.PI/2;
 		
     }  
@@ -645,11 +629,6 @@ function onDocumentKeyDown(event) {
 		//objPac.moveLeft();
 		
 		objPac.futureDir="left";
-		while (!objPac.canMoveLeft)
-		{
-			
-		}//While loop to only change direction once u can move left
-		objPac.moveLeft();
 		objPac.rotation.y=-Math.PI/2;
 		
     } 

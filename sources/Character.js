@@ -336,28 +336,28 @@ class Character extends THREE.Object3D
 		{
 			if (this.canMoveLeft ())
 			{
-				this.movingLeft = true;
+				this.moveLeft();
 			}
 		}
 		else if (this.futureDir == "right")
 		{
 			if (this.canMoveRight ())
 			{
-				this.movingRight = true;
+				this.moveRight();
 			}
 		}
 		else if (this.futureDir == "up")
 		{
 			if (this.canMoveForward ())
 			{
-				this.movingForward = true;
+				this.moveForward();
 			}
 		}
 		else if (this.futureDir == "down")
 		{
 			if (this.canMoveBackward ())
 			{
-				this.movingBackward = true;
+				this.moveBackward();
 			}
 		}
 	
