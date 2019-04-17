@@ -229,12 +229,12 @@ class Character extends THREE.Object3D
 	
 	canMoveLeft()
 	{
-		var charSphere = new THREE.Sphere(this.getPos(),2);
-		if(this.movingLeft || this.movingRight)
+		var charSphere = new THREE.Sphere (this.getPos(),2);
+		/*if (this.movingLeft)
 		{
 			return true;
-		}
-		else 
+		}*/
+		if (true) 
 		{
 			for(var i=0;i<this.obstructions.children.length;i++)
 			{
@@ -255,11 +255,11 @@ class Character extends THREE.Object3D
 	canMoveRight()
 	{
 		var charSphere = new THREE.Sphere(this.getPos(),2);
-		if(this.movingRight || this.movingLeft)
+		/*if(this.movingRight)
 		{
 			return true;
-		}
-		else 
+		}*/
+		if (true)
 		{
 			for(var i=0;i<this.obstructions.children.length;i++)
 			{
@@ -281,11 +281,11 @@ class Character extends THREE.Object3D
 	canMoveForward()
 	{
 		var charSphere = new THREE.Sphere(this.getPos(),2);
-		if(this.movingForward || this.movingBackward)
-		{
+		if(this.movingForward)
+		/*{
 			return true;
-		}
-		else 
+		}*/
+		if (true) 
 		{
 			for(var i=0;i<this.obstructions.children.length;i++)
 			{
@@ -306,11 +306,11 @@ class Character extends THREE.Object3D
 	canMoveBackward()
 	{
 		var charSphere = new THREE.Sphere(this.getPos(),2);
-		if (this.movingBackward || this.movingForward)
+		/*if (this.movingBackward)
 		{
 			return true;
-		}
-		else 
+		}*/
+		if (true) 
 		{
 			for(var i=0;i<this.obstructions.children.length;i++)
 			{
