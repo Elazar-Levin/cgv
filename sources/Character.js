@@ -96,9 +96,6 @@ class Character extends THREE.Object3D
 	{
 		//do downward collisons first, then do horizontal collisions, probably if/else
 		var charSphere = new THREE.Sphere(this.getPos(),2);
-	
-	
-
 		var inAir=false;
 		var highest=-Infinity;
 		for(var i =0;i<this.surfaces.children.length;i++)
