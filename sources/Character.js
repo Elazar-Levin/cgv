@@ -24,6 +24,7 @@ class Character extends THREE.Object3D
 		this.rotationY=0;
 		this.food=food;
 		this.surfaces=surfaces;
+		this.futureDir="null";
 	}
 
 	moveLeft ()
@@ -95,9 +96,6 @@ class Character extends THREE.Object3D
 	{
 		//do downward collisons first, then do horizontal collisions, probably if/else
 		var charSphere = new THREE.Sphere(this.getPos(),2);
-	
-	
-
 		var inAir=false;
 		var highest=-Infinity;
 		for(var i =0;i<this.surfaces.children.length;i++)
@@ -121,6 +119,7 @@ class Character extends THREE.Object3D
 	
 		if(this.movingLeft)//do the left right forward backwards collisions for actual obstructions
 		{
+
 			var collides=false;
 			for(var i=0;i<this.obstructions.children.length;i++)
 			{
@@ -134,14 +133,15 @@ class Character extends THREE.Object3D
 					collides=true;
 					obsBox.setFromObject(this.obstructions.children[i]);
 					this.setZ(this.z-this.distanceSphereCube(charSphere,obsBox));
-									
+					break;		
 				}	
 				
 			}	
 			if(!collides)
 			{
 				this.setZ(this.z-this.speed);
-			}		
+			}
+			
 			
 		}
 		if(this.movingRight)
@@ -164,7 +164,8 @@ class Character extends THREE.Object3D
 			if(!collides)
 			{
 				this.setZ(this.z+this.speed);
-			}				
+			}
+				
 			
 		}
 		if(this.movingForward)
@@ -187,7 +188,8 @@ class Character extends THREE.Object3D
 			if(!collides)
 			{
 				this.setX(this.x+this.speed);
-			}				
+			}
+				
 			
 		}
 		if(this.movingBackward)
@@ -209,13 +211,9 @@ class Character extends THREE.Object3D
 			}	
 			if(!collides)
 			{
-				
 				this.setX(this.x-this.speed);
-			}				
+			}
 		}
-		
-		
-		
 		//food collisions
 		if(this.food!=null)
 		{
@@ -225,17 +223,145 @@ class Character extends THREE.Object3D
 				var foodPoint=this.food.children[i].position;
 				if(this.SphereIntersect(charSphere,foodPoint))
 				{
-					
 					this.food.remove(this.food.children[i]);
 					return;
 				}
-			
-			
 			}
 		}
-			
+	}
+	canMoveLeft()
+	{
+		var charSphere = new THREE.Sphere(this.getPos(),2);
+		if(this.movingLeft)
+		{
+			return true;
+		}
+		else 
+		{
+			for(var i=0;i<this.obstructions.children.length;i++)
+			{
+				this.obstructions.children[i].position.z+=this.speed;
+				var obsBox= new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
+				obsBox.setFromObject(this.obstructions.children[i]);
+				this.obstructions.children[i].position.z-=this.speed;
+				
+				if(this.SquareIntersect(charSphere,obsBox))
+				{
+					return false;	
+				}	
+			}
+		}
+		return true;
+	}
+	canMoveRight()
+	{
+		var charSphere = new THREE.Sphere(this.getPos(),2);
+		if(this.movingRight)
+		{
+			return true;
+		}
+		else 
+		{
+			for(var i=0;i<this.obstructions.children.length;i++)
+			{
+				this.obstructions.children[i].position.z-=this.speed;
+				var obsBox= new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
+				obsBox.setFromObject(this.obstructions.children[i]);
+				this.obstructions.children[i].position.z+=this.speed;
+				
+				if(this.SquareIntersect(charSphere,obsBox))
+				{
+				
+					return false;
+				}	
+			}
+		}
+		return true;
 	}
 	
+	canMoveForward()
+	{
+		var charSphere = new THREE.Sphere(this.getPos(),2);
+		if(this.movingForward)
+		{
+			return true;
+		}
+		else 
+		{
+			for(var i=0;i<this.obstructions.children.length;i++)
+			{
+				this.obstructions.children[i].position.x-=this.speed;
+				var obsBox= new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
+				obsBox.setFromObject(this.obstructions.children[i]);
+				this.obstructions.children[i].position.x+=this.speed;
+				
+				if(this.SquareIntersect(charSphere,obsBox))
+				{
+					return false;
+				}
+			}	
+		}
+		return true;
+	}
+	
+	
+	canMoveBackward()
+	{
+		var charSphere = new THREE.Sphere(this.getPos(),2);
+		if(this.movingBackward)
+		{
+			return true;
+		}
+		else 
+		{
+			for(var i=0;i<this.obstructions.children.length;i++)
+			{
+				this.obstructions.children[i].position.x+=this.speed;
+				var obsBox= new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
+				obsBox.setFromObject(this.obstructions.children[i]);
+				this.obstructions.children[i].position.x-=this.speed;
+				
+				if (this.SquareIntersect(charSphere,obsBox))
+				{
+					return false;
+				}	
+			}	
+		}
+		return true;
+	}
+	
+	setDirection ()
+	{
+		if (this.futureDir == "left")
+		{
+			if (this.canMoveLeft ())
+			{
+				this.movingLeft = true;
+			}
+		}
+		else if (this.futureDir == "right")
+		{
+			if (this.canMoveRight ())
+			{
+				this.movingRight = true;
+			}
+		}
+		else if (this.futureDir == "up")
+		{
+			if (this.canMoveForward ())
+			{
+				this.movingForward = true;
+			}
+		}
+		else if (this.futureDir == "down")
+		{
+			if (this.canMoveBackward ())
+			{
+				this.movingBackward = true;
+			}
+		}
+	
+	}
 	
 	
 	SphereIntersect(sphere, point) 
