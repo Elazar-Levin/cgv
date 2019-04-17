@@ -234,6 +234,7 @@ class Character extends THREE.Object3D
 	}
 	canMoveLeft()
 	{
+		var charSphere = new THREE.Sphere(this.getPos(),2);
 		if(this.movingLeft)
 		{
 			return true;
@@ -253,9 +254,11 @@ class Character extends THREE.Object3D
 				}	
 			}
 		}
+		return true;
 	}
 	canMoveRight()
 	{
+		var charSphere = new THREE.Sphere(this.getPos(),2);
 		if(this.movingRight)
 		{
 			return true;
@@ -276,10 +279,12 @@ class Character extends THREE.Object3D
 				}	
 			}
 		}
+		return true;
 	}
 	
 	canMoveForward()
 	{
+		var charSphere = new THREE.Sphere(this.getPos(),2);
 		if(this.movingForward)
 		{
 			return true;
@@ -299,11 +304,13 @@ class Character extends THREE.Object3D
 				}
 			}	
 		}
+		return true;
 	}
 	
 	
 	canMoveBackward()
 	{
+		var charSphere = new THREE.Sphere(this.getPos(),2);
 		if(this.movingBackward)
 		{
 			return true;
@@ -323,35 +330,35 @@ class Character extends THREE.Object3D
 				}	
 			}	
 		}
-		
+		return true;
 	}
 	
 	setDirection ()
 	{
 		if (this.futureDir == "left")
 		{
-			if (canMoveLeft ())
+			if (this.canMoveLeft ())
 			{
 				this.movingLeft = true;
 			}
 		}
 		else if (this.futureDir == "right")
 		{
-			if (canMoveRight ())
+			if (this.canMoveRight ())
 			{
 				this.movingRight = true;
 			}
 		}
 		else if (this.futureDir == "up")
 		{
-			if (canMoveForward ())
+			if (this.canMoveForward ())
 			{
 				this.movingForward = true;
 			}
 		}
 		else if (this.futureDir == "down")
 		{
-			if (canMoveBackward ())
+			if (this.canMoveBackward ())
 			{
 				this.movingBackward = true;
 			}
