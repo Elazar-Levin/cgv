@@ -24,6 +24,7 @@ class Character extends THREE.Object3D
 		this.rotationY=0;
 		this.food=food;
 		this.surfaces=surfaces;
+		this.futureDir="null";
 	}
 
 	moveLeft ()
@@ -121,6 +122,7 @@ class Character extends THREE.Object3D
 	
 		if(this.movingLeft)//do the left right forward backwards collisions for actual obstructions
 		{
+
 			var collides=false;
 			for(var i=0;i<this.obstructions.children.length;i++)
 			{
@@ -134,14 +136,15 @@ class Character extends THREE.Object3D
 					collides=true;
 					obsBox.setFromObject(this.obstructions.children[i]);
 					this.setZ(this.z-this.distanceSphereCube(charSphere,obsBox));
-									
+					break;		
 				}	
 				
 			}	
 			if(!collides)
 			{
 				this.setZ(this.z-this.speed);
-			}		
+			}
+			
 			
 		}
 		if(this.movingRight)
@@ -164,7 +167,8 @@ class Character extends THREE.Object3D
 			if(!collides)
 			{
 				this.setZ(this.z+this.speed);
-			}				
+			}
+				
 			
 		}
 		if(this.movingForward)
@@ -187,7 +191,8 @@ class Character extends THREE.Object3D
 			if(!collides)
 			{
 				this.setX(this.x+this.speed);
-			}				
+			}
+				
 			
 		}
 		if(this.movingBackward)
@@ -209,13 +214,9 @@ class Character extends THREE.Object3D
 			}	
 			if(!collides)
 			{
-				
 				this.setX(this.x-this.speed);
-			}				
+			}
 		}
-		
-		
-		
 		//food collisions
 		if(this.food!=null)
 		{
@@ -225,17 +226,138 @@ class Character extends THREE.Object3D
 				var foodPoint=this.food.children[i].position;
 				if(this.SphereIntersect(charSphere,foodPoint))
 				{
-					
 					this.food.remove(this.food.children[i]);
 					return;
 				}
-			
-			
 			}
 		}
-			
+	}
+	canMoveLeft()
+	{
+		if(this.movingLeft)
+		{
+			return true;
+		}
+		else 
+		{
+			for(var i=0;i<this.obstructions.children.length;i++)
+			{
+				this.obstructions.children[i].position.z+=this.speed;
+				var obsBox= new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
+				obsBox.setFromObject(this.obstructions.children[i]);
+				this.obstructions.children[i].position.z-=this.speed;
+				
+				if(this.SquareIntersect(charSphere,obsBox))
+				{
+					return false;	
+				}	
+			}
+		}
+	}
+	canMoveRight()
+	{
+		if(this.movingRight)
+		{
+			return true;
+		}
+		else 
+		{
+			for(var i=0;i<this.obstructions.children.length;i++)
+			{
+				this.obstructions.children[i].position.z-=this.speed;
+				var obsBox= new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
+				obsBox.setFromObject(this.obstructions.children[i]);
+				this.obstructions.children[i].position.z+=this.speed;
+				
+				if(this.SquareIntersect(charSphere,obsBox))
+				{
+				
+					return false;
+				}	
+			}
+		}
 	}
 	
+	canMoveForward()
+	{
+		if(this.movingForward)
+		{
+			return true;
+		}
+		else 
+		{
+			for(var i=0;i<this.obstructions.children.length;i++)
+			{
+				this.obstructions.children[i].position.x-=this.speed;
+				var obsBox= new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
+				obsBox.setFromObject(this.obstructions.children[i]);
+				this.obstructions.children[i].position.x+=this.speed;
+				
+				if(this.SquareIntersect(charSphere,obsBox))
+				{
+					return false;
+				}
+			}	
+		}
+	}
+	
+	
+	canMoveBackward()
+	{
+		if(this.movingBackward)
+		{
+			return true;
+		}
+		else 
+		{
+			for(var i=0;i<this.obstructions.children.length;i++)
+			{
+				this.obstructions.children[i].position.x+=this.speed;
+				var obsBox= new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
+				obsBox.setFromObject(this.obstructions.children[i]);
+				this.obstructions.children[i].position.x-=this.speed;
+				
+				if (this.SquareIntersect(charSphere,obsBox))
+				{
+					return false;
+				}	
+			}	
+		}
+		
+	}
+	
+	setDirection ()
+	{
+		if (this.futureDir == "left")
+		{
+			if (canMoveLeft ())
+			{
+				this.movingLeft = true;
+			}
+		}
+		else if (this.futureDir == "right")
+		{
+			if (canMoveRight ())
+			{
+				this.movingRight = true;
+			}
+		}
+		else if (this.futureDir == "up")
+		{
+			if (canMoveForward ())
+			{
+				this.movingForward = true;
+			}
+		}
+		else if (this.futureDir == "down")
+		{
+			if (canMoveBackward ())
+			{
+				this.movingBackward = true;
+			}
+		}
+	
+	}
 	
 	
 	SphereIntersect(sphere, point) 
