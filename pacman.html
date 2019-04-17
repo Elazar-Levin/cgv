@@ -522,18 +522,6 @@ function updateForFrame() {
 			obstructions.children[i].material.emissive.set("black");
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-		
-	
-	
-	
-	
 }
 
 
@@ -584,16 +572,7 @@ function doFrame() {
 	render();
 	stats.update();
 	requestAnimationFrame(doFrame);
-
-
-	
 }
-
-
-
-
-
-
 
 //TODO: make angles change based on directions being travelled in
 function onDocumentKeyDown(event) {
@@ -605,13 +584,17 @@ function onDocumentKeyDown(event) {
 		
 	//	objPac.moveBackward();
 		objPac.futureDir="down";
-		objPac.rotation.y=0;
+		objPac.rotation.y = 0;
+
 				
     }
     else if (keyCode == 87 || keyCode==38) 
     {//w
 		//forward	
 	//	objPac.moveForward();
+
+		objPac.futureDir="up";
+		
 		objPac.rotation.y=Math.PI;
 		
     } 
