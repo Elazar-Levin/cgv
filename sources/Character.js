@@ -135,15 +135,13 @@ class Character extends THREE.Object3D
 					this.setZ(this.z-this.distanceSphereCube(charSphere,obsBox));
 					break;		
 				}	
-				
 			}	
 			if(!collides)
 			{
 				this.setZ(this.z-this.speed);
 			}
-			
-			
 		}
+		
 		if(this.movingRight)
 		{
 			var collides=false;
@@ -166,7 +164,6 @@ class Character extends THREE.Object3D
 				this.setZ(this.z+this.speed);
 			}
 				
-			
 		}
 		if(this.movingForward)
 		{
@@ -229,10 +226,11 @@ class Character extends THREE.Object3D
 			}
 		}
 	}
+	
 	canMoveLeft()
 	{
 		var charSphere = new THREE.Sphere(this.getPos(),2);
-		if(this.movingLeft)
+		if(this.movingLeft || this.movingRight)
 		{
 			return true;
 		}
@@ -253,10 +251,11 @@ class Character extends THREE.Object3D
 		}
 		return true;
 	}
+	
 	canMoveRight()
 	{
 		var charSphere = new THREE.Sphere(this.getPos(),2);
-		if(this.movingRight)
+		if(this.movingRight || this.movingLeft)
 		{
 			return true;
 		}
@@ -282,7 +281,7 @@ class Character extends THREE.Object3D
 	canMoveForward()
 	{
 		var charSphere = new THREE.Sphere(this.getPos(),2);
-		if(this.movingForward)
+		if(this.movingForward || this.movingBackward)
 		{
 			return true;
 		}
@@ -304,11 +303,10 @@ class Character extends THREE.Object3D
 		return true;
 	}
 	
-	
 	canMoveBackward()
 	{
 		var charSphere = new THREE.Sphere(this.getPos(),2);
-		if(this.movingBackward)
+		if (this.movingBackward || this.movingForward)
 		{
 			return true;
 		}
@@ -360,7 +358,6 @@ class Character extends THREE.Object3D
 				this.movingBackward = true;
 			}
 		}
-	
 	}
 	
 	
@@ -381,6 +378,4 @@ class Character extends THREE.Object3D
 		return Math.sqrt(closestPoint.distanceToSquared( sphere.center )) - sphere.radius-0.1;//last number is offset, the space between the two shapes. the smaller this is, the more ofter unexpected collisions happen
 					
 	}
-	
-	
 }

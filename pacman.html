@@ -522,18 +522,6 @@ function updateForFrame() {
 			obstructions.children[i].material.emissive.set("black");
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-		
-	
-	
-	
-	
 }
 
 
@@ -584,16 +572,7 @@ function doFrame() {
 	render();
 	stats.update();
 	requestAnimationFrame(doFrame);
-
-
-	
 }
-
-
-
-
-
-
 
 //TODO: make angles change based on directions being travelled in
 function onDocumentKeyDown(event) {
@@ -605,12 +584,16 @@ function onDocumentKeyDown(event) {
 		
 	//	objPac.moveBackward();
 		objPac.futureDir="down";
-		while (!objPac.canMoveBackward)
+		if (objPac.canMoveBackward)
 		{
-			
-		}//While loop to only change direction once u can move left
+			halloween = true;
+		}//While loop to only change direction once u can move down
+		else
+		{
+			halloween = false;
+		}
 		objPac.moveBackward();
-		objPac.rotation.y=0;
+		objPac.rotation.y = 0;
 				
     }
     else if (keyCode == 87 || keyCode==38) 
@@ -621,7 +604,7 @@ function onDocumentKeyDown(event) {
 		while (!objPac.canMoveForward)
 		{
 			
-		}//While loop to only change direction once u can move left
+		}//While loop to only change direction once u can move up
 		objPac.moveForward();
 		objPac.rotation.y=Math.PI;
 		
@@ -634,7 +617,7 @@ function onDocumentKeyDown(event) {
 		while (!objPac.canMoveRight)
 		{
 			
-		}//While loop to only change direction once u can move left
+		}//While loop to only change direction once u can move right
 		objPac.moveRight();
 		objPac.rotation.y=Math.PI/2;
 		
