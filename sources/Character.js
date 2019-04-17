@@ -96,6 +96,7 @@ class Character extends THREE.Object3D
 	{
 		//do downward collisons first, then do horizontal collisions, probably if/else
 		var charSphere = new THREE.Sphere(this.getPos(),2);
+		var charCube = new THREE.Box3 (new THREE.Vector3(this.x-2,this.y-2,this.z-2),new THREE.Vector3(this.x+2,this.y+2,this.z+2));
 		var inAir=false;
 		var highest=-Infinity;
 		for(var i =0;i<this.surfaces.children.length;i++)
@@ -119,7 +120,6 @@ class Character extends THREE.Object3D
 	
 		if(this.movingLeft)//do the left right forward backwards collisions for actual obstructions
 		{
-
 			var collides=false;
 			for(var i=0;i<this.obstructions.children.length;i++)
 			{
@@ -128,7 +128,7 @@ class Character extends THREE.Object3D
 				obsBox.setFromObject(this.obstructions.children[i]);
 				this.obstructions.children[i].position.z-=this.speed;
 				
-				if(this.SquareIntersect(charSphere,obsBox))
+				if(this.SquareIntersect(charCube,obsBox))
 				{
 					collides=true;
 					obsBox.setFromObject(this.obstructions.children[i]);
@@ -152,7 +152,7 @@ class Character extends THREE.Object3D
 				obsBox.setFromObject(this.obstructions.children[i]);
 				this.obstructions.children[i].position.z+=this.speed;
 				
-				if(this.SquareIntersect(charSphere,obsBox))
+				if(this.SquareIntersect(charCube,obsBox))
 				{
 					collides=true;
 					obsBox.setFromObject(this.obstructions.children[i]);
@@ -175,7 +175,7 @@ class Character extends THREE.Object3D
 				obsBox.setFromObject(this.obstructions.children[i]);
 				this.obstructions.children[i].position.x+=this.speed;
 				
-				if(this.SquareIntersect(charSphere,obsBox))
+				if(this.SquareIntersect(charCube,obsBox))
 				{
 					collides=true;
 					obsBox.setFromObject(this.obstructions.children[i]);
@@ -199,7 +199,7 @@ class Character extends THREE.Object3D
 				obsBox.setFromObject(this.obstructions.children[i]);
 				this.obstructions.children[i].position.x-=this.speed;
 				
-				if(this.SquareIntersect(charSphere,obsBox))
+				if(this.SquareIntersect(charCube,obsBox))
 				{
 					collides=true;
 					obsBox.setFromObject(this.obstructions.children[i]);
@@ -229,7 +229,9 @@ class Character extends THREE.Object3D
 	
 	canMoveLeft()
 	{
-		var charSphere = new THREE.Sphere (this.getPos(),2);
+		var charCube = new THREE.Box3 (new THREE.Vector3(this.x-2,this.y-2,this.z-2),new THREE.Vector3(this.x+2,this.y+2,this.z+2));
+		
+		
 		/*if (this.movingLeft)
 		{
 			return true;
@@ -243,7 +245,7 @@ class Character extends THREE.Object3D
 				obsBox.setFromObject(this.obstructions.children[i]);
 				this.obstructions.children[i].position.z-=this.speed;
 				
-				if(this.SquareIntersect(charSphere,obsBox))
+				if(this.SquareIntersect(charCube,obsBox))
 				{
 					return false;	
 				}	
@@ -254,11 +256,8 @@ class Character extends THREE.Object3D
 	
 	canMoveRight()
 	{
-		var charSphere = new THREE.Sphere(this.getPos(),2);
-		/*if(this.movingRight)
-		{
-			return true;
-		}*/
+		var charCube = new THREE.Box3 (new THREE.Vector3(this.x-2,this.y-2,this.z-2),new THREE.Vector3(this.x+2,this.y+2,this.z+2));
+	
 		if (true)
 		{
 			for(var i=0;i<this.obstructions.children.length;i++)
@@ -268,7 +267,7 @@ class Character extends THREE.Object3D
 				obsBox.setFromObject(this.obstructions.children[i]);
 				this.obstructions.children[i].position.z+=this.speed;
 				
-				if(this.SquareIntersect(charSphere,obsBox))
+				if(this.SquareIntersect(charCube,obsBox))
 				{
 				
 					return false;
@@ -280,7 +279,7 @@ class Character extends THREE.Object3D
 	
 	canMoveForward()
 	{
-		var charSphere = new THREE.Sphere(this.getPos(),2);
+		var charCube = new THREE.Box3 (new THREE.Vector3(this.x-2,this.y-2,this.z-2),new THREE.Vector3(this.x+2,this.y+2,this.z+2));
 		//if(this.movingForward)
 		/*{
 			return true;
@@ -294,7 +293,7 @@ class Character extends THREE.Object3D
 				obsBox.setFromObject(this.obstructions.children[i]);
 				this.obstructions.children[i].position.x+=this.speed;
 				
-				if(this.SquareIntersect(charSphere,obsBox))
+				if(this.SquareIntersect(charCube,obsBox))
 				{
 					return false;
 				}
@@ -305,11 +304,8 @@ class Character extends THREE.Object3D
 	
 	canMoveBackward()
 	{
-		var charSphere = new THREE.Sphere(this.getPos(),2);
-		/*if (this.movingBackward)
-		{
-			return true;
-		}*/
+		var charCube = new THREE.Box3 (new THREE.Vector3(this.x-2,this.y-2,this.z-2),new THREE.Vector3(this.x+2,this.y+2,this.z+2));
+		
 		if (true) 
 		{
 			for(var i=0;i<this.obstructions.children.length;i++)
@@ -319,7 +315,7 @@ class Character extends THREE.Object3D
 				obsBox.setFromObject(this.obstructions.children[i]);
 				this.obstructions.children[i].position.x-=this.speed;
 				
-				if (this.SquareIntersect(charSphere,obsBox))
+				if (this.SquareIntersect(charCube,obsBox))
 				{
 					return false;
 				}	
@@ -370,7 +366,31 @@ class Character extends THREE.Object3D
 	{
 		return sphere.intersectsBox(Cube);
 	}
-
+	CubeIntersectsCube(cube1,cube2)
+	{
+		
+	}
+	distanceCubeCube(cube1,cube2)
+	{
+		//var center2=new THREE.Vector3();
+		//cube2.getCenter();
+		var center1=new THREE.Vector3();
+		cube1.getCenter(center1);
+		var center2=new THREE.Vector3();
+		cube2.getCenter(center2);
+		var closestPoint1=new THREE.Vector3();
+		cube1.clampPoint( center2, closestPoint1 );
+		var closestPoint2=new THREE.Vector3();
+		cube2.clampPoint( center1, closestPoint2 );
+		return Math.sqrt(closestPoint1.distanceToSquared( closestPoint2 ));
+		
+		//var min1= new Vector3();
+		//return Math.abs(cub31.min.x <= cube2.min.x && box.max.x <= this.max.x &&
+		//this.min.y <= box.min.y && box.max.y <= this.max.y &&
+		//this.min.z <= box.min.z && box.max.z <= this.max.z;
+		//0.1
+	
+	}
 	distanceSphereCube(sphere,cube)
 	{
 		var closestPoint=new THREE.Vector3();
