@@ -320,6 +320,7 @@ class Character extends THREE.Object3D
 		{
 			if (this.canMoveLeft ())
 			{
+				this.rotation.y=-Math.PI/2;
 				this.moveLeft();
 			}
 		}
@@ -327,6 +328,7 @@ class Character extends THREE.Object3D
 		{
 			if (this.canMoveRight ())
 			{
+				this.rotation.y=Math.PI/2;
 				this.moveRight();
 			}
 		}
@@ -334,6 +336,7 @@ class Character extends THREE.Object3D
 		{
 			if (this.canMoveForward ())
 			{
+				this.rotation.y=Math.PI;
 				this.moveForward();
 			}
 		}
@@ -341,6 +344,7 @@ class Character extends THREE.Object3D
 		{
 			if (this.canMoveBackward ())
 			{
+				this.rotation.y = 0;
 				this.moveBackward();
 			}
 		}

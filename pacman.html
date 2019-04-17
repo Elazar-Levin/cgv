@@ -581,37 +581,30 @@ function onDocumentKeyDown(event) {
     if (keyCode == 83 || keyCode== 40) 
     {//s
 		//backwards
-		
-	//	objPac.moveBackward();
 		objPac.futureDir="down";
-		objPac.rotation.y = 0;
+		//objPac.rotation.y = 0;
 
 				
     }
     else if (keyCode == 87 || keyCode==38) 
     {//w
 		//forward	
-	//	objPac.moveForward();
-
 		objPac.futureDir="up";
-		objPac.rotation.y=Math.PI;
+//		objPac.rotation.y=Math.PI;
 		
     } 
     else if (keyCode == 68 || keyCode==39) 
     {//d
 		//right
-		//objPac.moveRight();
 		objPac.futureDir="right";
-		objPac.rotation.y=Math.PI/2;
+	//	objPac.rotation.y=Math.PI/2;
 		
     }  
     else if (keyCode == 65 || keyCode==37) 
     {//a
 		//left
-		//objPac.moveLeft();
-		
 		objPac.futureDir="left";
-		objPac.rotation.y=-Math.PI/2;
+//		objPac.rotation.y=-Math.PI/2;
 		
     } 
     else if (keyCode == 32) 
