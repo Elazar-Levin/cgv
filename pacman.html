@@ -66,7 +66,7 @@ var fbAcceleration=0;//forward/backward acceleration
 var MAX_ACCELERATION=0.5;//fastest speed pacman can achieve
 var VETICAL_VELOCITY=0.3;//speed pacman falls if not on ground(gravity kinda)
 var PAC_RADIUS=2;//size of pacman
-var PAC_SPEED=0.5;//speed when acceleration is off
+var PAC_SPEED=0.5//speed //apparently has to have very specific values 
 
 var light;  // A light shining from the top of pacman(looks really cool).
 var light2;//a general light at the top of the screen
@@ -186,6 +186,8 @@ function createWorld() {
 	wall.position.set(7,-3,7);
 	
 	makeLevel(1);
+	makeSurfaces();
+	
 	/*
 	//make wall with hidden passage
 	//works, but not sure it fits in with the decor
@@ -290,7 +292,7 @@ function createWorld() {
 	surfaces.add(floorCollider);
 	
 	
-	objPac = new Character (0.5, 0,0, 0, myPac, pacmanGeometries,obstructions,surfaces,pellets);//make this pacman
+	objPac = new Character (PAC_SPEED, 0,0, 0, myPac, pacmanGeometries,obstructions,surfaces,pellets);//make this pacman
 	//TODO: make new "floor" which is just an invisible plane used for collisions. well then set up similar planes for every obstruction//kinda set up, doesnt work
 	//scene.add(surfaces);
 	//clouds.add(cloud);
@@ -429,21 +431,15 @@ function makeLevel(levelNo)
 	if(levelNo==1)
 	{
 		//make surfaces or something, so that characters can walk on walls 
+	
 		//start of cross thing
 		makeBlock(-2,-3,8,24,4,4);
-		
 		makeBlock(-2,-3,16,24,4,4);
-	
 		makeBlock(8,-3,-4,4,4,20);
-		
 		makeBlock(8,-3,28,4,4,20);
-	
 		makeBlock(26,-3,8,24,4,4);
-	
 		makeBlock(26,-3,16,24,4,4);
-	
 		makeBlock(16,-3,-4,4,4,20);
-	
 		makeBlock(16,-3,28,4,4,20);
 		//end of cross thing
 		
@@ -453,7 +449,18 @@ function makeLevel(levelNo)
 
 }
 
-
+function makeSurfaces()
+{
+	for(var i=0;i<obstructions.children.length;i++)
+	{
+		//go through all the obstruction objects and make a top collider for each one. well need the width, height and depth toset everything properly
+		
+		//var box = new THREE.Box3().setFromObject( obstructions.children[i] );
+		//var floorCollider=new THREE.Mesh(new THREE.PlaneGeometry(min,1000),new THREE.MeshBasicMaterial());
+		//floorCollider.position.set(0,,0);
+		//surfaces.add(floorCollider);
+	}
+}
 /**
  *  This function is called once for each frame of the animation, before
  *  the render() function is called for that frame.  It updates any
@@ -466,6 +473,8 @@ function makeLevel(levelNo)
  
  
 function updateForFrame() {
+
+
  	var pacSphere;
 	var paccy = frameNumber % 20;
     if (paccy > 10) //do opening and closing of mouth animation
@@ -553,6 +562,7 @@ function installOrbitControls() {
     controls.enablePan = false; 
     controls.enableZoom = true;
     controls.enableDamping = false;
+
     function move() {
         controls.update();
         
@@ -620,7 +630,7 @@ function onDocumentKeyDown(event) {
     } 
     else if (keyCode == 32) 
 	{//space
-        objPac.setPos(0,0,0);
+        objPac.setPos(7,10,7);
     }
 	else if(keyCode==49)//1
 	{

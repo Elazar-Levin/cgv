@@ -94,11 +94,14 @@ class Character extends THREE.Object3D
 	}
 	doCollisions()//do the collisions for this object
 	{
+		
 		//do downward collisons first, then do horizontal collisions, probably if/else
 		var charSphere = new THREE.Sphere(this.getPos(),2);
 		var charCube = new THREE.Box3 (new THREE.Vector3(this.x-1.9,this.y-1.9,this.z-1.9),new THREE.Vector3(this.x+1.9,this.y+1.9,this.z+1.9));
 		var inAir=false;
 		var highest=-Infinity;
+		
+		/*
 		for(var i =0;i<this.surfaces.children.length;i++)
 		{
 			var obsBox= new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
@@ -112,11 +115,36 @@ class Character extends THREE.Object3D
 				}
 			}
 		}
-		if(inAir && this.position.y-PAC_RADIUS-0.001>highest)
+		if(inAir && this.position.y-PAC_RADIUS-0.01>highest)
 		{
 			this.setY(this.position.y-VETICAL_VELOCITY);
 		}
-	
+		*/
+		if(this.y>=-2.5)//if in air
+		{
+			var collides=false;
+			for(var i=0;i<this.obstructions.children.length;i++)
+			{
+				this.obstructions.children[i].position.y+=VETICAL_VELOCITY;
+				var obsBox= new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
+				obsBox.setFromObject(this.obstructions.children[i]);
+				this.obstructions.children[i].position.y-=VETICAL_VELOCITY;
+				
+				if(this.SquareIntersect(charCube,obsBox))
+				{
+					collides=true;
+					obsBox.setFromObject(this.obstructions.children[i]);
+					this.setY(this.y-this.distanceCubeCube(charCube,obsBox));
+					break;		
+				}
+			}
+			if(!collides)
+			{
+				this.setY(this.y-VETICAL_VELOCITY);
+			}
+			
+			
+		}
 	
 		if(this.movingLeft)//do the left right forward backwards collisions for actual obstructions
 		{
