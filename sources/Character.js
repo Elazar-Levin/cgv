@@ -101,25 +101,7 @@ class Character extends THREE.Object3D
 		var inAir=false;
 		var highest=-Infinity;
 		
-		/*
-		for(var i =0;i<this.surfaces.children.length;i++)
-		{
-			var obsBox= new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
-			obsBox.setFromObject(this.surfaces.children[i]);
-			if(this.position.y-PAC_RADIUS-0.001>=this.surfaces.children[i].position.y)// && !this.SquareIntersect(charSphere,obsBox))
-			{
-				if(this.surfaces.children[i].position.y>=highest)
-				{
-					inAir=true;
-					highest=this.surfaces.children[i].position.y;
-				}
-			}
-		}
-		if(inAir && this.position.y-PAC_RADIUS-0.01>highest)
-		{
-			this.setY(this.position.y-VETICAL_VELOCITY);
-		}
-		*/
+	
 		if(this.y>=-2.5)//if in air
 		{
 			var collides=false;
@@ -141,6 +123,10 @@ class Character extends THREE.Object3D
 			if(!collides)
 			{
 				this.setY(this.y-VETICAL_VELOCITY);
+				this.movingLeft=false;
+				this.movingRight=false;
+				this.movingForward=false;
+				this.movingBackward=false;
 			}
 			
 			
