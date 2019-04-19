@@ -189,32 +189,7 @@ function createWorld() {
 	wall.position.set(7,-3,7);
 	
 	makeLevel(1);
-	makeSurfaces();
-	
-	/*
-	//make wall with hidden passage
-	//works, but not sure it fits in with the decor
-	for(var i=0;i<20;i++)//width
-	{
-		for(var j=0;j<5;j++)//depth
-		{
-			for(var k=0;k<5;k++)//height
-			{
-				var myWall=wall.clone();
-				myWall.position.set(-25+4*i,-3+4*k,-100+4*j);
-				if(k!=1 && i != 10 && i!=12 && i !=11)
-				{
-					obstructions.add(myWall);
-				}
-				else
-				{
-					scene.add(myWall);
-				}
-			}
-		}
-	}
-	*/
-	
+
 	//uncomment all to make floor grassy.only works on firefox//doesnt look too great, but can improve
 	
 	//const loader = new THREE.TextureLoader();
@@ -292,7 +267,7 @@ function createWorld() {
 	//myPac.add(pacEye);
 	var floorCollider=new THREE.Mesh(new THREE.PlaneGeometry(1000,1000,5,5),new THREE.MeshBasicMaterial());
 	floorCollider.position.set(0,-5,0);
-	surfaces.add(floorCollider);
+//	surfaces.add(floorCollider);
 	
 	
 	objPac = new Character (PAC_SPEED, 0,0, 0, myPac, pacmanGeometries,obstructions,surfaces,pellets);//make this pacman
@@ -451,18 +426,7 @@ function makeLevel(levelNo)
 
 }
 
-function makeSurfaces()
-{
-	for(var i=0;i<obstructions.children.length;i++)
-	{
-		//go through all the obstruction objects and make a top collider for each one. well need the width, height and depth toset everything properly
-		
-		//var box = new THREE.Box3().setFromObject( obstructions.children[i] );
-		//var floorCollider=new THREE.Mesh(new THREE.PlaneGeometry(min,1000),new THREE.MeshBasicMaterial());
-		//floorCollider.position.set(0,,0);
-		//surfaces.add(floorCollider);
-	}
-}
+
 /**
  *  This function is called once for each frame of the animation, before
  *  the render() function is called for that frame.  It updates any
@@ -489,18 +453,7 @@ function updateForFrame() {
     
 	objPac.animate(paccy);
 	
-	//if(level==0)//if still on ground floor
-	//{
-	//	//if(myPac.position.y-PAC_RADIUS-0.001>=floor.position.y)//stay on floor
-	//	if(objPac.y-PAC_RADIUS-0.001>=floor.position.y)
-	//	{
-	//		
-	//		//myPac.position.y-=VETICAL_VELOCITY;
-	//		objPac.setY(objPac.y-VETICAL_VELOCITY);
-	//	
-	//	
-	//	}
-	//}
+
 	objPac.setDirection();
 	
 	objPac.doCollisions();
