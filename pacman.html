@@ -43,22 +43,29 @@ var sun;//pixelated sun object, made of blocks, with glow inside
 var cloud;//pixelated cloud object
 var sunBlock;
 var cloudBlock;
+var powerPellet;
 
 
 var clouds;// object containing pixelated cloud objects
 var pellets;//Object3D containing all pellets
 var obstructions;//Object3D containing all walls/obstructions
 var surfaces;//Object3D containing all the surfaces that characters can walk on//doesnt work
+var powerPellets;//Object3D containing all powerPellets
 
 var level=0;// current floor pacman is on, so we can do collisions
 var cameraMode=1;//3 modes, depending on which number button pressed eg. 1 is fixed full view,2 is 3rd person, 3 is 1st person// not properly done yet
 var halloween=false;//whether halloween mode is on
+var powerMode=false;
+var powerPelletEaten=false;
 
 var mainCamera;
 var thirdCamera;
 
 var pelletsLeft=true;
 
+var score;
+
+var powerPelletTimer=0;
 
 var lrAcceleration=0;//left/right acceleration
 var fbAcceleration=0;//forward/backward acceleration
@@ -92,7 +99,7 @@ function render() {
  */
 function createWorld() {
 	
-	
+	score=0;
 
 
 	
@@ -103,6 +110,7 @@ function createWorld() {
 	surfaces=new THREE.Object3D();
 	clouds=new THREE.Object3D();
 	cloud=new THREE.Object3D();	
+	powerPellets=new THREE.Object3D(); 
 	 
     renderer.setClearColor("blue"); // Background color for scene.
     scene = new THREE.Scene();
@@ -189,31 +197,10 @@ function createWorld() {
 	wall.position.set(7,-3,7);
 	
 	makeLevel(1);
-	makeSurfaces();
-	
-	/*
-	//make wall with hidden passage
-	//works, but not sure it fits in with the decor
-	for(var i=0;i<20;i++)//width
-	{
-		for(var j=0;j<5;j++)//depth
-		{
-			for(var k=0;k<5;k++)//height
-			{
-				var myWall=wall.clone();
-				myWall.position.set(-25+4*i,-3+4*k,-100+4*j);
-				if(k!=1 && i != 10 && i!=12 && i !=11)
-				{
-					obstructions.add(myWall);
-				}
-				else
-				{
-					scene.add(myWall);
-				}
-			}
-		}
-	}
-	*/
+
+	powerPellet=new THREE.Mesh(new THREE.SphereGeometry(1,16,16),new THREE.MeshPhongMaterial({color:'skyblue',side: THREE.DoubleSide,name: "powerpellet"}));
+	powerPellet.position.set(12,-3,12);
+	powerPellets.add(powerPellet);
 	
 	//uncomment all to make floor grassy.only works on firefox//doesnt look too great, but can improve
 	
@@ -286,19 +273,23 @@ function createWorld() {
 	}
 	
 	//obstructions.add(wall);
+	var myPellet=pellet.clone();
+	myPellet.position.set(8,0,8);
+	pellets.add(myPellet);
+	
 	
 	myPac.add(pacMouth);
 	myPac.add(pacman);
 	//myPac.add(pacEye);
 	var floorCollider=new THREE.Mesh(new THREE.PlaneGeometry(1000,1000,5,5),new THREE.MeshBasicMaterial());
 	floorCollider.position.set(0,-5,0);
-	surfaces.add(floorCollider);
+//	surfaces.add(floorCollider);
 	
 	
-	objPac = new Character (PAC_SPEED, 0,0, 0, myPac, pacmanGeometries,obstructions,surfaces,pellets);//make this pacman
+	objPac = new Character (PAC_SPEED, 0,0, 0, myPac, pacmanGeometries,obstructions,pellets,powerPellets);//make this pacman
 	
-	//scene.add(camera);
-	
+	scene.add(camera);
+	scene.add(powerPellets)
 	scene.add(clouds);
 	scene.add(floor);
 	scene.add(obstructions);
@@ -451,18 +442,7 @@ function makeLevel(levelNo)
 
 }
 
-function makeSurfaces()
-{
-	for(var i=0;i<obstructions.children.length;i++)
-	{
-		//go through all the obstruction objects and make a top collider for each one. well need the width, height and depth toset everything properly
-		
-		//var box = new THREE.Box3().setFromObject( obstructions.children[i] );
-		//var floorCollider=new THREE.Mesh(new THREE.PlaneGeometry(min,1000),new THREE.MeshBasicMaterial());
-		//floorCollider.position.set(0,,0);
-		//surfaces.add(floorCollider);
-	}
-}
+
 /**
  *  This function is called once for each frame of the animation, before
  *  the render() function is called for that frame.  It updates any
@@ -505,7 +485,7 @@ function updateForFrame()
 		scene.remove(light3);
 		pacman.material.emissive.set('orange');
 		pellet.material.emissive.set('white');
-		wall.material.emissive.set('purple');
+		powerPellet.material.emissive.set('yellow');
 		floor.material.color.set('white');
 		renderer.setClearColor("black"); 
 		for(var i=0;i<obstructions.children.length;i++)
@@ -523,7 +503,7 @@ function updateForFrame()
 		scene.add(light3);
 		pacman.material.emissive.set('black');
 		pellet.material.emissive.set('black');
-		wall.material.emissive.set('black');
+		powerPellet.material.emissive.set('black');
 		renderer.setClearColor("blue"); 
 		floor.material.color.set('green');
 		for(var i=0;i<obstructions.children.length;i++)
@@ -545,6 +525,27 @@ function updateForFrame()
 		camera=thirdCamera;
 		objPac.add(camera);
 	}
+	
+	if(powerPelletEaten)
+	{
+		powerPelletEaten=false;
+		powerMode=true;
+		powerPelletTimer=500;//timer for how long power mode lasts
+	}
+	if(powerMode)
+	{
+		if(powerPelletTimer==0)
+		{
+			powerMode=false;
+		}
+		if(powerPelletTimer>0)
+		{
+			powerPelletTimer--;
+		}
+		//do power mode logic here
+	}
+	
+	
 }
 
 
@@ -694,7 +695,7 @@ function init() {
 	stats=createStats();
 	document.body.appendChild( stats.domElement );
 	document.addEventListener("keydown", onDocumentKeyDown, false);
-	resize();//allows game to be fullscreen without blurring
+	resize();//allows game to be fullscreen without blurring 
     createWorld();
     installOrbitControls();
     render();

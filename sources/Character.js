@@ -2,7 +2,7 @@
 class Character extends THREE.Object3D
 {
 	
-	constructor (speed, x, y, z, transform, animations,obstructions,surfaces,food=null)
+	constructor (speed, x, y, z, transform, animations,obstructions,food=null,powerPellets=null)
 	{
 		super();
 		this.speed = speed;
@@ -24,13 +24,14 @@ class Character extends THREE.Object3D
 		this.myFrame = 0;
 		this.rotationY=0;
 		this.food=food;
-		this.surfaces=surfaces;
 		this.futureDir="null";
 		this.jumping=false;
 		this.jumpingSpeed=0.75;
 		this.ySpeed=0.5;
 		this.yAccelerataion=0;
 		this.canJump=false;
+		this.powerPellets=powerPellets;
+		this.score=0;
 	}
 
 	moveLeft ()
@@ -279,6 +280,23 @@ class Character extends THREE.Object3D
 				if(this.SphereIntersect(charSphere,foodPoint))
 				{
 					this.food.remove(this.food.children[i]);
+					this.score++;
+					console.log(this.food.children.length);
+					return;
+				}
+			}
+			
+			
+		}
+		if(this.powerPellets!=null)
+		{
+			for(var i=0;i<this.powerPellets.children.length;i++)
+			{
+				var pelletPoint=this.powerPellets.children[i].position;
+				if(this.SphereIntersect(charSphere,pelletPoint))
+				{
+					this.powerPellets.remove(this.powerPellets.children[i]);
+					powerPelletEaten=true;
 					return;
 				}
 			}
@@ -422,6 +440,7 @@ class Character extends THREE.Object3D
 			}
 		}
 	}
+	
 	
 	
 	SphereIntersect(sphere, point) 
