@@ -159,21 +159,16 @@ function createWorld()
     }
 
     var pacmanMaterial = new THREE.MeshPhongMaterial({ color: 'yellow', side: THREE.FrontSide });
-	
 	var pacMouthMaterial=new THREE.MeshBasicMaterial({ color: 'red', side: THREE.BackSide });
-	
-	
 	var eyeMaterial=new THREE.MeshBasicMaterial({ color: 'black', side: THREE.DoubleSide });
 	var pacGeometry=new THREE.SphereGeometry(0.3,16,16);
 	
-	
 	//sun
-	
 	makeSun();
+
 	//one cloud
 	makeCloud();
 	//many clouds
-	
 	makeClouds();
 	
 	pellet=new THREE.Mesh(new THREE.SphereGeometry(0.5,16,16),new THREE.MeshPhongMaterial({color:'skyblue',side: THREE.DoubleSide,name: "pellet"}));
@@ -285,7 +280,6 @@ function createWorld()
     scene.add(objPac);
 	scene.add(pellets);
 } // end function createWorld()
-
 
 function createStats() //allows us to see the frames per second, and the graph. change setMode to 1 to see the time taken to render each frame
 {
@@ -411,14 +405,12 @@ function makeLevel(levelNo)
 	}
 }
 
-
 /**
  *  This function is called once for each frame of the animation, before
  *  the render() function is called for that frame.  It updates any
  *  animated properties.  The value of the global variable frameNumber
  *  is incrementd 1 before this function is called.
  */
- 
  
 function updateForFrame() 
 {
@@ -513,10 +505,7 @@ function updateForFrame()
 		}
 		//do power mode logic here
 	}
-	
-	
 }
-
 
 /* ---------------------------- MOUSE AND ANIMATION SUPPORT ------------------
 
@@ -530,6 +519,7 @@ function updateForFrame()
  *  The same thing holds for touch events -- I call render for any mouse move
  *  event with one touch.
  */
+
 function installOrbitControls() {
     controls = new THREE.OrbitControls(camera,canvas);
     controls.enablePan = false; 
@@ -556,8 +546,6 @@ function installOrbitControls() {
     canvas.addEventListener("mousedown", down, false);
     canvas.addEventListener("touchmove", touch, false);
 }
-
-
 
 /*  Drives the animation, called by system through requestAnimationFrame() */
 function doFrame() {
@@ -628,13 +616,10 @@ function resize()
 	// Check if the canvas is not the same size.
 	if (canvas.width  != displayWidth || canvas.height != displayHeight) 
 	{
- 
 		// Make the canvas the same size
 		canvas.width  = displayWidth;
 		canvas.height = displayHeight;
 	}
-
-
 }
 
 
@@ -668,7 +653,6 @@ function init() {
     createWorld();
     installOrbitControls();
     render();
-	
 }
 
 </script>
