@@ -113,22 +113,11 @@ class Character extends THREE.Object3D
 		var charCube = new THREE.Box3 (new THREE.Vector3(this.x-1.9,this.y-1.9,this.z-1.9),new THREE.Vector3(this.x+1.9,this.y+1.9,this.z+1.9));
 		var inAir=false;
 		var highest=-Infinity;
-
-		/*if (this.jumping)
-		{
-			var curr = this.y
-			while (this.y <= 10)
-			{
-				this.setY (this.y + this.ySpeed);
-			}//While loop to keep going till jump is at max
-			this.jumping = false;
-		}//If for when you are on a surface*/
-		
 	
 		if (this.y > -2.5)//if in air but not while jumping
 		{
 			if (this.y > 10) { this.jumping = false; }
-			var collides=false;
+			var collides = false;
 			for(var i=0;i<this.obstructions.children.length;i++)
 			{
 				this.obstructions.children[i].position.y+=this.ySpeed;
@@ -144,17 +133,54 @@ class Character extends THREE.Object3D
 					break;		
 				}
 			}
-			if(!collides)
+			if (!collides)
 			{
 				if (this.jumping)
 				{
-					this.setY(this.y+this.ySpeed);
-					this.setX(this.x-this.ySpeed);
+					if (this.movingLeft)
+					{
+						this.setY(this.y + this.ySpeed);
+						this.setZ(this.z - this.ySpeed);
+					}//If for when jumping in left direction
+					if (this.movingRight)
+					{
+						this.setY(this.y + this.ySpeed);
+						this.setZ(this.z + this.ySpeed);
+					}//If for when jumping in right direction
+					if (this.movingForward)
+					{
+						this.setY(this.y + this.ySpeed);
+						this.setX(this.x + this.ySpeed);
+					}//If for when jumping in up direction
+					if (this.movingBackward)
+					{
+						this.setY(this.y + this.ySpeed);
+						this.setX(this.x - this.ySpeed);
+					}//If for when jumping in down direction
+					
 				}
 				else
 				{
-					this.setY(this.y-this.ySpeed);
-					this.setX(this.x-this.ySpeed);	
+					if (this.movingLeft)
+					{
+						this.setY(this.y - this.ySpeed);
+						this.setZ(this.z - this.ySpeed);
+					}//If for when jumping in left direction
+					if (this.movingRight)
+					{
+						this.setY(this.y - this.ySpeed);
+						this.setZ(this.z + this.ySpeed);
+					}//If for when jumping in right direction
+					if (this.movingForward)
+					{
+						this.setY(this.y - this.ySpeed);
+						this.setX(this.x + this.ySpeed);
+					}//If for when jumping in up direction
+					if (this.movingBackward)
+					{
+						this.setY(this.y - this.ySpeed);
+						this.setX(this.x - this.ySpeed);
+					}//If for when jumping in down direction	
 				}
 				this.movingLeft=false;
 				this.movingRight=false;

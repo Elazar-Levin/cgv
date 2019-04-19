@@ -81,27 +81,22 @@ var light2;//a general light at the top of the screen
 var halloweenLight;
 var light3;//light illuminating block
 
-
-
 /**
  *  The render function draws the scene.
  */
-function render() {
+function render() 
+{
     renderer.render(scene, camera);
 	
 }
 //TODO: make rotation of pacman more gradual for 3rd person perspective
 
-
-
 /**
  * This function is called by the init() method to create the world. 
  */
-function createWorld() {
-	
+function createWorld()
+{
 	score=0;
-
-
 	
 	sun=new THREE.Object3D();
 	var myPac = new THREE.Object3D(); //holds full pacman object	
@@ -153,11 +148,6 @@ function createWorld() {
 	gl.viewport(0, 0, canvas.width, canvas.height);// makes the viewport the same size as the canvas
     //------------------- Create the scene's visible objects ----------------------
  
-	
-	
-	
-	
-	
     var numFrames = 40;
     var offset;
     for (var i = 0; i < numFrames; i++) {// create the frames for pacmans animations
@@ -252,31 +242,31 @@ function createWorld() {
 	var pacEye=new THREE.Mesh(pacGeometry,eyeMaterial);
 	
 	pacEye.position.set(-1,0.7,2);
-	for(var i=0;i<13;i++)
+	for (var i = 0; i < 13; i++)
 	{
-		var pellet1=pellet.clone();
-		pellet1.position.set(36-4*i,-3,12);
-		pellets.add(pellet1);
+		var pellet1 = pellet.clone();
+		pellet1.position.set (36 - 4 * i, -3, 12);
+		pellets.add (pellet1);
 	}
-	for(var i=0;i<13;i++)
+
+	for (var i = 0; i < 13;i++)
 	{
 		var pellet1=pellet.clone();
 		pellet1.position.set(12,-3,36-4*i);
 		pellets.add(pellet1);
 	}
 	pellets.add(pellet);
+
 	for (var i=0;i<19;i++)
 	{
 		var myPellet=pellet.clone();
 		myPellet.position.set(THREE.Math.randFloatSpread( 100 ),-3,THREE.Math.randFloatSpread( 100 ));
 		pellets.add(myPellet);
 	}
-	
 	//obstructions.add(wall);
 	var myPellet=pellet.clone();
 	myPellet.position.set(8,0,8);
 	pellets.add(myPellet);
-	
 	
 	myPac.add(pacMouth);
 	myPac.add(pacman);
@@ -285,9 +275,7 @@ function createWorld() {
 	floorCollider.position.set(0,-5,0);
 //	surfaces.add(floorCollider);
 	
-	
 	objPac = new Character (PAC_SPEED, 0,0, 0, myPac, pacmanGeometries,obstructions,pellets,powerPellets);//make this pacman
-	
 	scene.add(camera);
 	scene.add(powerPellets)
 	scene.add(clouds);
@@ -296,7 +284,6 @@ function createWorld() {
 	scene.add(sun);
     scene.add(objPac);
 	scene.add(pellets);
-	
 } // end function createWorld()
 
 
@@ -304,11 +291,9 @@ function createStats() //allows us to see the frames per second, and the graph. 
 {
       var stats = new Stats();
       stats.setMode(0);
-
       stats.domElement.style.position = 'absolute';
       stats.domElement.style.left = '0';
       stats.domElement.style.top = '0';
-
       return stats;
 }
 
@@ -324,7 +309,6 @@ function makeCloud()
 		myCloud.position.set(THREE.Math.randFloatSpread( 20 ),THREE.Math.randFloatSpread( 20 ),THREE.Math.randFloatSpread( 50 ));
 		cloud.add(myCloud);
 	}
-	
 }
 function makeClouds()//make a set distance, the use the distance formula , and two variables to set the position
 {//dont do this. dynamically create and destroy clouds as time goes on
@@ -336,14 +320,9 @@ function makeClouds()//make a set distance, the use the distance formula , and t
 		var myCloud=cloud.clone();
 		myCloud.position.set(Math.random()*(2000)-1000,150,Math.random()*(2000)-1000);
 		clouds.add(myCloud);
-		
-	
 	}
-	
 	//sun.position.set(500,100,500);
 }
-
-
 
 function makeSun()
 {
@@ -376,7 +355,6 @@ function makeSun()
 	s2.position.set(0,10,-10);
 	sun.add(s2);
 	
-	
 	var s2=sunBlock.clone();
 	s2.position.set(10,10,10);
 	sun.add(s2);
@@ -402,12 +380,8 @@ function makeSun()
 	}
 	
 	var s2=sunBlock.clone();
-	
 	s2.position.set(0,20,0);
-	
 	sun.add(s2);
-	
-	
 	sun.position.set(500,100,500);
 	
 }
@@ -424,7 +398,6 @@ function makeLevel(levelNo)
 	if(levelNo==1)
 	{
 		//make surfaces or something, so that characters can walk on walls 
-	
 		//start of cross thing
 		makeBlock(-2,-3,8,24,4,4);
 		makeBlock(-2,-3,16,24,4,4);
@@ -435,11 +408,7 @@ function makeLevel(levelNo)
 		makeBlock(16,-3,-4,4,4,20);
 		makeBlock(16,-3,28,4,4,20);
 		//end of cross thing
-		
-		
-	
 	}
-
 }
 
 
