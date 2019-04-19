@@ -116,7 +116,7 @@ class Character extends THREE.Object3D
 	
 		if (this.y > -2.5)//if in air but not while jumping
 		{
-			if (this.y > 10) { this.jumping = false; }
+			if (this.y > 5) { this.jumping = false; }
 			var collides = false;
 			for(var i=0;i<this.obstructions.children.length;i++)
 			{
