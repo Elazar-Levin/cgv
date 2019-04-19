@@ -20,6 +20,7 @@ class Character extends THREE.Object3D
 		this.movingForward = false;
 		this.movingBackward = false;
 		//this.movingDown=false;
+		this.vAngle = 0;
 		this.myFrame = 0;
 		this.rotationY=0;
 		this.food=food;
@@ -27,7 +28,7 @@ class Character extends THREE.Object3D
 		this.futureDir="null";
 		this.jumping=false;
 		this.jumpingSpeed=0.75;
-		this.ySpeed=0.3;
+		this.ySpeed=0.5;
 		this.yAccelerataion=0;
 		this.canJump=false;
 	}
@@ -63,6 +64,12 @@ class Character extends THREE.Object3D
 		this.movingForward = false;
 		this.movingBackward = true;
 	}
+
+	/*moveUp ()
+	{
+		this.jumping = true;
+	}*/
+
 	setX(x)
 	{
 		this.position.x=x;
@@ -105,11 +112,21 @@ class Character extends THREE.Object3D
 		var charCube = new THREE.Box3 (new THREE.Vector3(this.x-1.9,this.y-1.9,this.z-1.9),new THREE.Vector3(this.x+1.9,this.y+1.9,this.z+1.9));
 		var inAir=false;
 		var highest=-Infinity;
+
+		/*if (this.jumping)
+		{
+			var curr = this.y
+			while (this.y <= 10)
+			{
+				this.setY (this.y + this.ySpeed);
+			}//While loop to keep going till jump is at max
+			this.jumping = false;
+		}//If for when you are on a surface*/
 		
 	
-		if(this.y>-2.5)//if in air
+		if (this.y > -2.5)//if in air but not while jumping
 		{
-			
+			if (this.y > 10) { this.jumping = false; }
 			var collides=false;
 			for(var i=0;i<this.obstructions.children.length;i++)
 			{
@@ -120,7 +137,6 @@ class Character extends THREE.Object3D
 				
 				if(this.SquareIntersect(charCube,obsBox))
 				{
-					
 					collides=true;
 					obsBox.setFromObject(this.obstructions.children[i]);
 					this.setY(this.y-this.distanceCubeCube(charCube,obsBox));
@@ -129,7 +145,16 @@ class Character extends THREE.Object3D
 			}
 			if(!collides)
 			{
-				this.setY(this.y-this.ySpeed);
+				if (this.jumping)
+				{
+					this.setY(this.y+this.ySpeed);
+					this.setX(this.x-this.ySpeed);
+				}
+				else
+				{
+					this.setY(this.y-this.ySpeed);
+					this.setX(this.x-this.ySpeed);	
+				}
 				this.movingLeft=false;
 				this.movingRight=false;
 				this.movingForward=false;
@@ -141,8 +166,6 @@ class Character extends THREE.Object3D
 				//this.ySpeed=0;
 				this.canJump=true;
 			}
-			
-			
 		}
 		else
 		{
@@ -151,7 +174,6 @@ class Character extends THREE.Object3D
 			{
 				this.setY(-2.5);
 			}
-			
 		}
 	
 		if(this.movingLeft)//do the left right forward backwards collisions for actual obstructions
@@ -353,9 +375,15 @@ class Character extends THREE.Object3D
 	
 	doJump()
 	{
-		if(this.canJump)
+		if (!this.jumping)
 		{
-			this.ySpeed-=15;
+			//this.ySpeed+=15;
+			this.setY (-2.4);
+			this.jumping = true;
+			//this.setY (this.y + 1);
+			//this.vAngle += this.ySpeed;
+			//this.setY (Math.abs (Math.sin (this.vAngle) * 10) - 3);
+			//this.setY (this.y + 0.5);
 		}
 	}
 	
@@ -419,7 +447,6 @@ class Character extends THREE.Object3D
 	{
 		var closestPoint=new THREE.Vector3();
 		cube.clampPoint( sphere.center, closestPoint );
-		return Math.sqrt(closestPoint.distanceToSquared( sphere.center )) - sphere.radius-0.1;//last number is offset, the space between the two shapes. the smaller this is, the more ofter unexpected collisions happen
-					
+		return Math.sqrt(closestPoint.distanceToSquared( sphere.center )) - sphere.radius-0.1;//last number is offset, the space between the two shapes. the smaller this is, the more ofter unexpected collisions happen	
 	}
 }

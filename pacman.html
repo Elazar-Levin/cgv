@@ -471,12 +471,8 @@ function makeSurfaces()
  */
  
  
- 
- 
- 
-function updateForFrame() {
-
-
+function updateForFrame() 
+{
  	var pacSphere;
 	var paccy = frameNumber % 20;
     if (paccy > 10) //do opening and closing of mouth animation
@@ -484,11 +480,7 @@ function updateForFrame() {
         paccy = 20 - paccy;
     }
 	
-	
-	
-    
 	objPac.animate(paccy);
-	
 	//if(level==0)//if still on ground floor
 	//{
 	//	//if(myPac.position.y-PAC_RADIUS-0.001>=floor.position.y)//stay on floor
@@ -505,8 +497,6 @@ function updateForFrame() {
 	
 	objPac.doCollisions();
 	
-	
-	
 	if(halloween)
 	{
 		objPac.transform.add(halloweenLight);
@@ -522,9 +512,6 @@ function updateForFrame() {
 		{
 			obstructions.children[i].material.emissive.set("blue");
 		}
-		
-		
-		
 		
 	}
 	else
@@ -641,8 +628,9 @@ function onDocumentKeyDown(event) {
 		//{
 	//		jumping =true;
 	//	}
-		objPac.setPos(7,10,7);
-		//objPac.doJump();
+		//objPac.setPos(7,10,7);
+		objPac.doJump();
+		//halloween = !halloween;
     }
 	else if(keyCode==49)//1
 	{
