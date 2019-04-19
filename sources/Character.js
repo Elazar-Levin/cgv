@@ -25,6 +25,11 @@ class Character extends THREE.Object3D
 		this.food=food;
 		this.surfaces=surfaces;
 		this.futureDir="null";
+		this.jumping=false;
+		this.jumpingSpeed=0.75;
+		this.ySpeed=0.3;
+		this.yAccelerataion=0;
+		this.canJump=false;
 	}
 
 	moveLeft ()
@@ -102,18 +107,20 @@ class Character extends THREE.Object3D
 		var highest=-Infinity;
 		
 	
-		if(this.y>=-2.5)//if in air
+		if(this.y>-2.5)//if in air
 		{
+			
 			var collides=false;
 			for(var i=0;i<this.obstructions.children.length;i++)
 			{
-				this.obstructions.children[i].position.y+=VETICAL_VELOCITY;
+				this.obstructions.children[i].position.y+=this.ySpeed;
 				var obsBox= new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
 				obsBox.setFromObject(this.obstructions.children[i]);
-				this.obstructions.children[i].position.y-=VETICAL_VELOCITY;
+				this.obstructions.children[i].position.y-=this.ySpeed;
 				
 				if(this.SquareIntersect(charCube,obsBox))
 				{
+					
 					collides=true;
 					obsBox.setFromObject(this.obstructions.children[i]);
 					this.setY(this.y-this.distanceCubeCube(charCube,obsBox));
@@ -122,13 +129,28 @@ class Character extends THREE.Object3D
 			}
 			if(!collides)
 			{
-				this.setY(this.y-VETICAL_VELOCITY);
+				this.setY(this.y-this.ySpeed);
 				this.movingLeft=false;
 				this.movingRight=false;
 				this.movingForward=false;
 				this.movingBackward=false;
+				//this.ySpeed+=GRAVITY_CONSTANT;
+			}
+			else
+			{
+				//this.ySpeed=0;
+				this.canJump=true;
 			}
 			
+			
+		}
+		else
+		{
+			this.canJump=true;
+			if(this.y<-2.5)
+			{
+				this.setY(-2.5);
+			}
 			
 		}
 	
@@ -261,6 +283,7 @@ class Character extends THREE.Object3D
 		}
 		return true;
 	}
+
 	
 	canMoveRight()
 	{
@@ -326,6 +349,14 @@ class Character extends THREE.Object3D
 			}	
 		}
 		return true;
+	}
+	
+	doJump()
+	{
+		if(this.canJump)
+		{
+			this.ySpeed-=15;
+		}
 	}
 	
 	setDirection ()
