@@ -110,10 +110,10 @@ class Character extends THREE.Object3D
 		var charCube = new THREE.Box3 (new THREE.Vector3 (this.x - 1.9, this.y - 1.9, this.z - 1.9) ,new THREE.Vector3 (this.x + 1.9, this.y + 1.9, this.z + 1.9));
 		var inAir = false;
 		var highest =- Infinity;
-	
+		this.setY(this.y-this.ySpeed);//always apply gravity
 		if (this.y > -2.5)//if in air but not while jumping
 		{
-			if (this.y > 5) { this.jumping = false; }
+			this.setY(this.y+this.ySpeed);//if in air temporarily switch off gravity
 			var collides = false;
 			for (var i = 0; i < this.obstructions.children.length; i++)
 			{
@@ -132,6 +132,9 @@ class Character extends THREE.Object3D
 			}
 			if (!collides)
 			{
+				this.setY(this.y-this.ySpeed);//were in the air, switch gravity back on
+				
+				/*
 				if (this.jumping)
 				{
 					if (this.movingLeft)
@@ -179,11 +182,12 @@ class Character extends THREE.Object3D
 						this.setX(this.x - this.ySpeed);
 					}//If for when jumping in down direction	
 				}
+				*/
 				this.movingLeft=false;
 				this.movingRight=false;
 				this.movingForward=false;
 				this.movingBackward=false;
-				//this.ySpeed+=GRAVITY_CONSTANT;
+				this.ySpeed+=GRAVITY_CONSTANT; //make falling speed faster every frame
 			}
 			else
 			{
@@ -193,6 +197,7 @@ class Character extends THREE.Object3D
 		}
 		else
 		{
+			this.ySpeed=0;//on ground, reset gravity
 			this.canJump = true;
 			if (this.y < -2.5)
 			{
@@ -412,8 +417,8 @@ class Character extends THREE.Object3D
 	{
 		if (!this.jumping)
 		{
-			//this.ySpeed+=15;
-			this.setY (-2.4);  //ye i'll get rid of this i promise
+			this.ySpeed=-1;//set ySpeed for jumping
+			//this.setY (-2.4);  //ye i'll get rid of this i promise
 			this.jumping = true;
 			//this.setY (this.y + 1);
 			//this.vAngle += this.ySpeed;

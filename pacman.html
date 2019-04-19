@@ -422,18 +422,7 @@ function updateForFrame()
     }
 	
 	objPac.animate(paccy);
-	//if(level==0)//if still on ground floor
-	//{
-	//	//if(myPac.position.y-PAC_RADIUS-0.001>=floor.position.y)//stay on floor
-	//	if(objPac.y-PAC_RADIUS-0.001>=floor.position.y)
-	//	{
-	//		
-	//		//myPac.position.y-=VETICAL_VELOCITY;
-	//		objPac.setY(objPac.y-VETICAL_VELOCITY);
-	//	
-	//	
-	//	}
-	//}
+
 	objPac.setDirection();
 	
 	objPac.doCollisions();
@@ -503,7 +492,13 @@ function updateForFrame()
 		{
 			powerPelletTimer--;
 		}
+		
 		//do power mode logic here
+		halloween=true;
+	}
+	else
+	{
+		halloween=false;
 	}
 }
 
