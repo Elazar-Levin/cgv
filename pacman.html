@@ -43,22 +43,29 @@ var sun;//pixelated sun object, made of blocks, with glow inside
 var cloud;//pixelated cloud object
 var sunBlock;
 var cloudBlock;
+var powerPellet;
 
 
 var clouds;// object containing pixelated cloud objects
 var pellets;//Object3D containing all pellets
 var obstructions;//Object3D containing all walls/obstructions
 var surfaces;//Object3D containing all the surfaces that characters can walk on//doesnt work
+var powerPellets;//Object3D containing all powerPellets
 
 var level=0;// current floor pacman is on, so we can do collisions
 var cameraMode=1;//3 modes, depending on which number button pressed eg. 1 is fixed full view,2 is 3rd person, 3 is 1st person// not properly done yet
 var halloween=false;//whether halloween mode is on
+var powerMode=false;
+var powerPelletEaten=false;
 
 var mainCamera;
 var thirdCamera;
 
 var pelletsLeft=true;
 
+var score;
+
+var powerPelletTimer=0;
 
 var lrAcceleration=0;//left/right acceleration
 var fbAcceleration=0;//forward/backward acceleration
@@ -92,7 +99,7 @@ function render() {
  */
 function createWorld() {
 	
-	
+	score=0;
 
 
 	
@@ -103,6 +110,7 @@ function createWorld() {
 	surfaces=new THREE.Object3D();
 	clouds=new THREE.Object3D();
 	cloud=new THREE.Object3D();	
+	powerPellets=new THREE.Object3D(); 
 	 
     renderer.setClearColor("blue"); // Background color for scene.
     scene = new THREE.Scene();
@@ -190,6 +198,10 @@ function createWorld() {
 	
 	makeLevel(1);
 
+	powerPellet=new THREE.Mesh(new THREE.SphereGeometry(1,16,16),new THREE.MeshPhongMaterial({color:'skyblue',side: THREE.DoubleSide,name: "powerpellet"}));
+	powerPellet.position.set(12,-3,12);
+	powerPellets.add(powerPellet);
+	
 	//uncomment all to make floor grassy.only works on firefox//doesnt look too great, but can improve
 	
 	//const loader = new THREE.TextureLoader();
@@ -270,10 +282,10 @@ function createWorld() {
 //	surfaces.add(floorCollider);
 	
 	
-	objPac = new Character (PAC_SPEED, 0,0, 0, myPac, pacmanGeometries,obstructions,surfaces,pellets);//make this pacman
+	objPac = new Character (PAC_SPEED, 0,0, 0, myPac, pacmanGeometries,obstructions,pellets,powerPellets);//make this pacman
 	
-	//scene.add(camera);
-	
+	scene.add(camera);
+	scene.add(powerPellets)
 	scene.add(clouds);
 	scene.add(floor);
 	scene.add(obstructions);
@@ -511,6 +523,34 @@ function updateForFrame() {
 		camera=thirdCamera;
 		objPac.add(camera);
 	}
+	
+	if(powerPelletEaten)
+	{
+		powerPelletEaten=false;
+		powerMode=true;
+		powerPelletTimer=100000;//timer for how long power mode lasts
+	}
+	if(powerMode)
+	{
+		if(powerPelletTimer==0)
+		{
+			powerMode=false;
+		}
+	}
+	
+	if(powerMode)
+	{
+		if(powerPelletTimer>0)
+		{
+			powerPelletTimer--;
+		}
+	}
+	
+	if(powerMode)
+	{
+		//do power mode logic here
+	}
+	
 }
 
 
@@ -659,7 +699,7 @@ function init() {
 	stats=createStats();
 	document.body.appendChild( stats.domElement );
 	document.addEventListener("keydown", onDocumentKeyDown, false);
-	resize();//allows game to be fullscreen without blurring
+	resize();//allows game to be fullscreen without blurring 
     createWorld();
     installOrbitControls();
     render();
