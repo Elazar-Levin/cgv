@@ -273,6 +273,10 @@ function createWorld() {
 	}
 	
 	//obstructions.add(wall);
+	var myPellet=pellet.clone();
+	myPellet.position.set(8,0,8);
+	pellets.add(myPellet);
+	
 	
 	myPac.add(pacMouth);
 	myPac.add(pacman);
@@ -480,7 +484,7 @@ function updateForFrame() {
 		scene.remove(light3);
 		pacman.material.emissive.set('orange');
 		pellet.material.emissive.set('white');
-		wall.material.emissive.set('purple');
+		powerPellet.material.emissive.set('yellow');
 		floor.material.color.set('white');
 		renderer.setClearColor("black"); 
 		for(var i=0;i<obstructions.children.length;i++)
@@ -501,7 +505,7 @@ function updateForFrame() {
 		scene.add(light3);
 		pacman.material.emissive.set('black');
 		pellet.material.emissive.set('black');
-		wall.material.emissive.set('black');
+		powerPellet.material.emissive.set('black');
 		renderer.setClearColor("blue"); 
 		floor.material.color.set('green');
 		for(var i=0;i<obstructions.children.length;i++)
@@ -528,7 +532,7 @@ function updateForFrame() {
 	{
 		powerPelletEaten=false;
 		powerMode=true;
-		powerPelletTimer=100000;//timer for how long power mode lasts
+		powerPelletTimer=500;//timer for how long power mode lasts
 	}
 	if(powerMode)
 	{
@@ -542,7 +546,6 @@ function updateForFrame() {
 		}
 		//do power mode logic here
 	}
-	
 	
 	
 }

@@ -30,6 +30,7 @@ class Character extends THREE.Object3D
 		this.yAccelerataion=0;
 		this.canJump=false;
 		this.powerPellets=powerPellets;
+		this.score=0;
 	}
 
 	moveLeft ()
@@ -257,7 +258,8 @@ class Character extends THREE.Object3D
 				if(this.SphereIntersect(charSphere,foodPoint))
 				{
 					this.food.remove(this.food.children[i]);
-					score++;
+					this.score++;
+					console.log(this.food.children.length);
 					return;
 				}
 			}
