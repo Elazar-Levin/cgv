@@ -110,10 +110,10 @@ class Character extends THREE.Object3D
 		var charCube = new THREE.Box3 (new THREE.Vector3 (this.x - 1.9, this.y - 1.9, this.z - 1.9) ,new THREE.Vector3 (this.x + 1.9, this.y + 1.9, this.z + 1.9));
 		var inAir = false;
 		var highest =- Infinity;
-		this.setY(this.y-this.ySpeed);//always apply gravity
+		this.setY (this.y - this.ySpeed);//always apply gravity
 		if (this.y > -2.5)//if in air but not while jumping
 		{
-			this.setY(this.y+this.ySpeed);//if in air temporarily switch off gravity
+			this.setY (this.y + this.ySpeed);//if in air temporarily switch off gravity
 			var collides = false;
 			for (var i = 0; i < this.obstructions.children.length; i++)
 			{
@@ -132,7 +132,7 @@ class Character extends THREE.Object3D
 			}
 			if (!collides)
 			{
-				this.setY(this.y-this.ySpeed);//were in the air, switch gravity back on
+				this.setY (this.y - this.ySpeed);//were in the air, switch gravity back on
 				
 				/*
 				if (this.jumping)

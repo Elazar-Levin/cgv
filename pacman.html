@@ -12,6 +12,14 @@
     width:100%;
     height:100%;
 }
+/*#hudcanvas {
+    position:fixed;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    opacity: 0.5;
+}*/
 </style>
 <script src="sources/three.js"></script>
 <script src="sources/OrbitControls.js"></script>
@@ -81,13 +89,22 @@ var light2;//a general light at the top of the screen
 var halloweenLight;
 var light3;//light illuminating block
 
+
+var sceneHUD;
+var cameraHUD;
+var hudBitmap;
+var hudTexture;
+var material;
+var plane;
+var planeGeometry;
+
 /**
  *  The render function draws the scene.
  */
 function render() 
 {
     renderer.render(scene, camera);
-	
+    //renderer.render(sceneHUD, cameraHUD);	
 }
 //TODO: make rotation of pacman more gradual for 3rd person perspective
 
@@ -96,6 +113,38 @@ function render()
  */
 function createWorld()
 {
+	var hudCanvas = document.createElement('canvas');
+	// Again, set dimensions to fit the screen.
+	hudCanvas.width = canvas.width;
+	hudCanvas.height = canvas.height;
+	hudCanvas.style.backgoundColor = "transparent";
+
+
+	// Get 2D context and draw something supercool.
+	hudBitmap = hudCanvas.getContext ('2d');
+	hudBitmap.font = "Normal 40px Arial";
+	hudBitmap.textAlign = 'center';
+	hudBitmap.fillStyle = "rgba(245 ,245, 245, 0.75)";  
+	hudBitmap.fillText('Initializing...', canvas.width / 2, canvas.height / 2); 
+
+	cameraHUD = new THREE.OrthographicCamera(-canvas.width/2, canvas.width/2, canvas.height/2, -canvas.height/2, 0, 30 );
+	sceneHUD = new THREE.Scene();
+	hudTexture = new THREE.Texture (hudCanvas);
+	hudTexture.needsUpdate = true;
+	material = new THREE.MeshBasicMaterial ( {map: hudTexture} );
+	material.transparent = true;
+	planeGeometry = new THREE.PlaneGeometry( canvas.width, canvas.height );
+	plane = new THREE.Mesh( planeGeometry, material );
+	sceneHUD.add( plane );
+	     
+	  // Create the camera and set the viewport to match the screen dimensions.
+	  
+	  // Create also a custom scene for HUD.
+		// Create texture from rendered graphics.
+	  // Create HUD material.
+
+	  // Create plane to render the HUD. This plane fill the whole screen.
+
 	score=0;
 	
 	sun=new THREE.Object3D();
@@ -414,6 +463,11 @@ function makeLevel(levelNo)
  
 function updateForFrame() 
 {
+	hudBitmap.clearRect(0, 0, canvas.width, canvas.height);
+    hudBitmap.fillText("Why u no behind :((((((((" , canvas.width / 2, canvas.height / 2);
+  	hudTexture.needsUpdate = true;
+
+
  	var pacSphere;
 	var paccy = frameNumber % 20;
     if (paccy > 10) //do opening and closing of mouth animation
@@ -634,6 +688,7 @@ function resize()
 function init() {
     try {
         canvas = document.getElementById("glcanvas");
+        //hudcanvas = document.getElementById("hudcanvas");
         renderer = new THREE.WebGLRenderer({
             canvas: canvas,
             antialias: true,
@@ -669,6 +724,7 @@ function init() {
 
 
 <canvas width="window.innerWidth" height="window.innerHeight" id="glcanvas"></canvas>
+<!--<canvas width="window.innerWidth" height="window.innerHeight" id="hudcanvas"></canvas> -->
 
 
 </body>
