@@ -470,9 +470,14 @@ function updateForFrame()
 		
 	}
 	else if(cameraMode==2)
-	{
+	{//this is where all the shit that controls the third person camera goes
 		scene.remove(camera);
+		thirdCamera.position.z =0; // <-- this is relative to the cube's position
+		thirdCamera.position.x=20;//20
+		thirdCamera.position.y=20;
+		thirdCamera.lookAt(objPac.position);
 		camera=thirdCamera;
+		
 		objPac.add(camera);
 	}
 	
