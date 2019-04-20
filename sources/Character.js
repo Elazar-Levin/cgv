@@ -133,70 +133,29 @@ class Character extends THREE.Object3D
 			if (!collides)
 			{
 				this.setY (this.y - this.ySpeed);//were in the air, switch gravity back on
-				
-				/*
-				if (this.jumping)
+				if(!this.jumping)
 				{
-					if (this.movingLeft)
-					{
-						this.setY(this.y + this.ySpeed);
-						this.setZ(this.z - this.ySpeed);
-					}//If for when jumping in left direction
-					if (this.movingRight)
-					{
-						this.setY(this.y + this.ySpeed);
-						this.setZ(this.z + this.ySpeed);
-					}//If for when jumping in right direction
-					if (this.movingForward)
-					{
-						this.setY(this.y + this.ySpeed);
-						this.setX(this.x + this.ySpeed);
-					}//If for when jumping in up direction
-					if (this.movingBackward)
-					{
-						this.setY(this.y + this.ySpeed);
-						this.setX(this.x - this.ySpeed);
-					}//If for when jumping in down direction
-					
+					this.movingLeft=false;
+					this.movingRight=false;
+					this.movingForward=false;
+					this.movingBackward=false;
 				}
-				else
-				{
-					if (this.movingLeft)
-					{
-						this.setY(this.y - this.ySpeed);
-						this.setZ(this.z - this.ySpeed);
-					}//If for when jumping in left direction
-					if (this.movingRight)
-					{
-						this.setY(this.y - this.ySpeed);
-						this.setZ(this.z + this.ySpeed);
-					}//If for when jumping in right direction
-					if (this.movingForward)
-					{
-						this.setY(this.y - this.ySpeed);
-						this.setX(this.x + this.ySpeed);
-					}//If for when jumping in up direction
-					if (this.movingBackward)
-					{
-						this.setY(this.y - this.ySpeed);
-						this.setX(this.x - this.ySpeed);
-					}//If for when jumping in down direction	
-				}
-				*/
-				this.movingLeft=false;
-				this.movingRight=false;
-				this.movingForward=false;
-				this.movingBackward=false;
 				this.ySpeed+=GRAVITY_CONSTANT; //make falling speed faster every frame
 			}
 			else
 			{
 				//this.ySpeed=0;
+				this.jumping=false;
 				this.canJump = true;
 			}
 		}
 		else
 		{
+			if(this.jumping && this.ySpeed>0)
+			{
+				this.jumping=false;
+				
+			}
 			this.ySpeed=0;//on ground, reset gravity
 			this.canJump = true;
 			if (this.y < -2.5)
@@ -204,6 +163,7 @@ class Character extends THREE.Object3D
 				this.setY (-2.5);
 			}
 		}
+
 	
 		if(this.movingLeft)//do the left right forward backwards collisions for actual obstructions
 		{
