@@ -636,13 +636,8 @@ function onDocumentKeyDown(event) {
     } 
     else if (keyCode == 32) 
 	{//space
-      //  if(!objPac.jumping && objPac.canJump())
-		//{
-	//		jumping =true;
-	//	}
-		//objPac.setPos(7,10,7);
-		objPac.doJump();
-		//halloween = !halloween;
+    	objPac.doJump();
+		
     }
 	else if(keyCode==49)//1
 	{
@@ -658,13 +653,23 @@ function onDocumentKeyDown(event) {
 	}
 	else if(keyCode==72)//h
 	{
+	//desnt work anymore, only activated when power pellet eaten, may change
 		halloween= !halloween;
 	}
 	if(keyCode==82)//r
 	{
+	//reset, not the right solution, but a solution for now ;-p
 		init();
 	}
 }
+
+function reset()
+{
+
+
+
+}
+
 
 function resize()
 {
