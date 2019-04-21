@@ -66,8 +66,10 @@ var halloween=false;//whether halloween mode is on
 var powerMode=false;
 var powerPelletEaten=false;
 
+
 var mainCamera;
 var thirdCamera;
+var miniMapCamera;
 
 var pelletsLeft=true;
 
@@ -176,6 +178,7 @@ function createWorld()
 	var firstCamera=new THREE.PerspectiveCamera;
 	firstCamera.position.z=75;
 	
+	miniMapCamera=new THREE.OrthographicCamera();
 	
     halloweenLight = new THREE.PointLight(0xffa500,1,0,2);//add this light to myPac, and disable all other lights for an awesome spooky effect
 	light= new THREE.PointLight(0xffffff,0.5,0,2);
