@@ -29,14 +29,14 @@
     height: 100%;
     z-index: 100;
 }
-/*#hudcanvas {
+<!--/*#hudcanvas {
     position:fixed;
     left:0;
     top:0;
     width:100%;
     height:100%;
     opacity: 0.5;
-}*/
+}*/-->
 </style>
 <script src="sources/three.js"></script>
 <script src="sources/OrbitControls.js"></script>
@@ -335,7 +335,7 @@ function createWorld()
 	var ball1=new THREE.Mesh(new THREE.SphereGeometry(2,16,16),new THREE.MeshPhongMaterial({color:'green',side: THREE.DoubleSide,name: "ghost"}));
 	
 	objPac = new Character (PAC_SPEED, 0,0, 0, myPac, pacmanGeometries,obstructions,pellets,powerPellets);//make this pacman
-	ghost1 = new Character (0.25, -10,0, 0, ball1, pacmanGeometries,obstructions);//make this pacman
+	ghost1 = new Character (0.5, -10,0, 0, ball1, pacmanGeometries,obstructions);//make this pacman
 	
 	scene.add(camera);
 	scene.add(powerPellets)
@@ -500,7 +500,8 @@ function updateForFrame()
     hudBitmap.fillText("Why u no behind :((((((((" , canvas.width / 2, canvas.height / 2);
   	hudTexture.needsUpdate = true;*/
 
-	ghost1.moveForward();
+	//ghost1.moveForward();
+	
   	var myDiv = document.getElementById("hud");
  	myDiv.innerHTML = "Score: " + objPac.score;
 
@@ -518,9 +519,12 @@ function updateForFrame()
 	
 	objPac.doCollisions();
 	
+	ghost1.findChar(objPac);
+	
 	ghost1.setDirection();
 	
 	ghost1.doCollisions();
+	
 	
 	
 	if(halloween)

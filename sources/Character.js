@@ -449,4 +449,26 @@ class Character extends THREE.Object3D
 		cube.clampPoint (sphere.center, closestPoint);
 		return Math.sqrt (closestPoint.distanceToSquared (sphere.center)) - sphere.radius - 0.1;//last number is offset, the space between the two shapes. the smaller this is, the more ofter unexpected collisions happen	
 	}//Method that returns distance between sphere and cube mesh collider
+	
+	findChar(char1)
+	{
+		if(char1.position.z<this.position.z)
+		{
+			this.moveLeft();
+		}
+		else if(char1.position.x<this.position.x)
+		{
+			this.moveBackward();
+		}
+		else if(char1.position.z>this.position.z)
+		{
+			this.moveRight();
+		}
+		else
+		{
+			this.moveForward();
+		}
+	}
+	
+	
 }
