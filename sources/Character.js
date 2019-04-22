@@ -108,7 +108,7 @@ class Character extends THREE.Object3D
 	{
 		//do downward collisons first, then do horizontal collisions, probably if/else
 		var charSphere = new THREE.Sphere (this.getPos(), 2);
-		var charCube = new THREE.Box3 (new THREE.Vector3 (this.x - 1.9, this.y - 2, this.z - 1.9) ,new THREE.Vector3 (this.x + 1.9, this.y + 2, this.z + 1.9));
+		var charCube = new THREE.Box3 (new THREE.Vector3 (this.x - 1.9, this.y - 2, this.z - 1.9) ,new THREE.Vector3 (this.x + 1.9, this.y + 1.9, this.z + 1.9));
 		var inAir = false;
 		var highest =- Infinity;
 		this.setY (this.y - this.ySpeed);//always apply gravity
@@ -456,14 +456,15 @@ class Character extends THREE.Object3D
 		{
 			this.moveLeft();
 		}
-		else if(char1.position.x<this.position.x)
-		{
-			this.moveBackward();
-		}
 		else if(char1.position.z>this.position.z)
 		{
 			this.moveRight();
 		}
+		else if(char1.position.x<this.position.x)
+		{
+			this.moveBackward();
+		}
+		
 		else
 		{
 			this.moveForward();

@@ -16,7 +16,7 @@
 	position: absolute;
 	bottom: 10px;
 	left :10px;
-	width: 100%;
+	
 	text-align: left;
 	z-index: 100;
 	display:block;
@@ -333,14 +333,16 @@ function createWorld()
 	
 	var ghostHolder=new THREE.Object3D();
 	var ball1=new THREE.Mesh(new THREE.SphereGeometry(2,16,16),new THREE.MeshPhongMaterial({color:'green',side: THREE.DoubleSide,name: "ghost"}));
-	
+	obstructions.add(floor);
 	objPac = new Character (PAC_SPEED, 0,0, 0, myPac, pacmanGeometries,obstructions,pellets,powerPellets);//make this pacman
-	ghost1 = new Character (0.5, -10,0, 0, ball1, pacmanGeometries,obstructions);//make this pacman
+	ghost1 = new Character (0.5, 12,5, 12, ball1, pacmanGeometries,obstructions);//make first ghost
+	
+	
 	
 	scene.add(camera);
 	scene.add(powerPellets)
 	scene.add(clouds);
-	scene.add(floor);
+	//scene.add(floor);
 	scene.add(obstructions);
 	scene.add(sun);
     scene.add(objPac);
@@ -480,7 +482,9 @@ function makeLevel(levelNo)
 		makeBlock (8,-3,12,4,4,20);
 		makeBlock (16,-3,6,4,4,8);
 		makeBlock (16,-3,18,4,4,8);
-
+		//makeBlock (8,1,12,4,4,4);
+		//makeBlock (8,5,16,4,4,4);
+	
 		//T above ghost spawns
 		makeBlock (30,-3,12,16,4,4);
 		makeBlock (36,-3,12,4,4,20);
