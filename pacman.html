@@ -70,7 +70,7 @@ var cloud;//pixelated cloud object
 var sunBlock;
 var cloudBlock;
 var powerPellet;
-
+var ghost1;//first ghost made by character.js
 
 var clouds;// object containing pixelated cloud objects
 var pellets;//Object3D containing all pellets
@@ -98,10 +98,9 @@ var powerPelletTimer=0;
 var lrAcceleration=0;//left/right acceleration
 var fbAcceleration=0;//forward/backward acceleration
 
-var MAX_ACCELERATION=0.5;//fastest speed pacman can achieve
 const GRAVITY_CONSTANT=0.1;//speed pacman falls if not on ground(gravity kinda)
-var PAC_RADIUS=2;//size of pacman
-var PAC_SPEED=0.5//speed //apparently has to have very specific values 
+const PAC_RADIUS=2;//size of pacman
+const PAC_SPEED=0.5//speed //apparently has to have very specific values 
 
 var light;  // A light shining from the top of pacman(looks really cool).
 var light2;//a general light at the top of the screen
@@ -332,7 +331,12 @@ function createWorld()
 	floorCollider.position.set(0,-5,0);
 //	surfaces.add(floorCollider);
 	
+	var ghostHolder=new THREE.Object3D();
+	var ball1=new THREE.Mesh(new THREE.SphereGeometry(2,16,16),new THREE.MeshPhongMaterial({color:'green',side: THREE.DoubleSide,name: "ghost"}));
+	
 	objPac = new Character (PAC_SPEED, 0,0, 0, myPac, pacmanGeometries,obstructions,pellets,powerPellets);//make this pacman
+	ghost1 = new Character (0.25, -10,0, 0, ball1, pacmanGeometries,obstructions);//make this pacman
+	
 	scene.add(camera);
 	scene.add(powerPellets)
 	scene.add(clouds);
@@ -340,6 +344,7 @@ function createWorld()
 	scene.add(obstructions);
 	scene.add(sun);
     scene.add(objPac);
+    scene.add(ghost1);
 	scene.add(pellets);
 
 	//ctx.drawImage (gl.canvas, 0, 0);
@@ -357,6 +362,7 @@ function createStats() //allows us to see the frames per second, and the graph. 
 
 function makeCloud()
 {
+
 	//cloudBlock=new THREE.Mesh(new THREE.CubeGeometry(10,10,10),new THREE.MeshNormalMaterial({color:'white',side: THREE.DoubleSide,name: "cloud"}));//coul almost sunsetty clouds//actually throws error
 	cloudBlock=new THREE.Mesh(new THREE.CubeGeometry(10,10,10),new THREE.MeshPhysicalMaterial({color:'white',side: THREE.DoubleSide,name: "cloud"}));//greyish very defined clouds
 	//cloudBlock=new THREE.Mesh(new THREE.CubeGeometry(10,10,10),new THREE.MeshToonMaterial({color:'white',side: THREE.DoubleSide,name: "cloud"}));//normal, undefined clouds
@@ -494,6 +500,7 @@ function updateForFrame()
     hudBitmap.fillText("Why u no behind :((((((((" , canvas.width / 2, canvas.height / 2);
   	hudTexture.needsUpdate = true;*/
 
+	ghost1.moveForward();
   	var myDiv = document.getElementById("hud");
  	myDiv.innerHTML = "Score: " + objPac.score;
 
@@ -510,6 +517,11 @@ function updateForFrame()
 	objPac.setDirection();
 	
 	objPac.doCollisions();
+	
+	ghost1.setDirection();
+	
+	ghost1.doCollisions();
+	
 	
 	if(halloween)
 	{
