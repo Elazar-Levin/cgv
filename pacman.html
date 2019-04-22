@@ -457,15 +457,27 @@ function makeLevel(levelNo)
 	{
 		//make surfaces or something, so that characters can walk on walls 
 		//start of cross thing
-		makeBlock(-2,-3,8,24,4,4);
+		/*makeBlock(-2,-3,8,24,4,4);
 		makeBlock(-2,-3,16,24,4,4);
 		makeBlock(8,-3,-4,4,4,20);
 		makeBlock(8,-3,28,4,4,20);
 		makeBlock(26,-3,8,24,4,4);
 		makeBlock(26,-3,16,24,4,4);
 		makeBlock(16,-3,-4,4,4,20);
-		makeBlock(16,-3,28,4,4,20);
+		makeBlock(16,-3,28,4,4,20);*/
 		//end of cross thing
+
+
+		//Makes the Centre block where ghosts will spawn
+		makeBlock (12,-3,0,12,4,4);
+		makeBlock (12,-3,24,12,4,4);
+		makeBlock (8,-3,12,4,4,20);
+		makeBlock (16,-3,6,4,4,8);
+		makeBlock (16,-3,18,4,4,8);
+
+		//T above ghost spawns
+		makeBlock (30,-3,12,16,4,4);
+		makeBlock (36,-3,12,4,4,20);
 	}
 }
 
