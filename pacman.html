@@ -333,7 +333,7 @@ function createWorld()
 	var ghostHolder=new THREE.Object3D();
 	var ball1=new THREE.Mesh(new THREE.SphereGeometry(2,16,16),new THREE.MeshPhongMaterial({color:'green',side: THREE.DoubleSide,name: "ghost"}));
 	//obstructions.add(floor);
-	objPac = new Character (PAC_SPEED, 0,0, 0, myPac, pacmanGeometries,obstructions,pellets,powerPellets);//make this pacman
+	objPac = new Character (PAC_SPEED, -4,0, 8, myPac, pacmanGeometries,obstructions,pellets,powerPellets);//make this pacman
 	ghost1 = new Character (0.5, 12,5, 12, ball1, pacmanGeometries,obstructions);//make first ghost
 	
 	
@@ -460,7 +460,7 @@ function makeBlock(x,y,z,width,height,depth)
 
 function makeLevel(levelNo)
 {
-	if(levelNo==1)
+	if (levelNo == 1)
 	{
 		//make surfaces or something, so that characters can walk on walls 
 		//start of cross thing
@@ -485,8 +485,27 @@ function makeLevel(levelNo)
 		//makeBlock (8,5,16,4,4,4);
 	
 		//T above ghost spawns
-		makeBlock (30,-3,12,16,4,4);
-		makeBlock (36,-3,12,4,4,20);
+		makeBlock (26,-3,12,8,4,4);
+		makeBlock (32,-3,12,4,4,52);
+		
+		//Upside down T  
+		makeBlock (-2,-3,12,8,4,4);
+		makeBlock (-8,-3,12,4,4,52);
+		
+		//Two vertical blocks left and right of the spawn
+		makeBlock (12,-3,-8,12,4,4);
+		makeBlock (12,-3,32,12,4,4);
+		
+		//Horizontal lines next to Ts, above and below spawn	
+		makeBlock (0,-3,-2,4,4,16);
+		makeBlock (0,-3,26,4,4,16);
+		makeBlock (24,-3,-2,4,4,16);
+		makeBlock (24,-3,26,4,4,16);
+		
+		//
+		makeBlock (16, -3, -16, 20, 4, 4);
+		makeBlock (-4, -3, -16, 12, 4, 4);
+		makeBlock (16, -3, 40, 36, 4, 4);
 	}
 }
 
@@ -506,7 +525,7 @@ function updateForFrame()
 	//ghost1.moveForward();
 	
   	var myDiv = document.getElementById("hud");
- 	myDiv.innerHTML = "Score: " + objPac.score;
+ 	myDiv.innerHTML = "Score: " + objPac.score + objPac.x + "   " + objPac.z;
 
 
  	var pacSphere;
