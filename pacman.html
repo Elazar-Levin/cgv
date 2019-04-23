@@ -185,7 +185,15 @@ function createWorld()
 	var firstCamera=new THREE.PerspectiveCamera;
 	firstCamera.position.z=75;
 	
-	miniMapCamera=new THREE.OrthographicCamera();
+	miniMapCamera=new THREE.OrthographicCamera(window.innerWidth / - 16-100, window.innerWidth / 16+100,window.innerHeight / 16+100, window.innerHeight / - 16-100, -10,100 );
+	
+	miniMapCamera.rotation.x=-Math.PI/2 ;
+	miniMapCamera.rotation.z=-Math.PI/2 ;
+	miniMapCamera.position.x = 0;
+    miniMapCamera.position.y = 2;
+    miniMapCamera.position.z = 0;
+
+	//camera=miniMapCamera;
 	
     halloweenLight = new THREE.PointLight(0xffa500,1,0,2);//add this light to myPac, and disable all other lights for an awesome spooky effect
 	light= new THREE.PointLight(0xffffff,0.5,0,2);
@@ -260,38 +268,7 @@ function createWorld()
 	}));
 	floor.position.set(0,-5,0);
 	floor.rotation.x=Math.PI/2;//make floor on bottom 
-	
-	/*heart shape, probably wont use
-	var shape = new THREE.Shape();
-	var x = -2.5;
-	var y = -5;
-	shape.moveTo(x + 2.5, y + 2.5);
-	shape.bezierCurveTo(x + 2.5, y + 2.5, x + 2, y, x, y);
-	shape.bezierCurveTo(x - 3, y, x - 3, y + 3.5, x - 3, y + 3.5);
-	shape.bezierCurveTo(x - 3, y + 5.5, x - 1.5, y + 7.7, x + 2.5, y + 9.5);
-	shape.bezierCurveTo(x + 6, y + 7.7, x + 8, y + 4.5, x + 8, y + 3.5);
-	shape.bezierCurveTo(x + 8, y + 3.5, x + 8, y, x + 5, y);
-	shape.bezierCurveTo(x + 3.5, y, x + 2.5, y + 2.5, x + 2.5, y + 2.5);
 
-	var extrudeSettings = {
-	  steps: 6,
-	  depth: 1,
-	  bevelEnabled: true,
-	  bevelThickness: 2,
-	  bevelSize: 5,
-	  bevelSegments: 5,
-	};
-
-	var geometry = new THREE.ExtrudeBufferGeometry(shape, extrudeSettings);
-	var heart=new THREE.Mesh(geometry,new THREE.MeshBasicMaterial({color:'red',side: THREE.DoubleSide}));
-	heart.scale.set(0.05,0.05,0.05);
-	heart.rotation.set(0,0,Math.PI);
-	heart.position.set(-10,0,0);
-	var heartContainer=new THREE.Object3D();
-	heartContainer.add(heart);
-	heartContainer.position.set(0,0,-5);
-	camera.add(heartContainer);
-	*/
 	pacman=new THREE.Mesh(pacmanGeometries[10],pacmanMaterial);
 	pacMouth=new THREE.Mesh(pacMouthGeometries[10],pacMouthMaterial);	
 	var pacEye=new THREE.Mesh(pacGeometry,eyeMaterial);
