@@ -16,7 +16,6 @@
 	position: absolute;
 	bottom: 10px;
 	left :10px;
-	
 	text-align: left;
 	z-index: 100;
 	display:block;
@@ -333,7 +332,7 @@ function createWorld()
 	
 	var ghostHolder=new THREE.Object3D();
 	var ball1=new THREE.Mesh(new THREE.SphereGeometry(2,16,16),new THREE.MeshPhongMaterial({color:'green',side: THREE.DoubleSide,name: "ghost"}));
-	obstructions.add(floor);
+	//obstructions.add(floor);
 	objPac = new Character (PAC_SPEED, 0,0, 0, myPac, pacmanGeometries,obstructions,pellets,powerPellets);//make this pacman
 	ghost1 = new Character (0.5, 12,5, 12, ball1, pacmanGeometries,obstructions);//make first ghost
 	
@@ -342,7 +341,7 @@ function createWorld()
 	scene.add(camera);
 	scene.add(powerPellets)
 	scene.add(clouds);
-	//scene.add(floor);
+	scene.add(floor);
 	scene.add(obstructions);
 	scene.add(sun);
     scene.add(objPac);

@@ -112,7 +112,7 @@ class Character extends THREE.Object3D
 		var inAir = false;
 		var highest =- Infinity;
 		this.setY (this.y - this.ySpeed);//always apply gravity
-		if (this.y > -2.5)//if in air but not while jumping
+		if (this.y > -3)//if in air but not while jumping
 		{
 			this.setY (this.y + this.ySpeed);//if in air temporarily switch off gravity
 			var collides = false;
@@ -159,9 +159,9 @@ class Character extends THREE.Object3D
 			}
 			this.ySpeed=0;//on ground, reset gravity
 			this.canJump = true;
-			if (this.y < -2.5)
+			if (this.y < -3)
 			{
-				this.setY (-2.5);
+				this.setY (-3);
 			}
 		}
 
