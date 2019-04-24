@@ -452,20 +452,19 @@ class Character extends THREE.Object3D
 	
 	findChar(char1)
 	{
-		if(char1.position.z<this.position.z)
+		if(char1.position.z<this.position.z && this.futureDir!="right")
 		{
 			this.futureDir="left";
 		}
-		else if(char1.position.z>this.position.z)
+		else if(char1.position.z>this.position.z && this.futureDir!="left")
 		{
 			this.futureDir="right";
 		}
-		else if(char1.position.x<this.position.x)
+		else if(char1.position.x<this.position.x && this.futureDir!="up")
 		{
 			this.futureDir="down";
 		}
-		
-		else
+		else 
 		{
 			this.futureDir="up";
 		}
