@@ -50,6 +50,8 @@
 
 var canvas, renderer, scene, camera,stats; // Standard three.js requirements.
 
+var minimapCanvas,minmapRenderer;//minimap stuff
+
 var controls;  // An OrbitControls object that is used to implement
                // rotation of the scene using the mouse.  (It actually rotates
                // the camera around the scene.)
@@ -124,7 +126,7 @@ var planeGeometry;*/
 function render() 
 {
     renderer.render(scene, camera);
-    //renderer.render(sceneHUD, cameraHUD);	
+    minmapRenderer.render(scene, miniMapCamera);	
 }
 //TODO: make rotation of pacman more gradual for 3rd person perspective
 
@@ -751,6 +753,7 @@ function resize()
 function init() {
     try {
         canvas = document.getElementById ("glcanvas");
+		minimapCanvas=document.getElementById ("map");
         /*ctx = document.querySelector("#b").getContext("2d");
         canvas2 = cloneCanvas (canvas);*/
         //hudcanvas = document.getElementById("hudcanvas");
@@ -759,6 +762,11 @@ function init() {
             antialias: true,
             alpha: false
         });
+		minmapRenderer=new THREE.WebGLRenderer({
+			canvas:minimapCanvas,
+			antialias:true,
+			alpha:false
+		});
         //destCtx = document.getElementById ("canvas");
         //var d = destCtx.getContext('2d');
         //d.drawImage (canvas, 50, 50, 100, 100);
