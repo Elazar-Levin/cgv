@@ -25,7 +25,7 @@
     top: 0;
     right: 0;
     width: 200px;
-    height: 100%;
+    height: 200px;
     z-index: 100;
 }
 <!--/*#hudcanvas {
@@ -40,8 +40,6 @@
 <script src="sources/three.js"></script>
 <script src="sources/OrbitControls.js"></script>
 <script src="sources/stats.js"></script>
-<script src="sources/pagemap-1.0.0.min.js"></script>
-
 <script src="sources/Character.js"></script>
 
 <script>
@@ -126,7 +124,39 @@ var planeGeometry;*/
 function render() 
 {
     renderer.render(scene, camera);
-    minmapRenderer.render(scene, miniMapCamera);	
+	//make shit more visible
+	objPac.scale.set(2,2,2);
+	ghost1.scale.set(2,2,2);
+	for(var i=0;i<pellets.children.length;i++)
+	{
+		pellets.children[i].scale.set(3,3,3);
+		
+		
+	}	
+	for(var i=0;i<powerPellets.children.length;i++)
+	{
+		powerPellets.children[i].scale.set(3,3,3);
+		
+		
+	}
+	pellet.material.emissive.set('white');	
+	powerPellet.material.emissive.set('yellow');
+    minmapRenderer.render(scene, miniMapCamera);
+	//make shit less visible
+	objPac.scale.set(1,1,1);
+	ghost1.scale.set(1,1,1);
+	pellet.material.emissive.set('black');
+	powerPellet.material.emissive.set('black');
+	for(var i=0;i<pellets.children.length;i++)
+	{
+		pellets.children[i].scale.set(1,1,1);
+	}	
+	for(var i=0;i<powerPellets.children.length;i++)
+	{
+		powerPellets.children[i].scale.set(1,1,1);
+		
+		
+	}
 }
 //TODO: make rotation of pacman more gradual for 3rd person perspective
 
@@ -187,7 +217,7 @@ function createWorld()
 	var firstCamera=new THREE.PerspectiveCamera;
 	firstCamera.position.z=75;
 	
-	miniMapCamera=new THREE.OrthographicCamera(window.innerWidth / - 16-100, window.innerWidth / 16+100,window.innerHeight / 16+100, window.innerHeight / - 16-100, -10,100 );
+	miniMapCamera=new THREE.OrthographicCamera(window.innerWidth / - 16-20, window.innerWidth / 16+20,window.innerHeight / 16+20, window.innerHeight / - 16-20, -10,100 );
 	
 	miniMapCamera.rotation.x=-Math.PI/2 ;
 	miniMapCamera.rotation.z=-Math.PI/2 ;
@@ -216,7 +246,11 @@ function createWorld()
 	var gl = canvas.getContext("webgl");
 	//var ctx = canvas.getContext ("2d");
 	gl.viewport(0, 0, canvas.width, canvas.height);// makes the viewport the same size as the canvas
+	var gl2 = minimapCanvas.getContext("webgl");
+	//var ctx = canvas.getContext ("2d");
+	gl2.viewport(0, 0, minimapCanvas.width, minimapCanvas.height);
     //------------------- Create the scene's visible objects ----------------------
+	
  
     var numFrames = 40;
     var offset;
@@ -504,7 +538,7 @@ function updateForFrame()
 	//ghost1.moveForward();
 	
   	var myDiv = document.getElementById("hud");
- 	myDiv.innerHTML = "Score: " + objPac.score + objPac.x + "   " + objPac.z;
+ 	myDiv.innerHTML = "Score: " + objPac.score;
 
 
  	var pacSphere;
@@ -705,14 +739,14 @@ function onDocumentKeyDown(event) {
 	}
 	if(keyCode==82)//r
 	{
-	//reset, not the right solution, but a solution for now ;-p
-		init();
+	
+		reset();
 	}
 }
 
 function reset()
 {
-
+	init();//reset, not the right solution, but a solution for now ;-p
 }
 
 function cloneCanvas (oldCanvas) 
