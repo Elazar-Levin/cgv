@@ -104,6 +104,14 @@ class Character extends THREE.Object3D
 		}//For loop
 	}
 
+	resetMovement()
+	{
+		this.movingLeft=false;
+		this.movingRight=false;
+		this.movingForward=false;
+		this.movingBackward=false;
+	}
+	
 	doCollisions()//do the collisions for this object
 	{
 		//do downward collisons first, then do horizontal collisions, probably if/else
@@ -136,10 +144,7 @@ class Character extends THREE.Object3D
 				this.setY (this.y - this.ySpeed);//were in the air, switch gravity back on
 				if(!this.jumping)
 				{
-					this.movingLeft=false;
-					this.movingRight=false;
-					this.movingForward=false;
-					this.movingBackward=false;
+					this.resetMovement();
 				}
 				this.ySpeed+=GRAVITY_CONSTANT; //make falling speed faster every frame
 			}

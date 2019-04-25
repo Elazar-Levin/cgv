@@ -774,8 +774,12 @@ function reset()
 	objPac.powerPellets=powerPellets;
 	objPac.food=pellets;
 	objPac.score=0;
+	objPac.resetMovement();
+	objPac.futureDir="null";
 	
 	ghost1.obstructions=obstructions;
+	ghost1.resetMovement();
+	ghost1.futureDir="null";
 	
 	powerMode=false;
 	scene.add(camera);
