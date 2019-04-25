@@ -70,6 +70,8 @@ var sunBlock;
 var cloudBlock;
 var powerPellet;
 var ghost1;//first ghost made by character.js
+var ghost1Geometries=[];
+
 
 var clouds;// object containing pixelated cloud objects
 var pellets;//Object3D containing all pellets
@@ -264,7 +266,14 @@ function createWorld()
         pacmanGeometries[i].rotateX(Math.PI / 2);
         pacMouthGeometries[i].rotateX(Math.PI / 2);
     }
-
+	for (var i = 0; i < numFrames; i++) 
+	{
+		
+		ghost1Geometries.push(new THREE.SphereGeometry(2,32,10,0.5,6.3,2,3.4));
+		ghost1Geometries[i].rotateZ(Math.PI);
+		ghost1Geometries[i].rotateY(0.05*i);
+			
+	}
     var pacmanMaterial = new THREE.MeshPhongMaterial({ color: 'yellow', side: THREE.FrontSide });
 	var pacMouthMaterial=new THREE.MeshBasicMaterial({ color: 'red', side: THREE.BackSide });
 	var eyeMaterial=new THREE.MeshBasicMaterial({ color: 'black', side: THREE.DoubleSide });
@@ -281,6 +290,11 @@ function createWorld()
 	pellet=new THREE.Mesh(new THREE.SphereGeometry(0.5,16,16),new THREE.MeshPhongMaterial({color:'skyblue',side: THREE.DoubleSide,name: "pellet"}));
 	pellet.position.set(3.5,-3,3.5);
 	
+	
+	var ghostthing=new THREE.Object3D();
+	ghostthing.add(new THREE.Mesh(new THREE.SphereGeometry(2,32,10,6,6.3,2,3.4),new THREE.MeshPhongMaterial({color:'pink',side: THREE.BackSide,name: "pellet"})));
+	//ghostthing.children[0].rotation.set(0,0,Math.PI);
+	//scene.add(ghostthing);
 	// bigThing=new THREE.Mesh(new THREE.CubeGeometry(20,20,20),new THREE.MeshPhongMaterial({color:'brown',side: THREE.DoubleSide,name: "wall"}));
 	//bigThing.position.set(-100,-3,-100);
 	//obstructions.add(bigThing);
@@ -323,10 +337,10 @@ function createWorld()
 //	surfaces.add(floorCollider);
 	
 	var ghostHolder=new THREE.Object3D();
-	var ball1=new THREE.Mesh(new THREE.SphereGeometry(2,16,16),new THREE.MeshPhongMaterial({color:'darkpink',side: THREE.DoubleSide,name: "ghost"}));
+	var ball1=new THREE.Mesh(new THREE.SphereGeometry(2,16,16),new THREE.MeshPhongMaterial({color:'pink',side: THREE.DoubleSide,name: "ghost"}));
 	//obstructions.add(floor);
 	objPac = new Character (PAC_SPEED, -4,0, 8, myPac, pacmanGeometries,obstructions,pellets,powerPellets);//make this pacman
-	ghost1 = new Character (0.5, 12,5, 12, ball1, pacmanGeometries,obstructions);//make first ghost
+	ghost1 = new Character (0.5, 12,5, 12, ghostthing, ghost1Geometries,obstructions);//make first ghost
 	
 	
 	
@@ -564,6 +578,8 @@ function updateForFrame()
 	objPac.setDirection();
 	
 	objPac.doCollisions();
+	
+	ghost1.animate(paccy);
 	
 	ghost1.findChar(objPac);
 	
