@@ -464,7 +464,7 @@ class Character extends THREE.Object3D
 		{
 			this.futureDir="down";
 		}
-		else 
+		else if(char1.position.x>this.position.x && this.futureDir!="down")
 		{
 			this.futureDir="up";
 		}
