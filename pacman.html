@@ -118,6 +118,7 @@ var material;
 var plane;
 var planeGeometry;*/
 
+var levelNo=1;
 /**
  *  The render function draws the scene.
  */
@@ -290,11 +291,8 @@ function createWorld()
 	//var gate=new THREE.Mesh(new THREE.CubeGeometry(4,4,4),new THREE.MeshPhongMaterial({transparent: true, opacity: 0}));//invisible wall. use so that ghost can go through, not pacman
 	//gate.position.set(10,-3,16);
 	//obstructions.add(gate);
-	makeLevel(1);
+	makeLevel(levelNo);
 
-	powerPellet=new THREE.Mesh(new THREE.SphereGeometry(1,16,16),new THREE.MeshPhongMaterial({color:'skyblue',side: THREE.DoubleSide,name: "powerpellet"}));
-	powerPellet.position.set(12,-3,12);
-	powerPellets.add(powerPellet);
 	
 	//uncomment all to make floor grassy.only works on firefox//doesnt look too great, but can improve
 	
@@ -315,31 +313,7 @@ function createWorld()
 	var pacEye=new THREE.Mesh(pacGeometry,eyeMaterial);
 	
 	pacEye.position.set(-1,0.7,2);
-	for (var i = 0; i < 13; i++)
-	{
-		var pellet1 = pellet.clone();
-		pellet1.position.set (36 - 4 * i, -3, 12);
-		pellets.add (pellet1);
-	}
-
-	for (var i = 0; i < 13;i++)
-	{
-		var pellet1=pellet.clone();
-		pellet1.position.set(12,-3,36-4*i);
-		pellets.add(pellet1);
-	}
-	pellets.add(pellet);
-
-	for (var i=0;i<19;i++)
-	{
-		var myPellet=pellet.clone();
-		myPellet.position.set(THREE.Math.randFloatSpread( 100 ),-3,THREE.Math.randFloatSpread( 100 ));
-		pellets.add(myPellet);
-	}
-	//obstructions.add(wall);
-	var myPellet=pellet.clone();
-	myPellet.position.set(8,0,8);
-	pellets.add(myPellet);
+	
 	
 	myPac.add(pacMouth);
 	myPac.add(pacman);
@@ -349,7 +323,7 @@ function createWorld()
 //	surfaces.add(floorCollider);
 	
 	var ghostHolder=new THREE.Object3D();
-	var ball1=new THREE.Mesh(new THREE.SphereGeometry(2,16,16),new THREE.MeshPhongMaterial({color:'green',side: THREE.DoubleSide,name: "ghost"}));
+	var ball1=new THREE.Mesh(new THREE.SphereGeometry(2,16,16),new THREE.MeshPhongMaterial({color:'darkpink',side: THREE.DoubleSide,name: "ghost"}));
 	//obstructions.add(floor);
 	objPac = new Character (PAC_SPEED, -4,0, 8, myPac, pacmanGeometries,obstructions,pellets,powerPellets);//make this pacman
 	ghost1 = new Character (0.5, 12,5, 12, ball1, pacmanGeometries,obstructions);//make first ghost
@@ -480,7 +454,39 @@ function makeLevel(levelNo)
 {
 	if (levelNo == 1)
 	{
-		//make surfaces or something, so that characters can walk on walls 
+	//powerpellets and pellets
+		powerPellet=new THREE.Mesh(new THREE.SphereGeometry(1,16,16),new THREE.MeshPhongMaterial({color:'skyblue',side: THREE.DoubleSide,name: "powerpellet"}));
+		powerPellet.position.set(12,-3,12);
+		powerPellets.add(powerPellet);
+		
+		for (var i = 0; i < 13; i++)
+		{
+			var pellet1 = pellet.clone();
+			pellet1.position.set (36 - 4 * i, -3, 12);
+			pellets.add (pellet1);
+		}
+
+		for (var i = 0; i < 13;i++)
+		{
+			var pellet1=pellet.clone();
+			pellet1.position.set(12,-3,36-4*i);
+			pellets.add(pellet1);
+		}
+		pellets.add(pellet);
+
+		for (var i=0;i<19;i++)
+		{
+			var myPellet=pellet.clone();
+			myPellet.position.set(THREE.Math.randFloatSpread( 100 ),-3,THREE.Math.randFloatSpread( 100 ));
+			pellets.add(myPellet);
+		}
+		//obstructions.add(wall);
+		var myPellet=pellet.clone();
+		myPellet.position.set(8,0,8);
+		pellets.add(myPellet);
+		
+		
+		
 		//start of cross thing
 		/*makeBlock(-2,-3,8,24,4,4);
 		makeBlock(-2,-3,16,24,4,4);
@@ -751,7 +757,37 @@ function onDocumentKeyDown(event) {
 
 function reset()
 {
-	init();//reset, not the right solution, but a solution for now ;-p
+	//init();//reset, not the right solution, but a solution for now ;-p
+	scene = new THREE.Scene();
+	powerPellets=new THREE.Object3D();;
+	pellets=new THREE.Object3D();;
+	obstructions=new THREE.Object3D();
+	
+	makeLevel(levelNo);//should set walls and pellets and power pellets
+	
+	
+	
+	objPac.setPos(-4,0,8);
+	ghost1.setPos(12,5, 12);
+	
+	objPac.obstructions=obstructions;
+	objPac.powerPellets=powerPellets;
+	objPac.food=pellets;
+	objPac.score=0;
+	
+	ghost1.obstructions=obstructions;
+	
+	powerMode=false;
+	scene.add(camera);
+	scene.add(powerPellets)
+	scene.add(clouds);
+	scene.add(floor);
+	scene.add(obstructions);
+	scene.add(sun);
+    scene.add(objPac);
+    scene.add(ghost1);
+	scene.add(pellets);
+
 }
 
 function cloneCanvas (oldCanvas) 
