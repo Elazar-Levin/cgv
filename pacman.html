@@ -726,6 +726,18 @@ function updateForFrame()
   	hudTexture.needsUpdate = true;*/
 
 	//ghost1.moveForward();
+	if(levelNo!=3)
+	{
+		if(pellets.children.length==0)
+		{
+			levelNo++;
+			score += objPac.score;
+			reset();
+			
+			
+		}
+	}
+	
 	
 
 	var oof = frameNumber % 20;
@@ -969,7 +981,7 @@ function reset()
 	objPac.obstructions=obstructions;
 	objPac.powerPellets=powerPellets;
 	objPac.food=pellets;
-	objPac.score=0;
+	objPac.score=score;
 	objPac.resetMovement();
 	objPac.futureDir="null";
 	
