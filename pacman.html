@@ -339,8 +339,9 @@ function createWorld()
 	var ghostHolder=new THREE.Object3D();
 	var ball1=new THREE.Mesh(new THREE.SphereGeometry(2,16,16),new THREE.MeshPhongMaterial({color:'pink',side: THREE.DoubleSide,name: "ghost"}));
 	//obstructions.add(floor);
-	objPac = new Character (PAC_SPEED, -4,0, 8, myPac, pacmanGeometries,obstructions,pellets,powerPellets);//make this pacman
+	objPac = new Character (PAC_SPEED, -4,0, 8, myPac, pacmanGeometries,obstructions,pellets,powerPellets, "pacman");//make this pacman
 	ghost1 = new Character (0.5, 12,5, 12, ghostthing, ghost1Geometries,obstructions);//make first ghost
+	ghost1.setTag("ghost");
 	
 	
 	
@@ -524,26 +525,41 @@ function makeLevel(levelNo)
 	
 		//T above ghost spawns
 		makeBlock (26,-3,12,8,4,4);
-		makeBlock (32,-3,12,4,4,52);
+		makeBlock (32,-3,8,4,4,60);
 		
 		//Upside down T  
-		makeBlock (-2,-3,12,8,4,4);
-		makeBlock (-8,-3,12,4,4,52);
+		//makeBlock (-14,-3,12,3,4,4);
+		//makeBlock (-8,-3,-2,4,4,24);
+		makeBlock (-8,-3,24,4,4,20);
+		//makeBlock (-8,-3,12,4,4,52);
 		
 		//Two vertical blocks left and right of the spawn
 		makeBlock (12,-3,-8,12,4,4);
 		makeBlock (12,-3,32,12,4,4);
 		
 		//Horizontal lines next to Ts, above and below spawn	
-		makeBlock (0,-3,-2,4,4,16);
-		makeBlock (0,-3,26,4,4,16);
+		makeBlock (0,-3,0,4,4,20);
+		makeBlock (0,-3,24,4,4,20);
 		makeBlock (24,-3,-2,4,4,16);
 		makeBlock (24,-3,26,4,4,16);
 		
 		//
 		makeBlock (16, -3, -16, 20, 4, 4);
-		makeBlock (-4, -3, -16, 12, 4, 4);
-		makeBlock (16, -3, 40, 36, 4, 4);
+		makeBlock (-18, -3, -16, 40, 4, 4);
+		makeBlock (20, -3, 40, 28, 4, 4);
+		makeBlock (-18, -3, 40, 40, 4, 4);
+		makeBlock (-22, -3, 26, 32, 4, 16);
+
+		//Looooooooooooong path down middle with fat block
+		makeBlock (-22, -3, 16, 32, 4, 4);
+		makeBlock (-22, -3, 8, 32, 4, 4);
+
+		//Looooooooooong path down on the left with fat block
+		makeBlock (20, -3, -24, 28, 4, 4);
+		makeBlock (-18, -3, -24, 40, 4, 4);
+		makeBlock (-22, -3, -2, 32, 4, 16);
+
+		
 	}
 }
 
@@ -563,7 +579,7 @@ function updateForFrame()
 	//ghost1.moveForward();
 	
   	var myDiv = document.getElementById("hud");
- 	myDiv.innerHTML = "Score: " + objPac.score;
+ 	myDiv.innerHTML = objPac.x + " ; " + objPac.z + " Score: " + objPac.score + "      Lives: " + objPac.lives;
 
 
  	var pacSphere;

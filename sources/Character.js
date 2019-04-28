@@ -2,7 +2,7 @@
 class Character extends THREE.Object3D
 {
 	
-	constructor (speed, x, y, z, transform, animations, obstructions, food = null, powerPellets = null)
+	constructor (speed, x, y, z, transform, animations, obstructions, food = null, powerPellets = null, tag)
 	{
 		super();
 		this.speed = speed;
@@ -33,6 +33,7 @@ class Character extends THREE.Object3D
 		this.powerPellets = powerPellets;
 		this.score = 0;
 		this.lives = 3;
+		this.tag = tag;
 	}
 
 	moveLeft ()
@@ -188,7 +189,14 @@ class Character extends THREE.Object3D
 					this.setZ (this.z - this.distanceCubeCube (charCube, obsBox));
 					break;		
 				}	
-			}	
+			}
+			/*if (this.tag == "pacman")
+			{
+				if (SquareIntersect (charSphere, ghost.charSphere))
+				{
+					this.lives--;
+				}//If for when you tag the ghost
+			}//If for only pacman to do homie*/
 			if (!collides)
 			{
 				this.setZ (this.z - this.speed);
@@ -475,5 +483,8 @@ class Character extends THREE.Object3D
 		}
 	}
 	
-	
+	setTag (tag)
+	{
+		this.tag = tag;
+	}//Method to set the tag of the object (temporary)
 }
