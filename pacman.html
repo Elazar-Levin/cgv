@@ -305,6 +305,8 @@ function createWorld()
 	//var gate=new THREE.Mesh(new THREE.CubeGeometry(4,4,4),new THREE.MeshPhongMaterial({transparent: true, opacity: 0}));//invisible wall. use so that ghost can go through, not pacman
 	//gate.position.set(10,-3,16);
 	//obstructions.add(gate);
+	
+	//levelNo=2;
 	makeLevel(levelNo);
 
 	
@@ -340,7 +342,8 @@ function createWorld()
 	var ball1=new THREE.Mesh(new THREE.SphereGeometry(2,16,16),new THREE.MeshPhongMaterial({color:'pink',side: THREE.DoubleSide,name: "ghost"}));
 	//obstructions.add(floor);
 	objPac = new Character (PAC_SPEED, -4,0, 8, myPac, pacmanGeometries,obstructions,pellets,powerPellets);//make this pacman
-	ghost1 = new Character (0.5, 12,5, 12, ghostthing, ghost1Geometries,obstructions);//make first ghost
+
+	ghost1 = new Character (0.4, 12,5, 12, ghostthing, ghost1Geometries,obstructions);//make first ghost
 	
 	
 	
@@ -466,9 +469,100 @@ function makeBlock(x,y,z,width,height,depth)
 
 function makeLevel(levelNo)
 {
+	powerPellet=new THREE.Mesh(new THREE.SphereGeometry(1,16,16),new THREE.MeshPhongMaterial({color:'skyblue',side: THREE.DoubleSide,name: "powerpellet"}));
+	
 	if (levelNo == 1)
 	{
-	//powerpellets and pellets
+		
+	//	powerPellet.position.set(12,-3,12);
+	
+		//middle thing
+		makeBlock (12,-3,0,12,4,4);
+		makeBlock (12,-3,24,12,4,4);
+		makeBlock (8,-3,12,4,4,20);
+		makeBlock (16,-3,6,4,4,8);
+		makeBlock (16,-3,18,4,4,8);
+	
+		//top T
+		makeBlock (26,-3,12,8,4,4);
+		makeBlock (32,-3,12,4,4,28);
+		
+		//bottom T
+		makeBlock (-6,-3,12,8,4,4);
+		makeBlock (0,-3,12,4,4,28);
+		
+		//left T
+		makeBlock(24,-3,0,4,4,12);
+		makeBlock(24,-3,-8,20,4,4);
+		
+		//right T
+		makeBlock(24,-3,24,4,4,12);
+		makeBlock(24,-3,32,20,4,4);
+		
+		//left bar
+		makeBlock(4,-3,-8,12,4,4);	
+		
+		//right bar
+		makeBlock(4,-3,32,12,4,4);	
+		
+		//bottom left bar
+		makeBlock(-8,-3,-2,4,4,16);
+		
+		//bottom right bar
+		makeBlock(-8,-3,26,4,4,16);
+		
+		//bottom border
+		makeBlock(-12,1,26,4,4,16);
+		makeBlock(-12,1,-2,4,4,16);
+		//next level
+		makeBlock(-16,5,12,4,4,60);
+		//next level
+		makeBlock(-20,9,32,4,4,20);
+		makeBlock(-20,9,-12,4,4,20);
+		makeBlock(-20,9,8,4,4,8);
+		//next level
+		makeBlock(-24,13,12,4,4,76);
+		
+		
+		//left border
+		makeBlock(12,1,-12,52,4,4);
+		//next level
+		makeBlock(-8,5,-16,12,4,4);
+		makeBlock(8,5,-16,12,4,4);
+		makeBlock(36,5,-16,12,4,4);
+		//next level 
+		makeBlock(12,9,-20,68,4,4);
+		//next level 
+		makeBlock(12,13,-24,76,4,4);
+		
+		//top border
+		makeBlock(36,1,2,4,4,8);
+		makeBlock(36,1,22,4,4,8);
+		//next level
+		makeBlock(40,5,10,4,4,56);
+		//next level
+		makeBlock(44,9,-8,4,4,28);
+		makeBlock(44,9,32,4,4,28);
+		//next level
+		makeBlock(48,13,12,4,4,76);
+		
+		//right border
+		makeBlock(12,1,36,52,4,4);
+		//next level
+		makeBlock(-8,5,40,12,4,4);
+		makeBlock(8,5,40,12,4,4);
+		makeBlock(36,5,40,12,4,4);
+		//next level
+		makeBlock(12,9,44,68,4,4);
+		//next level
+		makeBlock(12,13,48,68,4,4);
+		
+		for(var in =0;i<obstructions.children.length)
+		
+	}
+	else if(levelNo==2)
+	{
+			//powerpellets and pellets
 		powerPellet=new THREE.Mesh(new THREE.SphereGeometry(1,16,16),new THREE.MeshPhongMaterial({color:'skyblue',side: THREE.DoubleSide,name: "powerpellet"}));
 		powerPellet.position.set(12,-3,12);
 		powerPellets.add(powerPellet);
@@ -544,6 +638,9 @@ function makeLevel(levelNo)
 		makeBlock (16, -3, -16, 20, 4, 4);
 		makeBlock (-4, -3, -16, 12, 4, 4);
 		makeBlock (16, -3, 40, 36, 4, 4);
+
+		
+		
 	}
 }
 
