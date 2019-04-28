@@ -135,6 +135,7 @@ var plane;
 var planeGeometry;*/
 
 var levelNo=1;
+var dir = 1;
 /**
  *  The render function draws the scene.
  */
@@ -590,6 +591,21 @@ function updateForFrame()
   	hudTexture.needsUpdate = true;*/
 
 	//ghost1.moveForward();
+	
+
+	var oof = frameNumber % 20;
+	if (oof > 10)
+	{
+		dir *= -1;
+	}//ye, oof
+	/*if (frameNumber > 0 && frameNumber % 20 == 0)
+	{
+		dir *= -1;
+	}//If for when 20 frames have passed, reverse direction of pelletes*/
+	for (var i = 0; i < pellets.children.length; i++)
+	{
+		pellets.children [i].translateY (0.05 * dir);
+	}//For loop to iterate over all the pelletes
 	
   	var myDiv = document.getElementById("hud");
  	myDiv.innerHTML = objPac.x + " ; " + objPac.z + " Score: " + objPac.score + "      Lives: " + objPac.lives;
