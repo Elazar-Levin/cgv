@@ -237,7 +237,7 @@ function createWorld()
 	var firstCamera=new THREE.PerspectiveCamera;
 	firstCamera.position.z=75;
 	
-	miniMapCamera=new THREE.OrthographicCamera(window.innerWidth / - 16-20, window.innerWidth / 16+20,window.innerHeight / 16+20, window.innerHeight / - 16-20, -10,100 );
+	miniMapCamera=new THREE.OrthographicCamera(window.innerWidth / - 16-20, window.innerWidth / 16+20,window.innerHeight / 16+20, window.innerHeight / - 16-20, -30,100 );
 	
 	miniMapCamera.rotation.x=-Math.PI/2 ;
 	miniMapCamera.rotation.z=-Math.PI/2 ;
@@ -483,6 +483,28 @@ function makeBlock(x,y,z,width,height,depth)
 	obstructions.add(newWall);
 }
 
+function makePellets(x,y,z,width,height)
+{
+	for(var i=0;i<width;i+=4)
+	{
+		for(var j=0;j<height;j+=4)
+		{
+			if(height==1)
+			{
+				var myPellet =pellet.clone();
+				myPellet.position.set(x+i-width/4-1,y,z+j-height/4);
+				pellets.add(myPellet);
+			}
+			else
+			{
+				var myPellet =pellet.clone();
+				myPellet.position.set(x+i-width/4,y,z+j-height/4);
+				pellets.add(myPellet);
+			}
+		}
+	}
+}
+
 function makeLevel(levelNo)
 {
 	powerPellet=new THREE.Mesh(new THREE.SphereGeometry(1,16,16),new THREE.MeshPhongMaterial({color:'skyblue',side: THREE.DoubleSide,name: "powerpellet"}));
@@ -499,9 +521,18 @@ function makeLevel(levelNo)
 		makeBlock (16,-3,6,4,4,8);
 		makeBlock (16,-3,18,4,4,8);
 	
+		makePellets(12,1,0,12,1);
+		makePellets(12,1,24,12,1);
+		makePellets(8,1,9,1,20);
+		makePellets(16,1,6,1,8);
+		makePellets(16,1,18,1,8);
+		
 		//top T
 		makeBlock (26,-3,12,8,4,4);
 		makeBlock (32,-3,12,4,4,28);
+		
+		makePellets(26,1,12,8,1);
+		makePellets(32,1,7,1,28);
 		
 		//bottom T
 		makeBlock (-6,-3,12,8,4,4);
