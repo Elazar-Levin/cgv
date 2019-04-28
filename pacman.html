@@ -28,6 +28,20 @@
     height: 200px;
     z-index: 100;
 }
+#endScreen {
+	position: absolute;
+	z-index: 101;
+	width: 100%;
+	height: 100%;
+	background-color: black;
+}
+#endScreenContent {
+	width: 100%;
+	height: 100%;
+	background-color: white;
+	margin: 80 auto;
+	text-align: center;
+}
 <!--/*#hudcanvas {
     position:fixed;
     left:0;
@@ -559,7 +573,6 @@ function makeLevel(levelNo)
 		makeBlock (-18, -3, -24, 40, 4, 4);
 		makeBlock (-22, -3, -2, 32, 4, 16);
 
-		
 	}
 }
 
@@ -852,7 +865,15 @@ function resize()
 	}
 }
 
+function startGame ()
+{
+	document.getElementById ("introScreen").style.display = 'none';
+}
 
+function replay ()
+{
+	document.getElementById ("endScreen").style.display = 'none';
+}
 /*----------------------------- INITIALIZATION ----------------------------------------
 
 /**
@@ -910,6 +931,22 @@ function init() {
 </p>
 
 <div id="hud" style="color: white">YO</div>
+
+<div id = "introScreen">
+	<div id = "introScreenContent">
+		<h1>Pac-Man</h1>
+		<div id = "btnStart" class = "button" onclick = "startGame()">Start Game</div>
+	</div>
+</div>
+
+<div id = "endScreen">
+	<div id = "endScreenContent">
+		<h1 id = "txtEndTitle">Game Over</h1>
+		<h2 id = "txtEndMessage">You got got homie</h2>
+		<div id = "btnReplay" class = "button" onclick = "replay()">Start Game</div>
+	</div>
+</div>
+
 <canvas width="window.innerWidth" height="window.innerHeight" id="glcanvas"></canvas>
 <!--<canvas width="window.innerWidth" height="window.innerHeight" id="hudcanvas"></canvas> -->
 
