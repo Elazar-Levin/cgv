@@ -286,7 +286,7 @@ class Character extends THREE.Object3D
 					return;
 				}//if for when food collides with pacman
 			}//for loop that distributes over number of foods
-		}//if to make sure there are still food pelletes
+		}//if to check if this character can eat
 		if (this.powerPellets != null)
 		{
 			for (var i = 0; i < this.powerPellets.children.length; i++)
@@ -299,7 +299,7 @@ class Character extends THREE.Object3D
 					return;
 				}//if for when the pellete collides with pacman
 			}//for loop that distributes over number of power pelletes
-		}//if to make sure there are power pellets
+		}//if to check if this character can eat
 	}//Method that handles all the collisions of the object
 	
 	canMoveLeft()
@@ -482,7 +482,7 @@ class Character extends THREE.Object3D
 			this.futureDir="up";
 		}
 	}
-	
+	//dont need this
 	setTag (tag)
 	{
 		this.tag = tag;
