@@ -28,6 +28,20 @@
     height: 200px;
     z-index: 100;
 }
+#endScreen {
+	position: absolute;
+	z-index: 101;
+	width: 100%;
+	height: 100%;
+	background-color: black;
+}
+#endScreenContent {
+	width: 100%;
+	height: 100%;
+	background-color: white;
+	margin: 80 auto;
+	text-align: center;
+}
 <!--/*#hudcanvas {
     position:fixed;
     left:0;
@@ -121,6 +135,7 @@ var plane;
 var planeGeometry;*/
 
 var levelNo=1;
+var dir = 1;
 /**
  *  The render function draws the scene.
  */
@@ -341,9 +356,10 @@ function createWorld()
 	var ghostHolder=new THREE.Object3D();
 	var ball1=new THREE.Mesh(new THREE.SphereGeometry(2,16,16),new THREE.MeshPhongMaterial({color:'pink',side: THREE.DoubleSide,name: "ghost"}));
 	//obstructions.add(floor);
-	objPac = new Character (PAC_SPEED, -4,0, 8, myPac, pacmanGeometries,obstructions,pellets,powerPellets);//make this pacman
 
-	ghost1 = new Character (0.4, 12,5, 12, ghostthing, ghost1Geometries,obstructions);//make first ghost
+	objPac = new Character (PAC_SPEED, -4,0, 8, myPac, pacmanGeometries,obstructions,pellets,powerPellets, "pacman");//make this pacman
+	ghost1 = new Character (0.5, 12,5, 12, ghostthing, ghost1Geometries,obstructions);//make first ghost
+	ghost1.setTag("ghost");
 	
 	
 	
@@ -557,7 +573,10 @@ function makeLevel(levelNo)
 		//next level
 		makeBlock(12,13,48,68,4,4);
 		
-		for(var in =0;i<obstructions.children.length)
+		for(var i =0;i<obstructions.children.length;i++)
+		{
+		
+		}
 		
 	}
 	else if(levelNo==2)
@@ -618,29 +637,47 @@ function makeLevel(levelNo)
 	
 		//T above ghost spawns
 		makeBlock (26,-3,12,8,4,4);
-		makeBlock (32,-3,12,4,4,52);
+		makeBlock (32,-3,8,4,4,60);
 		
 		//Upside down T  
-		makeBlock (-2,-3,12,8,4,4);
-		makeBlock (-8,-3,12,4,4,52);
+		//makeBlock (-14,-3,12,3,4,4);
+		//makeBlock (-8,-3,-2,4,4,24);
+		makeBlock (-8,-3,24,4,4,20);
+		//makeBlock (-8,-3,12,4,4,52);
 		
 		//Two vertical blocks left and right of the spawn
 		makeBlock (12,-3,-8,12,4,4);
 		makeBlock (12,-3,32,12,4,4);
 		
 		//Horizontal lines next to Ts, above and below spawn	
-		makeBlock (0,-3,-2,4,4,16);
-		makeBlock (0,-3,26,4,4,16);
+		makeBlock (0,-3,0,4,4,20);
+		makeBlock (0,-3,24,4,4,20);
 		makeBlock (24,-3,-2,4,4,16);
 		makeBlock (24,-3,26,4,4,16);
 		
 		//
 		makeBlock (16, -3, -16, 20, 4, 4);
+
 		makeBlock (-4, -3, -16, 12, 4, 4);
 		makeBlock (16, -3, 40, 36, 4, 4);
 
 		
 		
+    	makeBlock (-18, -3, -16, 40, 4, 4);
+		makeBlock (20, -3, 40, 28, 4, 4);
+		makeBlock (-18, -3, 40, 40, 4, 4);
+		makeBlock (-22, -3, 26, 32, 4, 16);
+
+		//Looooooooooooong path down middle with fat block
+		makeBlock (-22, -3, 16, 32, 4, 4);
+		makeBlock (-22, -3, 8, 32, 4, 4);
+
+		//Looooooooooong path down on the left with fat block
+		makeBlock (20, -3, -24, 28, 4, 4);
+		makeBlock (-18, -3, -24, 40, 4, 4);
+		makeBlock (-22, -3, -2, 32, 4, 16);
+
+
 	}
 }
 
@@ -659,8 +696,23 @@ function updateForFrame()
 
 	//ghost1.moveForward();
 	
+
+	var oof = frameNumber % 20;
+	if (oof > 10)
+	{
+		dir *= -1;
+	}//ye, oof
+	/*if (frameNumber > 0 && frameNumber % 20 == 0)
+	{
+		dir *= -1;
+	}//If for when 20 frames have passed, reverse direction of pelletes*/
+	for (var i = 0; i < pellets.children.length; i++)
+	{
+		pellets.children [i].translateY (0.05 * dir);
+	}//For loop to iterate over all the pelletes
+	
   	var myDiv = document.getElementById("hud");
- 	myDiv.innerHTML = "Score: " + objPac.score;
+ 	myDiv.innerHTML = "Score: " + objPac.score + "      Lives: " + objPac.lives;
 
 
  	var pacSphere;
@@ -933,7 +985,15 @@ function resize()
 	}
 }
 
+function startGame ()
+{
+	document.getElementById ("introScreen").style.display = 'none';
+}
 
+function replay ()
+{
+	document.getElementById ("endScreen").style.display = 'none';
+}
 /*----------------------------- INITIALIZATION ----------------------------------------
 
 /**
@@ -991,6 +1051,22 @@ function init() {
 </p>
 
 <div id="hud" style="color: white">YO</div>
+
+<div id = "introScreen">
+	<div id = "introScreenContent">
+		<h1>Pac-Man</h1>
+		<div id = "btnStart" class = "button" onclick = "startGame()">Start Game</div>
+	</div>
+</div>
+
+<div id = "endScreen">
+	<div id = "endScreenContent">
+		<h1 id = "txtEndTitle">Game Over</h1>
+		<h2 id = "txtEndMessage">You got got homie</h2>
+		<div id = "btnReplay" class = "button" onclick = "replay()">Start Game</div>
+	</div>
+</div>
+
 <canvas width="window.innerWidth" height="window.innerHeight" id="glcanvas"></canvas>
 <!--<canvas width="window.innerWidth" height="window.innerHeight" id="hudcanvas"></canvas> -->
 
