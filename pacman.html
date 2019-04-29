@@ -137,6 +137,10 @@ var planeGeometry;*/
 
 var levelNo=1;
 var dir = 1;
+
+var map=[];
+
+
 /**
  *  The render function draws the scene.
  */
@@ -322,7 +326,7 @@ function createWorld()
 	//gate.position.set(10,-3,16);
 	//obstructions.add(gate);
 	
-	levelNo=2;
+	//levelNo=2;
 	makeLevel(levelNo);
 
 	
@@ -515,6 +519,11 @@ function makeLevel(levelNo)
 		
 	//	powerPellet.position.set(12,-3,12);
 	
+		//do floor of pellets
+	
+	
+	
+	
 		//middle thing
 		makeBlock (12,-3,0,12,4,4);
 		makeBlock (12,-3,24,12,4,4);
@@ -600,7 +609,7 @@ function makeLevel(levelNo)
 		//next level
 		makeBlock(-24,13,12,4,4,76);
 		
-		makePellets(-24,17,-5,1,76);
+		//makePellets(-24,17,-5,1,76);
 			
 		//left border
 		makeBlock(12,1,-12,52,4,4);
@@ -625,7 +634,7 @@ function makeLevel(levelNo)
 		//next level 
 		makeBlock(12,13,-24,76,4,4);
 		
-		makePellets(-2,17,-24,68,1);
+	//	makePellets(-2,17,-24,68,1);
 	
 	
 		//top border
@@ -650,7 +659,7 @@ function makeLevel(levelNo)
 		//next level
 		makeBlock(48,13,12,4,4,76);
 		
-		makePellets(48,17,-5,1,76);
+	//	makePellets(48,17,-5,1,76);
 		
 		//right border
 		makeBlock(12,1,36,52,4,4);
@@ -681,6 +690,7 @@ function makeLevel(levelNo)
 	
 	
 		//set up map
+		map=[];
 		for(var i=0;i<11;i++)
 		{
 			map[i]=[];
@@ -693,10 +703,18 @@ function makeLevel(levelNo)
 		{
 			for(var j=0;j<11;j++)
 			{
-				//bob.set(a+i*4,-1,b+j*4);//set a and b manually
-				for(var k=0;k<obstructions.children.length;k++)
+				bob.set(34-i*4,-1,-6+j*4);//set a and b manually
+				for(var k=0;k<obstructions.children.length;k++)//check collision with each block
 				{
-						
+					var obsBox = new THREE.Box3 (new THREE.Vector3(), new THREE.Vector3());
+					obsBox.setFromObject (obstructions.children [i]);
+					if(obsBox.containsPoint(bob))
+					{
+						map[i][j]=1;
+						break;
+					}
+					
+					
 				}
 			}
 		}
@@ -929,7 +947,7 @@ function updateForFrame()
 	{
 		if (objPac.y <= -3 && (objPac.x >=32 || objPac.x <= -51 || objPac.z <= -24 || objPac.z >= 40))
 		{
-			//reset();
+			reset();
 		}//If for when pacman is found on the floor and out of bounds
 	}//If for setting boundaries for dying in the second level
 	
@@ -943,7 +961,8 @@ function updateForFrame()
 	}//For loop to iterate over all the pelletes
 	
   	var myDiv = document.getElementById ("hud");
- 	myDiv.innerHTML = "Score: " + objPac.score + "      Lives: " + objPac.lives + " ; " + pellets.children.length;
+ 	//myDiv.innerHTML = "Score: " + objPac.score + "      Lives: " + objPac.lives + " ; " + pellets.children.length;
+ 	myDiv.innerHTML = objPac.x + " " + objPac.z;
 
 
  	var pacSphere;
