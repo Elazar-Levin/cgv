@@ -163,6 +163,15 @@ class GetShortestPath
 		}
 	}
 
+	reset()
+	{
+	    for(var k  = 0 ;  k < this.rows; k++) {
+			for (var c = 0 ; c < this.columns; c++){
+				this.visited[k][c] = 0 ;
+			}
+	    }
+	    
+	}
 
 
 

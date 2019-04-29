@@ -485,4 +485,9 @@ class Character extends THREE.Object3D
 	{
 		this.tag = tag;
 	}//Method to set the tag of the object (temporary)
+	
+	lockToBlock()
+	{
+		return new THREE.Vector2();
+	}
 }
