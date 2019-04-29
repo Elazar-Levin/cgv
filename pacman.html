@@ -34,10 +34,11 @@
 	width: 100%;
 	height: 100%;
 	background-color: black;
+	display: none;
 }
 #endScreenContent {
-	width: 100%;
-	height: 100%;
+	width: 1900px;
+	height: 1000px;
 	background-color: white;
 	margin: 80 auto;
 	text-align: center;
@@ -727,13 +728,15 @@ function makeLevel(levelNo)
 		//MAKING THE PELLETES, MIDDLE PART
 
 		//Right perimeter of middle block
-		makePellets (-30,-4,36,86,1);
+		makePellets (29, -4, 36, 1, 1);
+		makePellets (-29,-4,36,74,1);
 
 		//Bottom perimeter of middle block
 		makePellets (-48,-4,-4,1,50);
 
 		//Left perimeter of middle block
-		makePellets (-30,-4,-20,86,1);
+		makePellets (29, -4, -20, 1, 1);
+		makePellets (-29,-4,-20,74,1);
 
 		//Top perimeter of middle block
 		makePellets (28,-4,-10,1,26);
@@ -899,7 +902,7 @@ function updateForFrame()
 	{
 		if (objPac.y <= -3 && (objPac.x >=32 || objPac.x <= -51 || objPac.z <= -24 || objPac.z >= 40))
 		{
-			reset();
+			//reset();
 		}//If for when pacman is found on the floor and out of bounds
 	}//If for setting boundaries for dying in the second level
 	
@@ -913,9 +916,7 @@ function updateForFrame()
 	}//For loop to iterate over all the pelletes
 	
   	var myDiv = document.getElementById ("hud");
- 	//myDiv.innerHTML = "Score: " + objPac.score + "      Lives: " + objPac.lives;
- 	myDiv.innerHTML = objPac.x + " ; " + objPac.y + " ; " + objPac.z;
-
+ 	myDiv.innerHTML = "Score: " + objPac.score + "      Lives: " + objPac.lives + " ; " + pellets.children.length;
 
 
  	var pacSphere;
