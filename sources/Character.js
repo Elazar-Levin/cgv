@@ -1,7 +1,5 @@
-
 class Character extends THREE.Object3D
 {
-	
 	constructor (speed, x, y, z, transform, animations, obstructions, food = null, powerPellets = null, tag)
 	{
 		super();
