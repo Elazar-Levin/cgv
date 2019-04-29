@@ -321,7 +321,7 @@ function createWorld()
 	//gate.position.set(10,-3,16);
 	//obstructions.add(gate);
 	
-	//levelNo=2;
+	levelNo=2;
 	makeLevel(levelNo);
 
 	
@@ -684,7 +684,7 @@ function makeLevel(levelNo)
 		powerPellet.position.set(12,-3,12);
 		powerPellets.add(powerPellet);
 		
-		for (var i = 0; i < 13; i++)
+		/*for (var i = 0; i < 13; i++)
 		{
 			var pellet1 = pellet.clone();
 			pellet1.position.set (36 - 4 * i, -3, 12);
@@ -708,7 +708,7 @@ function makeLevel(levelNo)
 		//obstructions.add(wall);
 		var myPellet=pellet.clone();
 		myPellet.position.set(8,0,8);
-		pellets.add(myPellet);
+		pellets.add(myPellet);*/
 		
 		
 		
@@ -723,6 +723,73 @@ function makeLevel(levelNo)
 		makeBlock(16,-3,28,4,4,20);*/
 		//end of cross thing
 
+
+		//MAKING THE PELLETES, MIDDLE PART
+
+		//Right perimeter of middle block
+		makePellets (-30,-4,36,86,1);
+
+		//Bottom perimeter of middle block
+		makePellets (-48,-4,-4,1,50);
+
+		//Left perimeter of middle block
+		makePellets (-30,-4,-20,86,1);
+
+		//Top perimeter of middle block
+		makePellets (28,-4,-10,1,26);
+		makePellets (28,-4,21,1,20);
+		//Rest of these blocks go top to bottom of middle part
+
+		makePellets (25, -4, -12, 1, 1);
+		makePellets (25, -4, 8, 1, 1);
+		makePellets (25, -4, 16, 1, 1);
+
+		makePellets (20,-4,0,1,48);
+
+		makePellets (-27, -4,-12,64,1);
+		makePellets (12, -4,-4,12,1);
+		makePellets (12, -4,28,12,1);
+
+		makePellets (5, -4, -16, 1, 1);
+		makePellets (4,-4,3,1,44);
+
+		makePellets (1, -4, 12, 1, 1);
+
+		makePellets (-4,-4,3,1,44);
+
+		makePellets (-33, -4, 12, 40, 1);
+
+		makePellets (-40, -4, -4, 1, 18);
+		makePellets (-40, -4, 20, 1, 18);
+
+		//PELLETS FOR LEFT SIDE
+		//Bridge
+
+		makePellets (4,0,-59,1,52);
+		makePellets (5,0,-84,1,1);
+
+		//Box
+		makePellets (-0.5, 0, -96, 25, 1);
+		makePellets (-1, 0, -72, 8, 1);
+		makePellets (11, 0, -72, 8, 1);
+		makePellets (16, 0, -87, 1, 22);
+		makePellets (-8, 0, -87, 1, 22);
+
+
+		//PELLETS FOR LEFT SIDE
+		//Bridge
+
+		makePellets (-40,0,53,1,52);
+		makePellets (-39,0,100,1,1);
+
+		//Box
+		makePellets (-45,0,112,25,1);
+		makePellets (-28,0,93.5,1,22);
+		makePellets (-52,0,94,1,22);
+		makePellets (-32,0,88,8,1);
+		makePellets (-45,0,88.5,8,1);
+
+		//MAKING THE BLOCKS
 
 		//Makes the Centre block where ghosts will spawn
 		makeBlock (12,-3,0,12,4,4);
@@ -760,10 +827,9 @@ function makeLevel(levelNo)
 		makeBlock (16, -3, 40, 36, 4, 4);
 
 		
-		
-    	makeBlock (-18, -3, -16, 40, 4, 4);
+    	makeBlock (-22, -3, -16, 48, 4, 4);
 		makeBlock (20, -3, 40, 28, 4, 4);
-		makeBlock (-18, -3, 40, 40, 4, 4);
+		makeBlock (-24, -3, 40, 52, 4, 4);
 		makeBlock (-22, -3, 26, 32, 4, 16);
 
 		//Looooooooooooong path down middle with fat block
@@ -772,10 +838,32 @@ function makeLevel(levelNo)
 
 		//Looooooooooong path down on the left with fat block
 		makeBlock (20, -3, -24, 28, 4, 4);
-		makeBlock (-18, -3, -24, 40, 4, 4);
+		makeBlock (-22, -3, -24, 56, 4, 4);
 		makeBlock (-22, -3, -2, 32, 4, 16);
 
+		makeBlock (-52, -3, 8, 4, 4, 68);
+		makeBlock (-44, -3, 0, 4, 4, 20);
+		makeBlock (-44, -3, 24, 4, 4, 20);
 
+		//Bridge to the left
+		makeBlock (4,-3,-50,4,4,48);
+
+		//Box
+		makeBlock (4, -3, -72, 20, 4, 4);
+		makeBlock (4, -3, -84, 4, 4, 4);
+		makeBlock (4, -3, -96, 20, 4, 4);
+		makeBlock (16, -3, -84, 4, 4, 28);
+		makeBlock (-8, -3, -84, 4, 4, 28);
+
+		//Bridge to the right
+		makeBlock (-40,-3,66,4,4,48);
+
+		//Box
+		makeBlock (-40, -3, 88, 20, 4, 4);
+		makeBlock (-40, -3, 100, 4, 4, 4);
+		makeBlock (-40, -3, 112, 20, 4, 4);
+		makeBlock (-28, -3, 100, 4, 4, 28);
+		makeBlock (-52, -3, 100, 4, 4, 28);
 	}
 }
 
@@ -783,7 +871,7 @@ function makeLevel(levelNo)
  *  This function is called once for each frame of the animation, before
  *  the render() function is called for that frame.  It updates any
  *  animated properties.  The value of the global variable frameNumber
- *  is incrementd 1 before this function is called.
+ *  is incremented 1 before this function is called.
  */
  
 function updateForFrame() 
@@ -793,25 +881,22 @@ function updateForFrame()
   	hudTexture.needsUpdate = true;*/
 
 	//ghost1.moveForward();
-	if(levelNo!=3)
+	if (levelNo != 3)
 	{
-		if(pellets.children.length==0)
+		if (pellets.children.length == 0)
 		{
 			levelNo++;
 			score += objPac.score;
 			reset();
-			
-			
 		}
 	}
-	
-	
-
 	var oof = frameNumber % 20;
 	if (oof > 10)
 	{
 		dir *= -1;
 	}//ye, oof
+	
+	
 	/*if (frameNumber > 0 && frameNumber % 20 == 0)
 	{
 		dir *= -1;
@@ -821,8 +906,10 @@ function updateForFrame()
 		pellets.children [i].translateY (0.05 * dir);
 	}//For loop to iterate over all the pelletes
 	
-  	var myDiv = document.getElementById("hud");
- 	myDiv.innerHTML = "Score: " + objPac.score + "      Lives: " + objPac.lives;
+  	var myDiv = document.getElementById ("hud");
+ 	//myDiv.innerHTML = "Score: " + objPac.score + "      Lives: " + objPac.lives;
+ 	myDiv.innerHTML = objPac.x + " ; " + objPac.y + " ; " + objPac.z;
+
 
 
  	var pacSphere;
@@ -848,7 +935,7 @@ function updateForFrame()
 	
 	
 	
-	if(halloween)
+	if (halloween)
 	{
 		objPac.transform.add(halloweenLight);
 		objPac.transform.remove(light);
