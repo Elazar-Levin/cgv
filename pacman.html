@@ -55,6 +55,7 @@
 <script src="sources/OrbitControls.js"></script>
 <script src="sources/stats.js"></script>
 <script src="sources/Character.js"></script>
+<script src="sources/GetShortestPath.js"></script>
 
 <script>
 
@@ -106,7 +107,7 @@ var miniMapCamera;
 
 var pelletsLeft=true;
 
-var score;
+var score=0;
 
 var powerPelletTimer=0;
 
@@ -136,6 +137,10 @@ var planeGeometry;*/
 
 var levelNo=1;
 var dir = 1;
+
+var map=[];//2d array for holding the map, for pathfinding
+
+
 /**
  *  The render function draws the scene.
  */
@@ -185,26 +190,6 @@ function render()
  */
 function createWorld()
 {
-	/*var hudCanvas = document.createElement('canvas');
-	hudCanvas.width = canvas.width;
-	hudCanvas.height = canvas.height;
-	hudCanvas.style.backgoundColor = "transparent";
-
-	hudBitmap = hudCanvas.getContext ('2d');
-	hudBitmap.font = "Normal 40px Arial";
-	hudBitmap.textAlign = 'center';
-	hudBitmap.fillStyle = "rgba(245 ,245, 245, 0.75)";  
-	hudBitmap.fillText('Initializing...', canvas.width / 2, canvas.height / 2); 
-
-	cameraHUD = new THREE.OrthographicCamera(-canvas.width/2, canvas.width/2, canvas.height/2, -canvas.height/2, 0, 30 );
-	sceneHUD = new THREE.Scene();
-	hudTexture = new THREE.Texture (hudCanvas);
-	hudTexture.needsUpdate = true;
-	material = new THREE.MeshBasicMaterial ( {map: hudTexture} );
-	material.transparent = true;
-	planeGeometry = new THREE.PlaneGeometry( canvas.width, canvas.height );
-	plane = new THREE.Mesh( planeGeometry, material );
-	sceneHUD.add( plane );*/
 
 	score=0;
 	
@@ -507,10 +492,21 @@ function makePellets(x,y,z,width,height)
 
 function makeLevel(levelNo)
 {
-	powerPellet=new THREE.Mesh(new THREE.SphereGeometry(1,16,16),new THREE.MeshPhongMaterial({color:'skyblue',side: THREE.DoubleSide,name: "powerpellet"}));
 	
+	
+
+
+
+	powerPellet=new THREE.Mesh(new THREE.SphereGeometry(1,16,16),new THREE.MeshPhongMaterial({color:'skyblue',side: THREE.DoubleSide,name: "powerpellet"}));
+		
 	if (levelNo == 1)
 	{
+		
+		
+		
+		
+		
+		
 		
 	//	powerPellet.position.set(12,-3,12);
 	
@@ -599,7 +595,7 @@ function makeLevel(levelNo)
 		//next level
 		makeBlock(-24,13,12,4,4,76);
 		
-		makePellets(-24,17,-5,1,76);
+		///makePellets(-24,17,-5,1,76);
 			
 		//left border
 		makeBlock(12,1,-12,52,4,4);
@@ -624,7 +620,7 @@ function makeLevel(levelNo)
 		//next level 
 		makeBlock(12,13,-24,76,4,4);
 		
-		makePellets(-2,17,-24,68,1);
+		//makePellets(-2,17,-24,68,1);
 	
 	
 		//top border
@@ -649,7 +645,7 @@ function makeLevel(levelNo)
 		//next level
 		makeBlock(48,13,12,4,4,76);
 		
-		makePellets(48,17,-5,1,76);
+	//	makePellets(48,17,-5,1,76);
 		
 		//right border
 		makeBlock(12,1,36,52,4,4);
@@ -673,7 +669,32 @@ function makeLevel(levelNo)
 		//next level
 		makeBlock(12,13,48,68,4,4);
 		
-		makePellets(-2,17,48,68,1);
+		//makePellets(-2,17,48,68,1);
+	
+	
+	
+	
+		//set up map
+		for(var i=0,i<11;i++)
+		{
+			map[i]=[];
+		}
+		
+		
+		//set up small sphere to check if each position is a block or not
+		var bob=new THREE.Vector3();
+		for(var i=0;i<11;i++)
+		{
+			for(var j=0;j<11;j++)
+			{
+				bob.set(a+i*4,-1,b+j*4);//set a and b manually
+				for(var k=0;k<obstructions.children.length;k++)
+				{
+						
+				}
+			}
+		}
+		
 	
 		
 	}
