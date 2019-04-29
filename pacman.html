@@ -33,8 +33,8 @@
 	z-index: 101;
 	width: 100%;
 	height: 100%;
-	background-color: black;
-	display: none;
+	background-image: url("download.jpg");
+	background-color: #cccccc;
 }
 #endScreenContent {
 	width: 1900px;
@@ -53,6 +53,7 @@
 }*/-->
 </style>
 <script src="sources/three.js"></script>
+<script src="sources/download.jpg"></script>
 <script src="sources/OrbitControls.js"></script>
 <script src="sources/stats.js"></script>
 <script src="sources/Character.js"></script>
@@ -884,6 +885,11 @@ function updateForFrame()
   	hudTexture.needsUpdate = true;*/
 
 	//ghost1.moveForward();
+
+	if (objPac.lives == 0)
+	{
+		draw ();
+	}//If for when a homie is dead
 	if (levelNo != 3)
 	{
 		if (pellets.children.length == 0)
@@ -902,7 +908,8 @@ function updateForFrame()
 	{
 		if (objPac.y <= -3 && (objPac.x >=32 || objPac.x <= -51 || objPac.z <= -24 || objPac.z >= 40))
 		{
-			//reset();
+			reset();
+			objPac.lives--;
 		}//If for when pacman is found on the floor and out of bounds
 	}//If for setting boundaries for dying in the second level
 	
@@ -1198,6 +1205,25 @@ function replay ()
 {
 	document.getElementById ("endScreen").style.display = 'none';
 }
+
+function rect (x, y, w, h, c)
+{
+	context.fillStyle = c;
+	context.fillRect (x, y, w, h);
+}//Function to draw out 2D rectangle
+
+function text (txt, fnt, x, y, c)
+{
+	context.fillStyle = c;
+	context.font = fnt;
+	context.fillText (txt, x, y);
+}//Function
+
+function draw()
+{
+	rect (0, 0, canvas.width, canvas.height, 'black');
+	text ('GAME OVER', '75px Comic Sams MS', 10, 30, 'white');
+}//Function used to draw the Game Over Screen
 /*----------------------------- INITIALIZATION ----------------------------------------
 
 /**
