@@ -225,7 +225,7 @@ function createWorld()
     mainCamera = new THREE.PerspectiveCamera(30, canvas.width/canvas.height, 0.1, 10000);//main camera, staionary,can be used later for fixed full view with different parameters 
     mainCamera.position.z = 0;
     mainCamera.position.x = -130;
-    mainCamera.position.y= 130;
+    mainCamera.position.y= 200;
 	//camera.rotation.y += 90 * Math.PI / 180;
 	
 	thirdCamera = new THREE.PerspectiveCamera(30, canvas.width/canvas.height, 0.1, 300);
@@ -237,7 +237,7 @@ function createWorld()
 	var firstCamera=new THREE.PerspectiveCamera;
 	firstCamera.position.z=75;
 	
-	miniMapCamera=new THREE.OrthographicCamera(window.innerWidth / - 16-20, window.innerWidth / 16+20,window.innerHeight / 16+20, window.innerHeight / - 16-20, -30,100 );
+	miniMapCamera=new THREE.OrthographicCamera(window.innerWidth / - 16-20, window.innerWidth / 16+40,window.innerHeight / 16+40, window.innerHeight / - 16-20, -30,100 );
 	
 	miniMapCamera.rotation.x=-Math.PI/2 ;
 	miniMapCamera.rotation.z=-Math.PI/2 ;
@@ -680,7 +680,7 @@ function makeLevel(levelNo)
 	
 	
 		//set up map
-		for(var i=0,i<11;i++)
+		for(var i=0;i<11;i++)
 		{
 			map[i]=[];
 		}
