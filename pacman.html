@@ -29,17 +29,19 @@
     z-index: 100;
 }
 #endScreen {
-	position: absolute;
+	position: fixed;
 	z-index: 101;
 	width: 100%;
 	height: 100%;
+	left:-200;
+    top:-200;
 	
 }
 #endScreenContent {
 	width: 100%;
 	height: 100%;
+	
 	background-color: white;
-	margin: 80 auto;
 	text-align: center;
 	background-image: url("sources/download.jpg");
 	background-color: #cccccc;
@@ -332,7 +334,7 @@ function createWorld()
 	//gate.position.set(10,-3,16);
 	//obstructions.add(gate);
 	
-	levelNo=2;
+	//levelNo=2;
 	makeLevel(levelNo);
 
 	
@@ -369,7 +371,7 @@ function createWorld()
 	//obstructions.add(floor);
 
 	objPac = new Character (PAC_SPEED, -4,0, 8, myPac, pacmanGeometries,obstructions,pellets,powerPellets, "pacman");//make this pacman
-	ghost1 = new Character (0.5, 12,5, 12, ghostthing, ghost1Geometries,obstructions);//make first ghost
+	ghost1 = new Character (0.4, 12,5, 12, ghostthing, ghost1Geometries,obstructions);//make first ghost
 	ghost1.setTag("ghost");
 	
 	
@@ -1035,7 +1037,7 @@ function updateForFrame()
 	{
 		draw ();
 	}//If for when a homie is dead
-	if (levelNo != 3)
+	if (levelNo != 2)
 	{
 		if (pellets.children.length == 0)
 		{
@@ -1043,6 +1045,10 @@ function updateForFrame()
 			score += objPac.score;
 			reset();
 		}
+	}
+	else if (pellets.children.length == 0)
+	{
+		//win screen 
 	}
 	var oof = frameNumber % 20;
 	if (oof > 10)
@@ -1070,8 +1076,7 @@ function updateForFrame()
 	}//For loop to iterate over all the pelletes
 	
   	var myDiv = document.getElementById ("hud");
- 	//myDiv.innerHTML = "Score: " + objPac.score + "      Lives: " + objPac.lives + " ; " + pellets.children.length;
- 	myDiv.innerHTML = objPac.x + " " + objPac.z;
+ 	myDiv.innerHTML = "Score: " + objPac.score + "      Lives: " + objPac.lives;
 
 
  	var pacSphere;
@@ -1094,7 +1099,17 @@ function updateForFrame()
 	ghost1.setDirection();
 	
 	ghost1.doCollisions();
-	
+	if(!powerMode)
+	{
+		var charSphere1 = new THREE.Sphere (objPac.getPos(), 2);
+		var charSphere2 = new THREE.Sphere (ghost1.getPos(), 2);
+
+		if(objPac.SphereSphere(charSphere1,charSphere2))
+		{
+			reset();
+			objPac.lives--;
+		}
+	}
 	
 	
 	if (halloween)
@@ -1281,7 +1296,7 @@ function onDocumentKeyDown(event) {
 
 function reset()
 {
-	//init();//reset, not the right solution, but a solution for now ;-p
+	
 	scene = new THREE.Scene();
 	powerPellets=new THREE.Object3D();;
 	pellets=new THREE.Object3D();;
@@ -1429,19 +1444,18 @@ function init() {
    <p style="color: #AA0000; font-weight: bold">Sorry, but this page requires JavaScript!</p>
 </noscript>
 
-<p style="color:#AA0000; font-weight: bold" id="message">
-</p>
+
 
 <div id="hud" style="color: white">YO</div>
-
+<!--
 <div id = "introScreen">
 	<div id = "introScreenContent">
 		<h1>Pac-Man</h1>
 		<div id = "btnStart" class = "button" onclick = "startGame()">Start Game</div>
 	</div>
 </div>
-
-<div id = "endScreen">
+-->
+<div width="window.innerWidth" height="window.innerHeight" id = "endScreen">
 	<div id = "endScreenContent">
 		<h1 id = "txtEndTitle">Game Over</h1>
 		<h2 id = "txtEndMessage">You got got homie</h2>

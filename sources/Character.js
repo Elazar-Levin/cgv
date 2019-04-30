@@ -445,6 +445,11 @@ class Character extends THREE.Object3D
 		return sphere.intersectsBox (Cube);
 	}//Method that returns boolean of whether the two objects intersect
 
+	SphereSphere(sphere1,sphere2)
+	{
+		return sphere1.intersectsSphere(sphere2);
+	}
+	
 	distanceCubeCube (cube1,cube2)
 	{
 		var center2 = new THREE.Vector3();
@@ -463,10 +468,42 @@ class Character extends THREE.Object3D
 	
 	findChar(char1)
 	{
-		if(char1.position.z<this.position.z && this.futureDir!="right")
+		
+		if (this.movingLeft)
 		{
-			this.futureDir="left";
-		}
+			if(char1.position.z<this.position.z)
+			{
+				if (this.canMoveLeft)
+				{
+					this.futureDir = "left"
+				}//If for when
+			}
+			if(char1.position.z<this.position.z && char1.position.x>this.position.x)
+			{
+				this.futureDir="right";
+			}
+			if(char1.position.z>this.position.z && char1.position.x<this.position.x)
+			{
+				this.futureDir="left";
+			}
+			if(char1.position.z>this.position.z && char1.position.x>this.position.x)
+			{
+				this.futureDir="left";
+			}
+		}//If for when ghost is moving to the left
+		if (this.movingRight)
+		{
+			
+		}//If for when ghost is moving to the right
+		if (this.movingForward)
+		{
+			
+		}//If for when ghost is moving to the up
+		if (this.movingBackward)
+		{
+			
+		}//If for when ghost is moving to the down
+		
 		else if(char1.position.z>this.position.z && this.futureDir!="left")
 		{
 			this.futureDir="right";
