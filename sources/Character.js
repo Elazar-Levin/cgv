@@ -477,7 +477,43 @@ class Character extends THREE.Object3D
 				{
 					this.futureDir = "left"
 				}//If for when
+				else if (char1.position.x < this.position.x)
+				{
+					if (this.canMoveBackward)
+					{
+						this.futureDir = "down"	
+					}
+				}//
 			}
+			if(char1.position.z>this.position.z)
+			{
+				if (this.canMoveRight)
+				{
+					this.futureDir = "right"
+				}//If for when
+				else if (char1.position.x < this.position.x)
+				{
+					if (this.canMoveBackward)
+					{
+						this.futureDir = "down"	
+					}
+				}//
+			}
+			if(char1.position.x<this.position.x)
+			{
+				if (this.canMoveLeft)
+				{
+					this.futureDir = "left"
+				}//If for when
+			}
+			if(char1.position.z<this.position.z)
+			{
+				if (this.canMoveLeft)
+				{
+					this.futureDir = "left"
+				}//If for when
+			}
+			
 			if(char1.position.z<this.position.z && char1.position.x>this.position.x)
 			{
 				this.futureDir="right";
