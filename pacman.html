@@ -42,11 +42,12 @@
 	height: 100%;
 	background-color: white;
 	text-align: center;
-	/*background-image: url("sources/download.jpg");*/
-	background-color: #05AC18;
+	background-image: url("sources/bg.png");
+	background-color: #053E18;
 	background-repeat: no-repeat;
 	background-size:cover;
-}*/
+}
+
 <!--/*#hudcanvas {
     position:fixed;
     left:0;
@@ -56,6 +57,8 @@
     opacity: 0.5;
 }*/-->
 </style>
+
+
 <script src="sources/three.js"></script>
 
 <script src="sources/OrbitControls.js"></script>
@@ -1104,12 +1107,12 @@ function updateForFrame()
 	
 	ghost1.doCollisions();
 
+	var charSphere1 = new THREE.Sphere (objPac.getPos(), 2);
+	var charSphere2 = new THREE.Sphere (ghost1.getPos(), 2);
+
 	if (!powerMode)
 	{
-		var charSphere1 = new THREE.Sphere (objPac.getPos(), 2);
-		var charSphere2 = new THREE.Sphere (ghost1.getPos(), 2);
-
-		if(objPac.SphereSphere(charSphere1,charSphere2))
+		if (objPac.SphereSphere (charSphere1, charSphere2))
 		{
 			reset();
 			objPac.lives--;
@@ -1118,7 +1121,11 @@ function updateForFrame()
 	}
 	else
 	{
-
+		if (objPac.SphereSphere (charSphere1, charSphere2))
+		{
+			//objPac.score += 10;
+			ghost1.setPos (12,20, 12);
+		}
 	}//else for when u on power mode
 	
 	
@@ -1309,7 +1316,6 @@ function onDocumentKeyDown(event) {
 
 function reset()
 {
-	
 	scene = new THREE.Scene();
 	powerPellets=new THREE.Object3D();;
 	pellets=new THREE.Object3D();;
@@ -1549,7 +1555,7 @@ function init() {
 		<br>
 		<button id="play" style="height: 40px; width: 100px; font-weight: bold;"onclick="replay()" type="button">PLAY</button>
 		<br>
-		<button id="mute" style="float: right;"onclick="playSound('theme')" type="button">Mute</button>
+		<button id="mute" style="float: right;"onclick="playSound('theme')" type="image" class="button">Mute</button>
 	</div>
 </div>
 

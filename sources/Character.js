@@ -471,9 +471,8 @@ class Character extends THREE.Object3D
 		return Math.sqrt (closestPoint.distanceToSquared (sphere.center)) - sphere.radius - 0.1;//last number is offset, the space between the two shapes. the smaller this is, the more ofter unexpected collisions happen	
 	}//Method that returns distance between sphere and cube mesh collider
 	
-	findChar(char1)
-	{
-		
+	findChar (char1)
+	{	
 		if (this.movingLeft)
 		{
 			if(char1.position.z<this.position.z)
@@ -488,7 +487,14 @@ class Character extends THREE.Object3D
 					{
 						this.futureDir = "down"	
 					}
-				}//
+				}
+				else if (char1.position.x > this.position.x)
+				{
+					if (this.canMoveBackward)
+					{
+						this.futureDir = "up"	
+					}
+				}
 			}
 			if(char1.position.z>this.position.z)
 			{
@@ -503,8 +509,15 @@ class Character extends THREE.Object3D
 						this.futureDir = "down"	
 					}
 				}//
+				else if (char1.position.x > this.position.x)
+				{
+					if (this.canMoveBackward)
+					{
+						this.futureDir = "up"	
+					}
+				}
 			}
-			if(char1.position.x<this.position.x)
+			/*if(char1.position.x<this.position.x)
 			{
 				if (this.canMoveLeft)
 				{
@@ -517,7 +530,7 @@ class Character extends THREE.Object3D
 				{
 					this.futureDir = "left"
 				}//If for when
-			}
+			}*/
 			
 			if(char1.position.z<this.position.z && char1.position.x>this.position.x)
 			{
