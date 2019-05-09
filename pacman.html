@@ -119,6 +119,7 @@ var miniMapCamera;
 var pelletsLeft=true;
 
 var score;
+var hiScore=0;
 
 var powerPelletTimer=0;
 
@@ -351,7 +352,7 @@ function createWorld()
 	
 	//https://www.brusheezy.com/textures/20185-seamless-green-grass-textures  credit for grass
 	const loader = new THREE.TextureLoader();
-	var floorTexture=loader.load('resources/images/grass/GrassGreenTexture0002.jpg');
+	var floorTexture=loader.load('resources/images/grass/GrassGreenTexture0001.jpg');
 	floorTexture.repeat.set(15,15);
 	floorTexture.wrapS = THREE.RepeatWrapping;
 	floorTexture.wrapT = THREE.RepeatWrapping;
@@ -1047,10 +1048,13 @@ function updateForFrame()
 	
 	if (objPac.lives == 0)
 	{
-		
+		if(objPac.highscore>=hiScore)
+		{
+			hiScore=objPac.highscore;
+		}
 		document.getElementById ("h1").innerHTML = "GAME OVER";
 		document.getElementById ("h2").innerHTML = "YOU DIED";
-		document.getElementById ("p").innerHTML = "Your Score: " + objPac.highscore;
+		document.getElementById ("p").innerHTML = "Your Score: " + objPac.highscore +"                  Hi-Score: "+hiScore;
 		document.getElementById ("play").innerHTML = "PLAY AGAIN";
 		document.getElementById ("endScreen").style.display = 'inline';
 	}//If for when a homie is dead
