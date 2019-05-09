@@ -349,8 +349,9 @@ function createWorld()
 	
 	//uncomment all to make floor grassy.only works on firefox//doesnt look too great, but can improve
 	
+	//https://www.brusheezy.com/textures/20185-seamless-green-grass-textures  credit for grass
 	const loader = new THREE.TextureLoader();
-	var floorTexture=loader.load('resources/images/grass/GrassGreenTexture0001.jpg');
+	var floorTexture=loader.load('resources/images/grass/GrassGreenTexture0002.jpg');
 	floorTexture.repeat.set(15,15);
 	floorTexture.wrapS = THREE.RepeatWrapping;
 	floorTexture.wrapT = THREE.RepeatWrapping;
@@ -1131,8 +1132,8 @@ function updateForFrame()
 	{
 		if (objPac.SphereSphere (charSphere1, charSphere2))
 		{
-			//objPac.score += 10;
-			ghost1.setPos (12,20, 12);
+			objPac.score += 10;
+			ghost1.setPos (12,20, 12); 
 		}
 	}//else for when u on power mode
 	
@@ -1367,7 +1368,7 @@ function reset()
 
 function buildSkybox()
 {
-	/*
+	
 	var urlPrefix = 'resources/images/miramir/miramar_',
 
 	urls = [
@@ -1385,7 +1386,7 @@ function buildSkybox()
 	urlPrefix + 'lf.png'
 
 	],
-	*/
+	
 	
 	
 	
@@ -1432,7 +1433,7 @@ function buildSkybox()
 	
 	*/
 
-	
+	/*
 	var urlPrefix = 'resources/images/rainforest/rainforest_',
 
 	urls = [
@@ -1450,7 +1451,7 @@ function buildSkybox()
 	urlPrefix + 'lf.png'
 
 	],
-	
+	*/
 	
 	
 	textureCube = THREE.ImageUtils.loadTextureCube(urls),
