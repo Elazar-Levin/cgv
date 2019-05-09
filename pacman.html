@@ -1066,6 +1066,7 @@ function updateForFrame()
 		{
 			reset();
 			objPac.lives--;
+			objPac.score = 0;
 		}//If for when pacman is found on the floor and out of bounds
 	}//If for setting boundaries for dying in the second level
 	
@@ -1112,8 +1113,13 @@ function updateForFrame()
 		{
 			reset();
 			objPac.lives--;
+			objPac.score = 0;
 		}
 	}
+	else
+	{
+
+	}//else for when u on power mode
 	
 	
 	if (halloween)
