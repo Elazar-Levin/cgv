@@ -40,14 +40,13 @@
 #endScreenContent {
 	width: 100%;
 	height: 100%;
-	
 	background-color: white;
 	text-align: center;
-	background-image: url("sources/download.jpg");
-	background-color: #cccccc;
+	/*background-image: url("sources/download.jpg");*/
+	background-color: #05AC18;
 	background-repeat: no-repeat;
 	background-size:cover;
-}
+}*/
 <!--/*#hudcanvas {
     position:fixed;
     left:0;
@@ -1454,7 +1453,7 @@ function init() {
 		<div id = "btnStart" class = "button" onclick = "startGame()">Start Game</div>
 	</div>
 </div>
--->
+
 <div width="window.innerWidth" height="window.innerHeight" id = "endScreen">
 	<div id = "endScreenContent">
 		<h1 id = "txtEndTitle">Game Over</h1>
@@ -1462,11 +1461,19 @@ function init() {
 		<div id = "btnReplay" class = "button" onclick = "replay()">Start Game</div>
 	</div>
 </div>
+-->
+<div width="window.innerWidth" height="window.innerHeight" id = "endScreen">
+	<div id = "endScreenContent">
+		<br>
+		<br>
+		<br>
+		<h1 style="font-family:verdana; text-align: center; font-size:500%;">PAC-MAN</h1>
+		<p style="font-family:courier; text-align: center; font-size:200%;">Three.js Project</p><br>
+		<div id = "btnReplay" class = "button" onclick = "replay()">Start Game</div>
+	</div>
+</div>
 
 <canvas width="window.innerWidth" height="window.innerHeight" id="glcanvas"></canvas>
 <!--<canvas width="window.innerWidth" height="window.innerHeight" id="hudcanvas"></canvas> -->
-
-
-
 </body>
 </html>
