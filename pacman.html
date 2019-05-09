@@ -1035,7 +1035,10 @@ function updateForFrame()
 
 	if (objPac.lives == 0)
 	{
-		draw ();
+		document.getElementById ("h1").innerHTML = "GAME OVER";
+		document.getElementById ("h2").innerHTML = "YOU DIED";
+		document.getElementById ("p").innerHTML = "Your Score: " + objPac.score;
+		document.getElementById ("endScreen").style.display = 'inline';
 	}//If for when a homie is dead
 	if (levelNo != 2)
 	{
@@ -1060,9 +1063,7 @@ function updateForFrame()
 		if (objPac.y <= -3 && (objPac.x >=32 || objPac.x <= -51 || objPac.z <= -24 || objPac.z >= 40))
 		{
 			reset();
-
 			objPac.lives--;
-
 		}//If for when pacman is found on the floor and out of bounds
 	}//If for setting boundaries for dying in the second level
 	
@@ -1099,7 +1100,8 @@ function updateForFrame()
 	ghost1.setDirection();
 	
 	ghost1.doCollisions();
-	if(!powerMode)
+
+	if (!powerMode)
 	{
 		var charSphere1 = new THREE.Sphere (objPac.getPos(), 2);
 		var charSphere2 = new THREE.Sphere (ghost1.getPos(), 2);
@@ -1499,9 +1501,9 @@ function init() {
 		<br>
 		<br>
 		<br>
-		<h1 style="font-family:verdana; text-align: center; font-size:500%;">PAC-MAN</h1>
-		<h2 style="font-family:verdana; text-align: center; font-size:300%;">IN 3D</h2>
-		<p style="font-family:courier; text-align: center; font-size:200%;">Three.js Project</p><br>
+		<h1 id="h1" style="font-family:verdana; text-align: center; font-size:500%;">PAC-MAN</h1>
+		<h2 id="h2" style="font-family:verdana; text-align: center; font-size:300%;">IN 3D</h2>
+		<p id="p" style="font-family:courier; text-align: center; font-size:200%;">Three.js Project</p><br>
 		<br>
 		<br>
 		<br>

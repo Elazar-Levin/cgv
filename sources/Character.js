@@ -30,6 +30,7 @@ class Character extends THREE.Object3D
 		this.canJump = false;
 		this.powerPellets = powerPellets;
 		this.score = 0;
+		this.highscore = 0;
 		this.lives = 3;
 		this.tag = tag;
 	}
