@@ -1390,6 +1390,17 @@ function draw()
 	rect (0, 0, canvas.width, canvas.height, 'black');
 	text ('GAME OVER', '75px Comic Sams MS', 10, 30, 'white');
 }//Function used to draw the Game Over Screen
+
+function playSound (tag) 
+{ 
+  document.getElementById(tag).play(); 
+} 
+
+function pauseSound(tag) 
+{ 
+  document.getElementById(tag).pause();
+  //document.getElementById('ey').style = "background-color:red";
+}
 /*----------------------------- INITIALIZATION ----------------------------------------
 
 /**
@@ -1443,9 +1454,13 @@ function init() {
    <p style="color: #AA0000; font-weight: bold">Sorry, but this page requires JavaScript!</p>
 </noscript>
 
-
+<audio loop autoplay id="theme" src="sources/pacman-theme.ogg" type="audio/ogg">
+	Your browser does not support the audio element.
+</audio>
 
 <div id="hud" style="color: white">YO</div>
+
+
 <!--
 <div id = "introScreen">
 	<div id = "introScreenContent">
@@ -1462,12 +1477,13 @@ function init() {
 	</div>
 </div>
 -->
-<div width="window.innerWidth" height="window.innerHeight" id = "endScreen">
+<div width="window.innerWidth" height="window.innerHeight" id="endScreen">
 	<div id = "endScreenContent">
 		<br>
 		<br>
 		<br>
 		<h1 style="font-family:verdana; text-align: center; font-size:500%;">PAC-MAN</h1>
+		<h2 style="font-family:verdana; text-align: center; font-size:300%;">IN 3D</h2>
 		<p style="font-family:courier; text-align: center; font-size:200%;">Three.js Project</p><br>
 		<br>
 		<br>
@@ -1488,12 +1504,9 @@ function init() {
 		<br>
 		<br>
 		<br>
+		<button style="height: 40px; width: 100px; font-weight: bold;"onclick="replay()" type="button">PLAY</button>
 		<br>
-		<br>
-		<br>
-		<button style="height: 40px; width: 100px"onclick="replay()" type="button">PLAY</button>
-		<br>
-		<button style="float: right;"onclick="pauseVid()" type="button">Mute</button>
+		<button style="float: right;"onclick="pauseSound()" type="button">Mute</button>
 	</div>
 </div>
 
