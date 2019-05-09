@@ -1042,10 +1042,11 @@ function updateForFrame()
 
 	//ghost1.moveForward();
 
-	skyboxMesh.rotateY(0.005);
+	skyboxMesh.rotateY(0.002);
 	
 	if (objPac.lives == 0)
 	{
+		
 		document.getElementById ("h1").innerHTML = "GAME OVER";
 		document.getElementById ("h2").innerHTML = "YOU DIED";
 		document.getElementById ("p").innerHTML = "Your Score: " + objPac.highscore;
@@ -1346,6 +1347,7 @@ function reset()
 	objPac.resetMovement();
 	objPac.futureDir="null";
 	
+	
 	ghost1.obstructions=obstructions;
 	ghost1.resetMovement();
 	ghost1.futureDir="null";
@@ -1365,6 +1367,7 @@ function reset()
 
 function buildSkybox()
 {
+	
 	var urlPrefix = 'resources/images/miramir/miramar_',
 
 	urls = [
@@ -1383,6 +1386,52 @@ function buildSkybox()
 
 	],
 
+	
+	
+	
+
+
+	/*
+	var urlPrefix = 'resources/images/violentdays/violentdays_',
+
+	urls = [
+
+	urlPrefix + 'ft.png',
+
+	urlPrefix + 'bk.png',
+
+	urlPrefix + 'up.png',
+
+	urlPrefix + 'dn.png',
+
+	urlPrefix + 'rt.png',
+
+	urlPrefix + 'lf.png'
+
+	],
+	*/
+	
+	/*
+	var urlPrefix = 'resources/images/nightsky/nightsky_',
+
+	urls = [
+
+	urlPrefix + 'ft.png',
+
+	urlPrefix + 'bk.png',
+
+	urlPrefix + 'up.png',
+
+	urlPrefix + 'dn.png',
+
+	urlPrefix + 'rt.png',
+
+	urlPrefix + 'lf.png'
+
+	],
+	
+	*/
+	
 	textureCube = THREE.ImageUtils.loadTextureCube(urls),
 
 	shader = THREE.ShaderLib['cube'],
