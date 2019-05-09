@@ -70,6 +70,9 @@ var canvas, renderer, scene, camera,stats; // Standard three.js requirements.
 
 var minimapCanvas,minmapRenderer;//minimap stuff
 
+
+var skyboxMesh;
+
 var controls;  // An OrbitControls object that is used to implement
                // rotation of the scene using the mouse.  (It actually rotates
                // the camera around the scene.)
@@ -234,6 +237,8 @@ function createWorld()
     renderer.setClearColor("blue"); // Background color for scene.
     scene = new THREE.Scene();
     
+	
+	buildSkybox();
     // ------------------- Setup cameras and lights ----------------------
     
     mainCamera = new THREE.PerspectiveCamera(30, canvas.width/canvas.height, 0.1, 10000);//main camera, staionary,can be used later for fixed full view with different parameters 
@@ -1034,6 +1039,8 @@ function updateForFrame()
 
 	//ghost1.moveForward();
 
+	skyboxMesh.rotateY(0.005);
+	
 	if (objPac.lives == 0)
 	{
 		document.getElementById ("h1").innerHTML = "GAME OVER";
@@ -1316,7 +1323,7 @@ function reset()
 	obstructions=new THREE.Object3D();
 	
 	makeLevel (levelNo);//should set walls and pellets and power pellets
-	
+	buildSkybox();
 	if (levelNo == 3){
 		objPac.setPos(-180,0,8)
 		ghost1.setPos(-180,20, 12);
@@ -1348,6 +1355,53 @@ function reset()
     scene.add(ghost1);
 	scene.add(pellets);
 
+}
+
+function buildSkybox()
+{
+	var urlPrefix = 'resources/images/miramir/miramar_',
+
+	urls = [
+
+	urlPrefix + 'ft.png',
+
+	urlPrefix + 'bk.png',
+
+	urlPrefix + 'up.png',
+
+	urlPrefix + 'dn.png',
+
+	urlPrefix + 'rt.png',
+
+	urlPrefix + 'lf.png'
+
+	],
+
+	textureCube = THREE.ImageUtils.loadTextureCube(urls),
+
+	shader = THREE.ShaderLib['cube'],
+
+	uniforms = THREE.UniformsUtils.clone(shader.uniforms);
+
+	uniforms['tCube'].value = textureCube;
+
+	var material = new THREE.ShaderMaterial({
+
+	fragmentShader: shader.fragmentShader,
+
+	vertexShader: shader.vertexShader,
+
+	uniforms: uniforms,
+
+	depthWrite: false,
+
+	side: THREE.DoubleSide
+
+	});
+
+	skyboxMesh = new THREE.Mesh(new THREE.BoxGeometry(1000, 1000, 1000, 1, 1, 1), material);
+
+	scene.add(skyboxMesh);
 }
 
 function cloneCanvas (oldCanvas) 
@@ -1529,23 +1583,7 @@ function init() {
 		<h2 id="h2" style="font-family:verdana; text-align: center; font-size:300%;">IN 3D</h2>
 		<p id="p" style="font-family:courier; text-align: center; font-size:200%;">Three.js Project</p><br>
 		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
+
 		<br>
 		<button id="play" style="height: 40px; width: 100px; font-weight: bold;"onclick="replay()" type="button">PLAY</button>
 		<br>
