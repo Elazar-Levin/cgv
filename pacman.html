@@ -134,6 +134,7 @@ var light3;//light illuminating block
 var canvas2;
 var destCtx;
 var ctx;
+var mute = false;
 /*var sceneHUD;
 var cameraHUD;
 var hudBitmap;
@@ -1392,13 +1393,28 @@ function draw()
 }//Function used to draw the Game Over Screen
 
 function playSound (tag) 
-{ 
-  document.getElementById(tag).play(); 
+{
+	if (mute)
+	{
+		document.getElementById (tag).play()
+		mute = false;
+		document.getElementById ("mute").innerHTML = "Mute"
+	}
+	else
+	{
+		document.getElementById (tag).pause()
+		mute = true;
+		document.getElementById ("mute").innerHTML = "Unmute"
+	}
 } 
 
-function pauseSound(tag) 
-{ 
-  document.getElementById(tag).pause();
+function pauseSound (tag) 
+{
+	if (mute)
+	{
+		return;
+	}
+	document.getElementById (tag).pause()
   //document.getElementById('ey').style = "background-color:red";
 }
 /*----------------------------- INITIALIZATION ----------------------------------------
@@ -1506,7 +1522,7 @@ function init() {
 		<br>
 		<button style="height: 40px; width: 100px; font-weight: bold;"onclick="replay()" type="button">PLAY</button>
 		<br>
-		<button style="float: right;"onclick="pauseSound()" type="button">Mute</button>
+		<button id="mute" style="float: right;"onclick="playSound('theme')" type="button">Mute</button>
 	</div>
 </div>
 
