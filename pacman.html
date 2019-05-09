@@ -135,6 +135,7 @@ var canvas2;
 var destCtx;
 var ctx;
 var mute = false;
+var first = true;
 /*var sceneHUD;
 var cameraHUD;
 var hudBitmap;
@@ -1037,7 +1038,8 @@ function updateForFrame()
 	{
 		document.getElementById ("h1").innerHTML = "GAME OVER";
 		document.getElementById ("h2").innerHTML = "YOU DIED";
-		document.getElementById ("p").innerHTML = "Your Score: " + objPac.score;
+		document.getElementById ("p").innerHTML = "Your Score: " + objPac.highscore;
+		document.getElementById ("play").innerHTML = "PLAY AGAIN";
 		document.getElementById ("endScreen").style.display = 'inline';
 	}//If for when a homie is dead
 	if (levelNo != 2)
@@ -1291,8 +1293,11 @@ function onDocumentKeyDown(event) {
 	}
 	if(keyCode==82)//r
 	{
-	
 		reset();
+	}
+	if (keyCode == 77) //m
+	{
+		playSound ('theme');
 	}
 }
 
@@ -1304,7 +1309,7 @@ function reset()
 	pellets=new THREE.Object3D();;
 	obstructions=new THREE.Object3D();
 	
-	makeLevel(levelNo);//should set walls and pellets and power pellets
+	makeLevel (levelNo);//should set walls and pellets and power pellets
 	
 	if (levelNo == 3){
 		objPac.setPos(-180,0,8)
@@ -1373,8 +1378,21 @@ function startGame ()
 function replay ()
 {
 	document.getElementById ("endScreen").style.display = 'none';
-	document.getElementById ("theme").pause()
+	if (first)
+	{
+		document.getElementById ("theme").pause()
+		mute = true;
+		document.getElementById ("mute").innerHTML = "Unmute";
+		first = false;
+	}//basically i only want it to stop the music the first time the button is pressed
+	else
+	{
+		objPac.clear();
+		levelNo = 1;
+		reset();
+	}//
 }
+
 
 function rect (x, y, w, h, c)
 {
@@ -1523,7 +1541,7 @@ function init() {
 		<br>
 		<br>
 		<br>
-		<button style="height: 40px; width: 100px; font-weight: bold;"onclick="replay()" type="button">PLAY</button>
+		<button id="play" style="height: 40px; width: 100px; font-weight: bold;"onclick="replay()" type="button">PLAY</button>
 		<br>
 		<button id="mute" style="float: right;"onclick="playSound('theme')" type="button">Mute</button>
 	</div>

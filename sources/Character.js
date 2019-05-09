@@ -281,6 +281,10 @@ class Character extends THREE.Object3D
 				{
 					this.food.remove (this.food.children [i]);
 					this.score++;
+					if (this.score >= this.highscore)
+					{
+						this.highscore++;
+					}//if for when u gotta add the high score also
 					console.log (this.food.children.length);
 					return;
 				}//if for when food collides with pacman
@@ -564,4 +568,24 @@ class Character extends THREE.Object3D
 	{
 		return new THREE.Vector2();
 	}
+
+	clear ()
+	{
+		this.score = 0;
+		this.highscore = 0;
+		this.lives = 3;
+		this.vAngle = 0;
+		this.myFrame = 0;
+		this.rotationY=0;
+		this.futureDir = "null";
+		this.jumping = false;
+		this.jumpingSpeed = 0.75;
+		this.ySpeed = 0.5;
+		this.yAccelerataion = 0;
+		this.canJump = false;
+		this.movingLeft = false;
+		this.movingRight = false;
+		this.movingForward = false;
+		this.movingBackward = false;
+	}//called when your lives are over, you wanna play again
 }
