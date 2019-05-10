@@ -595,11 +595,11 @@ class Character extends THREE.Object3D
 
 	tween(start,end)
 	{
-		var tweeningAmount=5;
+		var tweeningAmount=6;
 		this.tweening=true;
 		this.tweeningStart=start;
 		this.tweeningEnd=end;
-		if(this.rotation.y-end<0.1)
+		if(this.rotation.y==end)
 		{
 			this.tweening=false;
 		}
