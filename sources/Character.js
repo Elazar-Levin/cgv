@@ -409,10 +409,7 @@ class Character extends THREE.Object3D
 	
 	setDirection ()
 	{
-		if(this.tweening)
-		{
-			this.tween(this.rotation.y,this.tweeningEnd);
-		}
+		
 		if (this.futureDir == "left")
 		{
 			if (this.canMoveLeft ())
@@ -449,6 +446,11 @@ class Character extends THREE.Object3D
 				this.moveBackward();
 			}//if to check when pacman can actually turn
 		}//if for when next wanted turn is a downwards
+		if(this.tweening)
+		{
+			//this.tween(this.rotation.y,this.tweeningEnd);
+		}
+	
 	}//Method used to set the direction of pacman's face
 	
 	SphereIntersect (sphere, point) 
