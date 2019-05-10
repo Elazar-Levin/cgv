@@ -752,7 +752,14 @@ class Character extends THREE.Object3D
 	{
 		if (no == 1)
 		{
-
+			if (this.position.z > 3 && this.position.z < 20 && this.position.x >= 12 && this.position.x <= 16)
+			{
+				return true;
+			}//this means u in the spawn, u gotta go up homie
+			else
+			{
+				return false;
+			}
 		}//If for level 1
 		else if (no == 2)
 		{
