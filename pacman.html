@@ -119,6 +119,7 @@ var miniMapCamera;
 var pelletsLeft=true;
 
 var score;
+var hiScore=0;
 
 var powerPelletTimer=0;
 
@@ -317,12 +318,12 @@ function createWorld()
 	var pacGeometry=new THREE.SphereGeometry(0.3,16,16);
 	
 	//sun
-	makeSun();
+	//makeSun();
 
 	//one cloud
-	makeCloud();
+	//makeCloud();
 	//many clouds
-	makeClouds();
+//	makeClouds();
 	
 	pellet=new THREE.Mesh(new THREE.SphereGeometry(0.5,16,16),new THREE.MeshPhongMaterial({color:'skyblue',side: THREE.DoubleSide,name: "pellet"}));
 	pellet.position.set(3.5,-3,3.5);
@@ -349,14 +350,15 @@ function createWorld()
 	
 	//uncomment all to make floor grassy.only works on firefox//doesnt look too great, but can improve
 	
-	//const loader = new THREE.TextureLoader();
-	//var floorTexture=loader.load('resources/images/grass.png');
-	//floorTexture.repeat.set(20,20);
-	//floorTexture.wrapS = THREE.RepeatWrapping;
-	//floorTexture.wrapT = THREE.RepeatWrapping;
-	floor=new THREE.Mesh(new THREE.PlaneGeometry(1000,1000,5,5),new THREE.MeshPhongMaterial({side: THREE.BackSide,
-	color:'green'//comment out when using a texture
-	//map: floorTexture//doesn't work in chrome, so only use when using firefox 
+	//https://www.brusheezy.com/textures/20185-seamless-green-grass-textures  credit for grass
+	const loader = new THREE.TextureLoader();
+	var floorTexture=loader.load('resources/images/grass/GrassGreenTexture0001.jpg');
+	floorTexture.repeat.set(15,15);
+	floorTexture.wrapS = THREE.RepeatWrapping;
+	floorTexture.wrapT = THREE.RepeatWrapping;
+	floor=new THREE.Mesh(new THREE.PlaneGeometry(1000,1000,5,5),new THREE.MeshBasicMaterial({side: THREE.BackSide,
+	//color:'green',//comment out when using a texture
+	map: floorTexture//doesn't work in chrome, so only use when using firefox 
 	}));
 	floor.position.set(0,-5,0);
 	floor.rotation.x=Math.PI/2;//make floor on bottom 
@@ -1042,13 +1044,17 @@ function updateForFrame()
 
 	//ghost1.moveForward();
 
-	skyboxMesh.rotateY(0.005);
+	skyboxMesh.rotateY(0.002);
 	
 	if (objPac.lives == 0)
 	{
+		if(objPac.highscore>=hiScore)
+		{
+			hiScore=objPac.highscore;
+		}
 		document.getElementById ("h1").innerHTML = "GAME OVER";
 		document.getElementById ("h2").innerHTML = "YOU DIED";
-		document.getElementById ("p").innerHTML = "Your Score: " + objPac.highscore;
+		document.getElementById ("p").innerHTML = "Your Score: " + objPac.highscore +"                  Hi-Score: "+hiScore;
 		document.getElementById ("play").innerHTML = "PLAY AGAIN";
 		document.getElementById ("endScreen").style.display = 'inline';
 	}//If for when a homie is dead
@@ -1130,8 +1136,8 @@ function updateForFrame()
 	{
 		if (objPac.SphereSphere (charSphere1, charSphere2))
 		{
-			//objPac.score += 10;
-			ghost1.setPos (12,20, 12);
+			objPac.score += 10;
+			ghost1.setPos (12,20, 12); 
 		}
 	}//else for when u on power mode
 	
@@ -1346,6 +1352,7 @@ function reset()
 	objPac.resetMovement();
 	objPac.futureDir="null";
 	
+	
 	ghost1.obstructions=obstructions;
 	ghost1.resetMovement();
 	ghost1.futureDir="null";
@@ -1365,6 +1372,7 @@ function reset()
 
 function buildSkybox()
 {
+	
 	var urlPrefix = 'resources/images/miramir/miramar_',
 
 	urls = [
@@ -1382,7 +1390,74 @@ function buildSkybox()
 	urlPrefix + 'lf.png'
 
 	],
+	
+	
+	
+	
 
+
+	/*
+	var urlPrefix = 'resources/images/violentdays/violentdays_',
+
+	urls = [
+
+	urlPrefix + 'ft.png',
+
+	urlPrefix + 'bk.png',
+
+	urlPrefix + 'up.png',
+
+	urlPrefix + 'dn.png',
+
+	urlPrefix + 'rt.png',
+
+	urlPrefix + 'lf.png'
+
+	],
+	*/
+	
+	/*
+	var urlPrefix = 'resources/images/nightsky/nightsky_',
+
+	urls = [
+
+	urlPrefix + 'ft.png',
+
+	urlPrefix + 'bk.png',
+
+	urlPrefix + 'up.png',
+
+	urlPrefix + 'dn.png',
+
+	urlPrefix + 'rt.png',
+
+	urlPrefix + 'lf.png'
+
+	],
+	
+	*/
+
+	/*
+	var urlPrefix = 'resources/images/rainforest/rainforest_',
+
+	urls = [
+
+	urlPrefix + 'ft.png',
+
+	urlPrefix + 'bk.png',
+
+	urlPrefix + 'up.png',
+
+	urlPrefix + 'dn.png',
+
+	urlPrefix + 'rt.png',
+
+	urlPrefix + 'lf.png'
+
+	],
+	*/
+	
+	
 	textureCube = THREE.ImageUtils.loadTextureCube(urls),
 
 	shader = THREE.ShaderLib['cube'],
