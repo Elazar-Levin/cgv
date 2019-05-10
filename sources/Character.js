@@ -669,10 +669,10 @@ class Character extends THREE.Object3D
 			this.futureDir="up";
 		}*/
 
-		/*if (char1.futureDir == "null")
+		if (char1.futureDir == "null")
 		{
 			return;
-		}//Ghost only moves once pacman moves*/
+		}//Ghost only moves once pacman moves
 
 		if (Math.abs (char1.position.x - this.position.x) < 0.5)
 		{
