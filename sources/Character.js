@@ -33,6 +33,9 @@ class Character extends THREE.Object3D
 		this.highscore = 0;
 		this.lives = 3;
 		this.tag = tag;
+		this.tweening =false;
+		this.tweeningStart=0;
+		this.tweeningEnd=Math.PI;
 	}
 
 	moveLeft ()
@@ -406,11 +409,17 @@ class Character extends THREE.Object3D
 	
 	setDirection ()
 	{
+		if(this.tweening)
+		{
+			this.tween(this.rotation.y,this.tweeningEnd);
+		}
 		if (this.futureDir == "left")
 		{
 			if (this.canMoveLeft ())
 			{
-				this.rotation.y =- Math.PI / 2;
+				this.tween(this.rotation.y,- Math.PI / 2);
+				
+				
 				this.moveLeft();
 			}//if to check when pacman can actually turn
 		}//if for when next wanted turn is a left
@@ -418,7 +427,8 @@ class Character extends THREE.Object3D
 		{
 			if (this.canMoveRight ())
 			{
-				this.rotation.y = Math.PI / 2;
+				this.tween(this.rotation.y,Math.PI / 2);
+			
 				this.moveRight();
 			}//if to check when pacman can actually turn
 		}//if for when next wanted turn is a right
@@ -426,7 +436,8 @@ class Character extends THREE.Object3D
 		{
 			if (this.canMoveForward ())
 			{
-				this.rotation.y = Math.PI;
+				this.tween(this.rotation.y, Math.PI);
+				
 				this.moveForward();
 			}//if to check when pacman can actually turn
 		}//if for when next wanted turn is a upwards
@@ -434,7 +445,7 @@ class Character extends THREE.Object3D
 		{
 			if (this.canMoveBackward ())
 			{
-				this.rotation.y = 0;
+				this.tween(this.rotation.y,0);
 				this.moveBackward();
 			}//if to check when pacman can actually turn
 		}//if for when next wanted turn is a downwards
@@ -582,6 +593,32 @@ class Character extends THREE.Object3D
 		return new THREE.Vector2();
 	}
 
+	tween(start,end)
+	{
+		var tweeningAmount=5;
+		this.tweening=true;
+		this.tweeningStart=start;
+		this.tweeningEnd=end;
+		if(this.rotation.y-end<0.1)
+		{
+			this.tweening=false;
+		}
+		if(this.tweening)
+		{
+			if(this.tweeningStart>this.tweeningEnd)
+			{
+				//anticlockwise
+				this.rotateY(-(Math.PI)/tweeningAmount);
+			}
+			else
+			{
+				//clockwise
+				this.rotateY((Math.PI)/tweeningAmount);
+								
+			}
+		}
+	}
+	
 	clear ()
 	{
 		this.score = 0;

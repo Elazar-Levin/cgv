@@ -352,7 +352,7 @@ function createWorld()
 	
 	//https://www.brusheezy.com/textures/20185-seamless-green-grass-textures  credit for grass
 	const loader = new THREE.TextureLoader();
-	var floorTexture=loader.load('resources/images/grass/GrassGreenTexture0001.jpg');
+	var floorTexture=loader.load('resources/images/grass/GrassGreenTexture0002.jpg');
 	floorTexture.repeat.set(15,15);
 	floorTexture.wrapS = THREE.RepeatWrapping;
 	floorTexture.wrapT = THREE.RepeatWrapping;
@@ -502,7 +502,18 @@ function makeSun()
 
 function makeBlock(x,y,z,width,height,depth)
 {
-	var newWall=new THREE.Mesh(new THREE.CubeGeometry(width,height,depth),new THREE.MeshPhongMaterial({color:'brown',side: THREE.DoubleSide,name: "wall"}));
+	const loader = new THREE.TextureLoader();
+	var brickTexture=loader.load('resources/images/brick.jpg');
+	//floorTexture.repeat.set(15,15);
+	//floorTexture.wrapS = THREE.RepeatWrapping;
+	//floorTexture.wrapT = THREE.RepeatWrapping;
+	//floor=new THREE.Mesh(new THREE.PlaneGeometry(1000,1000,5,5),new THREE.MeshBasicMaterial({side: THREE.BackSide,
+	//color:'green',//comment out when using a texture
+	//map: floorTexture//doesn't work in chrome, so only use when using firefox 
+	//}));
+
+
+	var newWall=new THREE.Mesh(new THREE.CubeGeometry(width,height,depth),new THREE.MeshPhongMaterial({color:'brown',side: THREE.DoubleSide,name: "wall",map: brickTexture}));
 	newWall.position.set(x,y,z);
 	obstructions.add(newWall);
 }
@@ -1278,22 +1289,110 @@ function onDocumentKeyDown(event) {
     if (keyCode == 83 || keyCode== 40) 
     {//s
 		//backwards
-		objPac.futureDir="down";
+		if(cameraMode==1)
+		{
+			objPac.futureDir="down";
+		}
+		else
+		{
+			if(objPac.movingForward)
+			{
+				objPac.futureDir="down";
+			}
+			else if(objPac.movingBackward)
+			{
+				objPac.futureDir="up";
+			}
+			else if(objPac.movingLeft)
+			{
+				objPac.futureDir="right";
+			}
+			else//moving right
+			{
+				objPac.futureDir="left";
+			}
+		}
 	}
     else if (keyCode == 87 || keyCode==38) 
     {//w
-		//forward	
-		objPac.futureDir="up";
+		//forward
+		if(cameraMode==1)
+		{
+			objPac.futureDir="up";
+		}
+		else
+		{
+			if(objPac.movingForward)
+			{
+				objPac.futureDir="up";	
+			}
+			else if(objPac.movingBackward)
+			{
+				objPac.futureDir="down";
+			}
+			else if(objPac.movingLeft)
+			{
+				objPac.futureDir="left";
+			}
+			else//moving right
+			{
+				objPac.futureDir="right";
+			}
+		}
     } 
     else if (keyCode == 68 || keyCode==39) 
     {//d
 		//right
-		objPac.futureDir="right";
+		if(cameraMode==1)
+		{
+			objPac.futureDir="right";
+		}
+		else
+		{
+			if(objPac.movingForward)
+			{
+				objPac.futureDir="right";
+			}
+			else if(objPac.movingBackward)
+			{
+				objPac.futureDir="left";
+			}
+			else if(objPac.movingLeft)
+			{
+				objPac.futureDir="up";
+			}
+			else//moving right
+			{
+				objPac.futureDir="down";
+			}
+		}
     }  
     else if (keyCode == 65 || keyCode==37) 
     {//a
 		//left
-		objPac.futureDir="left";
+		if(cameraMode==1)
+		{
+			objPac.futureDir="left";
+		}
+		else
+		{
+			if(objPac.movingForward)
+			{
+				objPac.futureDir="left";
+			}
+			else if(objPac.movingBackward)
+			{
+				objPac.futureDir="right";
+			}
+			else if(objPac.movingLeft)
+			{
+				objPac.futureDir="down";
+			}
+			else//moving right
+			{
+				objPac.futureDir="up";
+			}
+		}
     } 
     else if (keyCode == 32) 
 	{//space
@@ -1305,7 +1404,7 @@ function onDocumentKeyDown(event) {
 		cameraMode=1;
 	}
 	else if(keyCode==50)//2
-	{
+	{ 
 		cameraMode=2;
 	}
 	else if(keyCode==51)//3
@@ -1315,7 +1414,7 @@ function onDocumentKeyDown(event) {
 	else if(keyCode==72)//h
 	{
 	//desnt work anymore, only activated when power pellet eaten, may change
-		halloween= !halloween;
+		//halloween= !halloween;
 	}
 	if(keyCode==82)//r
 	{
