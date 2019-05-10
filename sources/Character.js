@@ -471,7 +471,7 @@ class Character extends THREE.Object3D
 		return Math.sqrt (closestPoint.distanceToSquared (sphere.center)) - sphere.radius - 0.1;//last number is offset, the space between the two shapes. the smaller this is, the more ofter unexpected collisions happen	
 	}//Method that returns distance between sphere and cube mesh collider
 	
-	findChar (char1)
+	findChar (char1, no)
 	{	
 		/*if (this.movingLeft)
 		{
@@ -669,6 +669,11 @@ class Character extends THREE.Object3D
 			this.futureDir="up";
 		}*/
 
+		/*if (char1.futureDir == "null")
+		{
+			return;
+		}//Ghost only moves once pacman moves*/
+
 		if (Math.abs (char1.position.x - this.position.x) < 0.5)
 		{
 			if (char1.position.z > this.position.z)
@@ -707,6 +712,10 @@ class Character extends THREE.Object3D
 		{
 			this.futureDir = "left";
 		}//if for moving left
+		if (this.inSpawn (no))
+		{
+			this.futureDir = "up";
+		}//Ghosts must go immediately out when they in their spawn
 	}
 	//dont need this
 	setTag (tag)
@@ -739,8 +748,22 @@ class Character extends THREE.Object3D
 		this.movingBackward = false;
 	}//called when your lives are over, you wanna play again. Clears all info on last game prretty much
 
-	inSpawn()
+	inSpawn (no)
 	{
+		if (no == 1)
+		{
 
+		}//If for level 1
+		else if (no == 2)
+		{
+			if (this.position.z > 3 && this.position.z < 20 && this.position.x >= 12 && this.position.x <= 16)
+			{
+				return true;
+			}//this means u in the spawn, u gotta go up homie
+			else
+			{
+				return false;
+			}
+		}//level 2 spawn
 	}//checks if ghost is in spawing block, prioritize going up if so
 }
