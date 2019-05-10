@@ -344,7 +344,7 @@ function createWorld()
 	//gate.position.set(10,-3,16);
 	//obstructions.add(gate);
 	
-	//levelNo=2;
+	levelNo=2;
 	makeLevel(levelNo);
 
 	
@@ -1049,23 +1049,17 @@ function makeLevel(levelNo)
  
 function updateForFrame() 
 {
-	/*hudBitmap.clearRect(0, 0, canvas.width, canvas.height);
-    hudBitmap.fillText("Why u no behind :((((((((" , canvas.width / 2, canvas.height / 2);
-  	hudTexture.needsUpdate = true;*/
-
-	//ghost1.moveForward();
-
-	skyboxMesh.rotateY(0.002);
+	skyboxMesh.rotateY (0.002);
 	
 	if (objPac.lives == 0)
 	{
-		if(objPac.highscore>=hiScore)
+		if (objPac.highscore >= hiScore)
 		{
-			hiScore=objPac.highscore;
+			hiScore = objPac.highscore;
 		}
 		document.getElementById ("h1").innerHTML = "GAME OVER";
 		document.getElementById ("h2").innerHTML = "YOU DIED";
-		document.getElementById ("p").innerHTML = "Your Score: " + objPac.highscore +"                  Hi-Score: "+hiScore;
+		document.getElementById ("p").innerHTML = "Your Score: " + objPac.highscore + "                  Hi-Score: " + hiScore;
 		document.getElementById ("play").innerHTML = "PLAY AGAIN";
 		document.getElementById ("endScreen").style.display = 'inline';
 	}//If for when a homie is dead
@@ -1107,7 +1101,7 @@ function updateForFrame()
 	}//For loop to iterate over all the pelletes
 	
   	var myDiv = document.getElementById ("hud");
- 	myDiv.innerHTML = "Score: " + objPac.score + "      Lives: " + objPac.lives;
+ 	myDiv.innerHTML = "Score: " + objPac.score + "      Lives: " + objPac.lives + "        sds:    " + ghost1.x + " : " + ghost1.z;
 
 
  	var pacSphere;
@@ -1125,7 +1119,7 @@ function updateForFrame()
 	
 	ghost1.animate(paccy);
 	
-	ghost1.findChar(objPac);
+	ghost1.findChar(objPac, levelNo);
 	
 	ghost1.setDirection();
 	

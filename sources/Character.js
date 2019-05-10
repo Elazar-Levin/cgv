@@ -482,28 +482,28 @@ class Character extends THREE.Object3D
 		return Math.sqrt (closestPoint.distanceToSquared (sphere.center)) - sphere.radius - 0.1;//last number is offset, the space between the two shapes. the smaller this is, the more ofter unexpected collisions happen	
 	}//Method that returns distance between sphere and cube mesh collider
 	
-	findChar (char1)
+	findChar (char1, no)
 	{	
-		if (this.movingLeft)
+		/*if (this.movingLeft)
 		{
 			if(char1.position.z<this.position.z)
 			{
 				if (this.canMoveLeft)
 				{
-					this.futureDir = "left"
+					this.futureDir = "left";
 				}//If for when
 				else if (char1.position.x < this.position.x)
 				{
 					if (this.canMoveBackward)
 					{
-						this.futureDir = "down"	
+						this.futureDir = "down";
 					}
 				}
 				else if (char1.position.x > this.position.x)
 				{
 					if (this.canMoveBackward)
 					{
-						this.futureDir = "up"	
+						this.futureDir = "up";
 					}
 				}
 			}
@@ -511,62 +511,160 @@ class Character extends THREE.Object3D
 			{
 				if (this.canMoveRight)
 				{
-					this.futureDir = "right"
+					this.futureDir = "right";
 				}//If for when
 				else if (char1.position.x < this.position.x)
 				{
 					if (this.canMoveBackward)
 					{
-						this.futureDir = "down"	
+						this.futureDir = "down";	
 					}
 				}//
 				else if (char1.position.x > this.position.x)
 				{
 					if (this.canMoveBackward)
 					{
-						this.futureDir = "up"	
+						this.futureDir = "up";
 					}
 				}
-			}
-			/*if(char1.position.x<this.position.x)
-			{
-				if (this.canMoveLeft)
-				{
-					this.futureDir = "left"
-				}//If for when
-			}
-			if(char1.position.z<this.position.z)
-			{
-				if (this.canMoveLeft)
-				{
-					this.futureDir = "left"
-				}//If for when
-			}*/
-			
-			if(char1.position.z<this.position.z && char1.position.x>this.position.x)
-			{
-				this.futureDir="right";
-			}
-			if(char1.position.z>this.position.z && char1.position.x<this.position.x)
-			{
-				this.futureDir="left";
-			}
-			if(char1.position.z>this.position.z && char1.position.x>this.position.x)
-			{
-				this.futureDir="left";
 			}
 		}//If for when ghost is moving to the left
 		if (this.movingRight)
 		{
-			
+			if (char1.position.z < this.position.z)
+			{
+				if (this.canMoveLeft)
+				{
+					this.futureDir = "left";
+				}//If for when
+				else if (char1.position.x < this.position.x)
+				{
+					if (this.canMoveBackward)
+					{
+						this.futureDir = "down";
+					}
+				}
+				else if (char1.position.x > this.position.x)
+				{
+					if (this.canMoveBackward)
+					{
+						this.futureDir = "up";
+					}
+				}
+			}
+			if(char1.position.z > this.position.z)
+			{
+				if (this.canMoveRight)
+				{
+					this.futureDir = "right";
+					char1.score = 50;
+				}//If for when
+				else if (char1.position.x < this.position.x)
+				{
+					if (this.canMoveBackward)
+					{
+						this.futureDir = "down";	
+					}
+				}//
+				else if (char1.position.x > this.position.x)
+				{
+					if (this.canMoveBackward)
+					{
+						this.futureDir = "up";
+						char1.score = 60;
+					}
+				}
+			}	
 		}//If for when ghost is moving to the right
 		if (this.movingForward)
 		{
-			
+			if(char1.position.x > this.position.x)
+			{
+				if (this.canMoveForward)
+				{
+					this.futureDir = "up";
+				}//If for when
+				else if (char1.position.z < this.position.z)
+				{
+					if (this.canMoveBackward)
+					{
+						this.futureDir = "left";
+					}
+				}
+				else if (char1.position.z > this.position.z)
+				{
+					if (this.canMoveBackward)
+					{
+						this.futureDir = "right";
+					}
+				}
+			}
+			if(char1.position.x < this.position.x)
+			{
+				if (this.canMoveRight)
+				{
+					this.futureDir = "right";
+				}//If for when
+				else if (char1.position.z < this.position.z)
+				{
+					if (this.canMoveBackward)
+					{
+						this.futureDir = "left";	
+					}
+				}//
+				else if (char1.position.z > this.position.z)
+				{
+					if (this.canMoveBackward)
+					{
+						this.futureDir = "right";
+					}
+				}
+			}	
 		}//If for when ghost is moving to the up
 		if (this.movingBackward)
 		{
-			
+			if(char1.position.x > this.position.x)
+			{
+				if (this.canMoveForward)
+				{
+					this.futureDir = "up";
+				}//If for when
+				else if (char1.position.z < this.position.z)
+				{
+					if (this.canMoveBackward)
+					{
+						this.futureDir = "left";
+					}
+				}
+				else if (char1.position.z > this.position.z)
+				{
+					if (this.canMoveBackward)
+					{
+						this.futureDir = "right";
+					}
+				}
+			}
+			if(char1.position.x < this.position.x)
+			{
+				if (this.canMoveRight)
+				{
+					this.futureDir = "right";
+				}//If for when
+				else if (char1.position.z < this.position.z)
+				{
+					if (this.canMoveBackward)
+					{
+						this.futureDir = "left";	
+					}
+				}//
+				else if (char1.position.z > this.position.z)
+				{
+					if (this.canMoveBackward)
+					{
+						this.futureDir = "right";
+					}
+				}
+			}
 		}//If for when ghost is moving to the down
 		
 		else if(char1.position.z>this.position.z && this.futureDir!="left")
@@ -580,7 +678,55 @@ class Character extends THREE.Object3D
 		else if(char1.position.x>this.position.x && this.futureDir!="down")
 		{
 			this.futureDir="up";
-		}
+		}*/
+
+		/*if (char1.futureDir == "null")
+		{
+			return;
+		}//Ghost only moves once pacman moves*/
+
+		if (Math.abs (char1.position.x - this.position.x) < 0.5)
+		{
+			if (char1.position.z > this.position.z)
+			{
+				this.futureDir = "right";
+			}//If to turn right
+			else
+			{
+				this.futureDir = "left";
+			}//else for when u gotta go left instead
+		}//if to stop that annoying shit when its on the same axis
+		else if (Math.abs (char1.position.z - this.position.z) < 0.5)
+		{
+			if (char1.position.x > this.position.x)
+			{
+				this.futureDir = "up";
+			}//If to turn up
+			else
+			{
+				this.futureDir = "down";
+			}//else for when u gotta go down instead
+		}//if to stop that annoying shit when its on the same axis
+		else if (char1.position.x > this.position.x && this.canMoveForward() && this.futureDir != "down")
+		{
+			this.futureDir = "up";
+		}//if for moving up
+		else if (char1.position.z > this.position.z && this.canMoveRight() && this.futureDir != "left")
+		{
+			this.futureDir = "right";
+		}//if for moving right
+		else if (char1.position.x < this.position.x && this.canMoveBackward() && this.futureDir != "up")
+		{
+			this.futureDir = "down";
+		}//if for moving down
+		else if (char1.position.z < this.position.z && this.canMoveLeft() && this.futureDir != "right")
+		{
+			this.futureDir = "left";
+		}//if for moving left
+		if (this.inSpawn (no))
+		{
+			this.futureDir = "up";
+		}//Ghosts must go immediately out when they in their spawn
 	}
 	//dont need this
 	setTag (tag)
@@ -637,5 +783,24 @@ class Character extends THREE.Object3D
 		this.movingRight = false;
 		this.movingForward = false;
 		this.movingBackward = false;
-	}//called when your lives are over, you wanna play again
+	}//called when your lives are over, you wanna play again. Clears all info on last game prretty much
+
+	inSpawn (no)
+	{
+		if (no == 1)
+		{
+
+		}//If for level 1
+		else if (no == 2)
+		{
+			if (this.position.z > 3 && this.position.z < 20 && this.position.x >= 12 && this.position.x <= 16)
+			{
+				return true;
+			}//this means u in the spawn, u gotta go up homie
+			else
+			{
+				return false;
+			}
+		}//level 2 spawn
+	}//checks if ghost is in spawing block, prioritize going up if so
 }
