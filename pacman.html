@@ -357,8 +357,8 @@ function createWorld()
 	floorTexture.wrapS = THREE.RepeatWrapping;
 	floorTexture.wrapT = THREE.RepeatWrapping;
 	floor=new THREE.Mesh(new THREE.PlaneGeometry(1000,1000,5,5),new THREE.MeshBasicMaterial({side: THREE.BackSide,
-	//color:'green',//comment out when using a texture
-	map: floorTexture//doesn't work in chrome, so only use when using firefox 
+	color:'green'//comment out when using a texture
+	//map: floorTexture//doesn't work in chrome, so only use when using firefox 
 	}));
 	floor.position.set(0,-5,0);
 	floor.rotation.x=Math.PI/2;//make floor on bottom 
@@ -513,7 +513,7 @@ function makeBlock(x,y,z,width,height,depth)
 	//}));
 
 
-	var newWall=new THREE.Mesh(new THREE.CubeGeometry(width,height,depth),new THREE.MeshPhongMaterial({color:'brown',side: THREE.DoubleSide,name: "wall",map: brickTexture}));
+	var newWall=new THREE.Mesh(new THREE.CubeGeometry(width,height,depth),new THREE.MeshPhongMaterial({color:'brown',side: THREE.DoubleSide,name: "wall"}));//,map: brickTexture}));
 	newWall.position.set(x,y,z);
 	obstructions.add(newWall);
 }
