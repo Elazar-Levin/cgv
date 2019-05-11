@@ -226,7 +226,14 @@ function createWorld()
 	planeGeometry = new THREE.PlaneGeometry( canvas.width, canvas.height );
 	plane = new THREE.Mesh( planeGeometry, material );
 	sceneHUD.add( plane );*/
-
+	
+	if(localStorage.getItem("hiscore")!=null)
+	{
+		hiScore=localStorage.getItem("hiscore");
+	}
+	
+	
+	
 	score=0;
 	
 	sun=new THREE.Object3D();
@@ -1056,6 +1063,7 @@ function updateForFrame()
 		if (objPac.highscore >= hiScore)
 		{
 			hiScore = objPac.highscore;
+			localStorage.setItem("hiscore",hiScore);
 		}
 		document.getElementById ("h1").innerHTML = "GAME OVER";
 		document.getElementById ("h2").innerHTML = "YOU DIED";
