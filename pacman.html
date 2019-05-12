@@ -122,6 +122,7 @@ var score;
 var hiScore=0;
 
 var powerPelletTimer=0;
+var ghostRespawn = 0;
 
 var lrAcceleration=0;//left/right acceleration
 var fbAcceleration=0;//forward/backward acceleration
@@ -351,7 +352,7 @@ function createWorld()
 	//gate.position.set(10,-3,16);
 	//obstructions.add(gate);
 	
-	levelNo=3;
+	levelNo=1;
 	makeLevel(levelNo);
 
 	
@@ -364,8 +365,8 @@ function createWorld()
 	floorTexture.wrapS = THREE.RepeatWrapping;
 	floorTexture.wrapT = THREE.RepeatWrapping;
 	floor=new THREE.Mesh(new THREE.PlaneGeometry(1000,1000,5,5),new THREE.MeshBasicMaterial({side: THREE.BackSide,
-	color:'green'//comment out when using a texture
-	//map: floorTexture//doesn't work in chrome, so only use when using firefox 
+	color:'green',//comment out when using a texture
+	map: floorTexture//doesn't work in chrome, so only use when using firefox 
 	}));
 	floor.position.set(0,-5,0);
 	floor.rotation.x=Math.PI/2;//make floor on bottom 
@@ -1109,7 +1110,7 @@ function updateForFrame()
 	}//For loop to iterate over all the pelletes
 	
   	var myDiv = document.getElementById ("hud");
- 	myDiv.innerHTML = "Score: " + objPac.score + "      Lives: " + objPac.lives + "        sds:    " + ghost1.x + " : " + ghost1.z;
+ 	myDiv.innerHTML = "Score: " + objPac.score + "      Lives: " + objPac.lives;
 
 
  	var pacSphere;
@@ -1125,9 +1126,9 @@ function updateForFrame()
 	
 	objPac.doCollisions();
 	
-	ghost1.animate(paccy);
+	ghost1.animate (paccy);
 	
-	ghost1.findChar(objPac, levelNo);
+	ghost1.findChar (objPac, levelNo, halloween);
 	
 	ghost1.setDirection();
 	
@@ -1150,10 +1151,16 @@ function updateForFrame()
 		if (objPac.SphereSphere (charSphere1, charSphere2))
 		{
 			objPac.score += 10;
-			ghost1.setPos (12,20, 12); 
+			ghost1.setPos (12,2000, 12);
+			ghostRespawn = 200;
 		}
 	}//else for when u on power mode
-	
+
+	if (ghostRespawn > 0)
+	{
+		ghostRespawn--;
+		ghost1.setPos (12,2000, 12);
+	}//If to give respawn timer
 	
 	if (halloween)
 	{
