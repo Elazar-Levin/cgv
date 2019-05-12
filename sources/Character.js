@@ -471,7 +471,7 @@ class Character extends THREE.Object3D
 		return Math.sqrt (closestPoint.distanceToSquared (sphere.center)) - sphere.radius - 0.1;//last number is offset, the space between the two shapes. the smaller this is, the more ofter unexpected collisions happen	
 	}//Method that returns distance between sphere and cube mesh collider
 	
-	findChar (char1, no)
+	findChar (char1, no, halloween)
 	{	
 		/*if (this.movingLeft)
 		{
@@ -674,6 +674,32 @@ class Character extends THREE.Object3D
 			return;
 		}//Ghost only moves once pacman moves
 
+		/*if (halloween)
+		{
+			var dir = Math.floor ((Math.random() * 4) + 1);
+			switch (dir)
+			{
+				
+			}//Choosing random direction
+			if (this.canMoveForward())
+			{
+				this.futureDir = "up";
+			}//random dirtections
+			else if (this.futureDir == "down")
+			{
+				this.futureDir = "up";
+			}//Inverse dirtections
+			else if (this.futureDir == "left")
+			{
+				this.futureDir = "right";
+			}//Inverse dirtections
+			else if (this.futureDir == "right")
+			{
+				this.futureDir = "left";
+			}//Inverse dirtections
+			return;
+		}//ghost gonna be running from you, so imma revert his actions*/
+
 		if (Math.abs (char1.position.x - this.position.x) < 0.5)
 		{
 			if (char1.position.z > this.position.z)
@@ -685,6 +711,7 @@ class Character extends THREE.Object3D
 				this.futureDir = "left";
 			}//else for when u gotta go left instead
 		}//if to stop that annoying shit when its on the same axis
+
 		else if (Math.abs (char1.position.z - this.position.z) < 0.5)
 		{
 			if (char1.position.x > this.position.x)
@@ -696,22 +723,29 @@ class Character extends THREE.Object3D
 				this.futureDir = "down";
 			}//else for when u gotta go down instead
 		}//if to stop that annoying shit when its on the same axis
+
 		else if (char1.position.x > this.position.x && this.canMoveForward() && this.futureDir != "down")
 		{
 			this.futureDir = "up";
 		}//if for moving up
+
 		else if (char1.position.z > this.position.z && this.canMoveRight() && this.futureDir != "left")
 		{
 			this.futureDir = "right";
 		}//if for moving right
+
 		else if (char1.position.x < this.position.x && this.canMoveBackward() && this.futureDir != "up")
 		{
 			this.futureDir = "down";
 		}//if for moving down
+
 		else if (char1.position.z < this.position.z && this.canMoveLeft() && this.futureDir != "right")
 		{
 			this.futureDir = "left";
 		}//if for moving left
+
+		
+
 		if (this.inSpawn (no))
 		{
 			this.futureDir = "up";
