@@ -352,7 +352,7 @@ function createWorld()
 	//gate.position.set(10,-3,16);
 	//obstructions.add(gate);
 	
-	levelNo=1;
+	levelNo=2;
 	makeLevel(levelNo);
 
 	
@@ -548,7 +548,7 @@ function makePellets(x,y,z,width,height)
 	}
 }
 
-function makeLevel(levelNo)
+function makeLevel(levelNo)//TODO: change main camera view for each level, make it more cmfortable
 {
 	powerPellet=new THREE.Mesh(new THREE.SphereGeometry(1,16,16),new THREE.MeshPhongMaterial({color:'skyblue',side: THREE.DoubleSide,name: "powerpellet"}));
 	
@@ -790,11 +790,11 @@ function makeLevel(levelNo)
 	}
 	else if(levelNo==2)
 	{
-		miniMapCamera.left=window.innerWidth / - 16-40;
-		miniMapCamera.right=window.innerWidth /  16+80;
-		miniMapCamera.top=window.innerWidth /  16+20;
-		miniMapCamera.bottom=window.innerWidth / - 16-20;
-
+		miniMapCamera.left=window.innerWidth / - 16-50;
+		miniMapCamera.right=window.innerWidth /  16+70;
+		miniMapCamera.top=window.innerWidth /  16-10;
+		miniMapCamera.bottom=window.innerWidth / - 16-10;
+		miniMapCamera.updateProjectionMatrix();
 	
 			//powerpellets and pellets
 		powerPellet=new THREE.Mesh(new THREE.SphereGeometry(1,16,16),new THREE.MeshPhongMaterial({color:'skyblue',side: THREE.DoubleSide,name: "powerpellet"}));
