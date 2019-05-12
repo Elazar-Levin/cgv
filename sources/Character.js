@@ -723,7 +723,7 @@ class Character extends THREE.Object3D
 			}//else for when u gotta go left instead
 		}//if to stop that annoying shit when its on the same axis
 
-		else if (Math.abs (char1.position.z - this.position.z) <= 0.5)//not sure if this is better than before
+		else if (Math.abs (char1.position.z - this.position.z) <= 0.5)
 		{
 			if (char1.position.x > this.position.x)
 			{

@@ -555,11 +555,11 @@ function makeLevel(levelNo)
 	if (levelNo == 1)
 	{
 
-		miniMapCamera.left=window.innerWidth / - 16-20;
-		miniMapCamera.right=window.innerWidth /  16+40;
-		miniMapCamera.top=window.innerWidth /  16+40;
-		miniMapCamera.bottom=window.innerWidth / - 16-20;
-		
+		miniMapCamera.left=window.innerWidth / - 16+20;
+		miniMapCamera.right=window.innerWidth /  16;
+		miniMapCamera.top=window.innerWidth /  16;
+		miniMapCamera.bottom=window.innerWidth / - 16+20;
+		miniMapCamera.updateProjectionMatrix();
 	//	powerPellet.position.set(12,-3,12);
 	
 		//do powerPellets
