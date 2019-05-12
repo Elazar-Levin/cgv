@@ -446,10 +446,7 @@ class Character extends THREE.Object3D
 				this.moveBackward();
 			}//if to check when pacman can actually turn
 		}//if for when next wanted turn is a downwards
-		if(this.tweening)
-		{
-			//this.tween(this.rotation.y,this.tweeningEnd);
-		}
+	
 	
 	}//Method used to set the direction of pacman's face
 	
@@ -686,8 +683,11 @@ class Character extends THREE.Object3D
 		{
 			return;
 		}//Ghost only moves once pacman moves
-
-		if (Math.abs (char1.position.x - this.position.x) < 0.5)
+		if (this.inSpawn (no))
+		{
+			this.futureDir = "up";
+		}//Ghosts must go immediately out when they in their spawn
+		else if (Math.abs (char1.position.x - this.position.x) < 0.5)
 		{
 			if (char1.position.z > this.position.z)
 			{
@@ -725,10 +725,7 @@ class Character extends THREE.Object3D
 		{
 			this.futureDir = "left";
 		}//if for moving left
-		if (this.inSpawn (no))
-		{
-			this.futureDir = "up";
-		}//Ghosts must go immediately out when they in their spawn
+		
 	}
 	//dont need this
 	setTag (tag)

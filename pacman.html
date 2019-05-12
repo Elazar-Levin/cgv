@@ -351,7 +351,7 @@ function createWorld()
 	//gate.position.set(10,-3,16);
 	//obstructions.add(gate);
 	
-	levelNo=1;
+	levelNo=3;
 	makeLevel(levelNo);
 
 	
@@ -1056,14 +1056,14 @@ function makeLevel(levelNo)
  
 function updateForFrame() 
 {
-	skyboxMesh.rotateY (0.002);
+	skyboxMesh.rotateY (0.002);//make sky look like its moving
 	
 	if (objPac.lives == 0)
 	{
 		if (objPac.highscore >= hiScore)
 		{
 			hiScore = objPac.highscore;
-			localStorage.setItem("hiscore",hiScore);
+			localStorage.setItem("hiscore",hiScore);//save hi-score to local storage
 		}
 		document.getElementById ("h1").innerHTML = "GAME OVER";
 		document.getElementById ("h2").innerHTML = "YOU DIED";
