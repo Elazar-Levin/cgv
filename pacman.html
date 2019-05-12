@@ -554,6 +554,11 @@ function makeLevel(levelNo)
 	
 	if (levelNo == 1)
 	{
+
+		miniMapCamera.left=window.innerWidth / - 16-20;
+		miniMapCamera.right=window.innerWidth /  16+40;
+		miniMapCamera.top=window.innerWidth /  16+40;
+		miniMapCamera.bottom=window.innerWidth / - 16-20;
 		
 	//	powerPellet.position.set(12,-3,12);
 	
@@ -758,7 +763,7 @@ function makeLevel(levelNo)
 		
 		
 		//set up small sphere to check if each position is a block or not
-		var bob=new THREE.Vector3();
+		/*var bob=new THREE.Vector3();
 		for(var i=0;i<11;i++)
 		{
 			for(var j=0;j<11;j++)
@@ -778,13 +783,19 @@ function makeLevel(levelNo)
 				}
 			}
 		}
-		
+		*/
 
 	
 		
 	}
 	else if(levelNo==2)
 	{
+		miniMapCamera.left=window.innerWidth / - 16-40;
+		miniMapCamera.right=window.innerWidth /  16+80;
+		miniMapCamera.top=window.innerWidth /  16+20;
+		miniMapCamera.bottom=window.innerWidth / - 16-20;
+
+	
 			//powerpellets and pellets
 		powerPellet=new THREE.Mesh(new THREE.SphereGeometry(1,16,16),new THREE.MeshPhongMaterial({color:'skyblue',side: THREE.DoubleSide,name: "powerpellet"}));
 		powerPellet.position.set(12,-3,12);

@@ -723,17 +723,17 @@ class Character extends THREE.Object3D
 			}//else for when u gotta go left instead
 		}//if to stop that annoying shit when its on the same axis
 
-		else if (Math.abs (char1.position.z - this.position.z) <= 0.5)
+		else if (Math.abs (char1.position.z - this.position.z) <= 0.5)//not sure if this is better than before
 		{
 			if (char1.position.x > this.position.x)
 			{
-				//this.futureDir = "left";
-				this.futureDir = "up";
+				this.futureDir = "left";
+				//this.futureDir = "up";
 			}//If to turn up
 			else
 			{
-				//this.futureDir = "right";
-				this.futureDir = "down";
+				this.futureDir = "right";
+				//this.futureDir = "down";
 			}//else for when u gotta go down instead
 		}//if to stop that annoying shit when its on the same axis
 
