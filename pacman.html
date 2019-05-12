@@ -557,7 +557,23 @@ function makeLevel(levelNo)
 		
 	//	powerPellet.position.set(12,-3,12);
 	
+		//do powerPellets
+		var powerPellet1=powerPellet.clone();
+		powerPellet1.position.set(12,-3,-8);
+		var powerPellet2=powerPellet.clone();
+		powerPellet2.position.set(-4,-3,-8);
+		var powerPellet3=powerPellet.clone();
+		powerPellet3.position.set(12,-3,32);
+		var powerPellet4=powerPellet.clone();
+		powerPellet4.position.set(-4,-3,32);
+		
+		powerPellets.add(powerPellet1);
+		powerPellets.add(powerPellet2);
+		powerPellets.add(powerPellet3);
+		powerPellets.add(powerPellet4);
 		//do floor of pellets
+		
+		
 		
 		makePellets(4,-3,-4,28,1);
 		makePellets(4,-3,28,28,1);
