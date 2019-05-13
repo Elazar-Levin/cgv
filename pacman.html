@@ -20,6 +20,14 @@
 	z-index: 100;
 	display:block;
 }
+#hud2 {
+	position: absolute;
+	bottom: 10px;
+	left :1800px;
+	text-align: left;
+	z-index: 100;
+	display:block;
+}
 #map {
     position: fixed;
     top: 0;
@@ -788,18 +796,26 @@ function makeLevel(levelNo)//TODO: change main camera view for each level, make 
 	
 		
 	}
-	else if(levelNo==2)
+	else if (levelNo == 2)
 	{
-		miniMapCamera.left=window.innerWidth / - 16-50;
-		miniMapCamera.right=window.innerWidth /  16+70;
-		miniMapCamera.top=window.innerWidth /  16-10;
-		miniMapCamera.bottom=window.innerWidth / - 16-10;
+		miniMapCamera.left = window.innerWidth / - 16 - 50;
+		miniMapCamera.right = window.innerWidth /  16 + 70;
+		miniMapCamera.top = window.innerWidth /  16 - 10;
+		miniMapCamera.bottom = window.innerWidth / - 16 - 10;
 		miniMapCamera.updateProjectionMatrix();
 	
 			//powerpellets and pellets
-		powerPellet=new THREE.Mesh(new THREE.SphereGeometry(1,16,16),new THREE.MeshPhongMaterial({color:'skyblue',side: THREE.DoubleSide,name: "powerpellet"}));
-		powerPellet.position.set(12,-3,12);
-		powerPellets.add(powerPellet);
+		powerPellet = new THREE.Mesh (new THREE.SphereGeometry (1, 16, 16), new THREE.MeshPhongMaterial ({color:'skyblue', side: THREE.DoubleSide, name: "powerpellet"}));
+		powerPellet.position.set (-40, -3, 12);
+		powerPellets.add (powerPellet);
+
+		var powerPellet2 = powerPellet.clone();
+		powerPellet2.position.set (20, -3, -8);
+		var powerPellet4 = powerPellet.clone();
+		powerPellet4.position.set (20, -3, 32);
+		
+		powerPellets.add (powerPellet2);
+		powerPellets.add (powerPellet4);
 		
 		/*for (var i = 0; i < 13; i++)
 		{
@@ -1174,8 +1190,8 @@ function updateForFrame()
 	{
 		if (objPac.SphereSphere (charSphere1, charSphere2))
 		{
-			reset();
-			objPac.lives--;
+			//reset();
+			//objPac.lives--;
 			objPac.score = 0;
 		}
 	}
@@ -1464,7 +1480,7 @@ function onDocumentKeyDown(event) {
 	}
 	if (keyCode == 77) //m
 	{
-		playSound ('theme');
+		playSound ('theme'); 
 	}
 }
 
@@ -1665,6 +1681,7 @@ function replay ()
 		document.getElementById ("theme").pause()
 		mute = true;
 		document.getElementById ("mute").innerHTML = "Unmute";
+		document.getElementById ("mutehud").innerHTML = "Unmute"
 		first = false;
 	}//basically i only want it to stop the music the first time the button is pressed
 	else
@@ -1701,13 +1718,15 @@ function playSound (tag)
 	{
 		document.getElementById (tag).play()
 		mute = false;
-		document.getElementById ("mute").innerHTML = "Mute"
+		document.getElementById ("mute").innerHTML = "Mute";
+		document.getElementById ("mutehud").innerHTML = "Mute";
 	}
 	else
 	{
 		document.getElementById (tag).pause()
 		mute = true;
-		document.getElementById ("mute").innerHTML = "Unmute"
+		document.getElementById ("mute").innerHTML = "Unmute";
+		document.getElementById ("mutehud").innerHTML = "Unmute";
 	}
 } 
 
@@ -1777,7 +1796,14 @@ function init() {
 	Your browser does not support the audio element.
 </audio>
 
-<div id="hud" style="color: white">YO</div>
+<div width="window.innerWidth" id="hud" style="color: white">YO
+</div>
+
+<div width="window.innerWidth" id="hud2" style="color: white">
+	<div>
+		<button id="mutehud" style="height: 40px; width: 100px; font-weight: bold; float: right; "onclick="playSound ('theme')" type="button">Unmute</button>
+	</div>
+</div>
 
 
 <!--
@@ -1809,7 +1835,7 @@ function init() {
 		<br>
 		<button id="play" style="height: 40px; width: 100px; font-weight: bold;"onclick="replay()" type="button">PLAY</button>
 		<br>
-		<button id="mute" style="float: right;"onclick="playSound('theme')" type="image" class="button">Mute</button>
+		<button id="mute" style="float: right;"onclick="playSound ('theme')" type="image" class="button">Mute</button>
 	</div>
 </div>
 
