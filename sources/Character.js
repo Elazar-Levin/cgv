@@ -759,7 +759,7 @@ class Character extends THREE.Object3D
 
 		
 
-		if (this.inSpawn (no))
+		if (this.inSpawn (no) && !char1.inSpawn (no))
 		{
 			this.futureDir = "up";
 		}//Ghosts must go immediately out when they in their spawn
