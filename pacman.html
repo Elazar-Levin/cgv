@@ -1130,6 +1130,8 @@ function updateForFrame()
 		document.getElementById ("p").innerHTML = "Your Score: " + objPac.highscore + "                  Hi-Score: " + hiScore;
 		document.getElementById ("play").innerHTML = "PLAY AGAIN";
 		document.getElementById ("endScreen").style.display = 'inline';
+		document.getElementById ("title").innerHTML="Credits:";
+		document.getElementById ("grass").innerHTML= "grass texture from https://www.brusheezy.com/textures/20185-seamless-green-grass-textures";
 	}//If for when a homie is dead
 	if (levelNo != 2)
 	{
@@ -1811,7 +1813,7 @@ function init() {
 
 <div width="window.innerWidth" id="hud2" style="color: white">
 	<div>
-		<button class="btn" id="mutehud" style="float: right" onclick="playSound ('theme')" type="button"></button>
+		<button class="btn" id="mutehud" style="float: right" onclick="playSound ('theme')" type="button" ></button>
 	</div>
 </div>
 
@@ -1840,12 +1842,17 @@ function init() {
 		<h1 id="h1" style="font-family:verdana; text-align: center; font-size:500%;">PAC-MAN</h1>
 		<h2 id="h2" style="font-family:verdana; text-align: center; font-size:300%;">IN 3D</h2>
 		<p id="p" style="font-family:courier; text-align: center; font-size:200%;">Three.js Project</p><br>
-		<br>
-
+		
+		<div id="credits">
+		<h1 id="title"></h1>
+		<h2 id="grass"></h2>
+		
+		</div>
 		<br>
 		<button id="play" style="height: 40px; width: 100px; font-weight: bold;"onclick="replay()" type="button">PLAY</button>
 		<br>
 		<button id="mute" style="float: right;"onclick="playSound ('theme')" type="image" class="button">Mute</button>
+		
 	</div>
 </div>
 
