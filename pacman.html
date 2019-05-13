@@ -23,7 +23,7 @@
 #hud2 {
 	position: absolute;
 	bottom: 10px;
-	left :1800px;
+	left :1870px;
 	text-align: left;
 	z-index: 100;
 	display:block;
@@ -54,6 +54,16 @@
 	background-color: #053E18;
 	background-repeat: no-repeat;
 	background-size:cover;
+}
+.btn {
+  background-image: url("sources/speaker-off-small.png");
+  background-repeat: no-repeat;
+  background-color: #ffffff;
+  background-size: contain;
+  border: none;
+  padding: 17px 17px;
+  font-size: 16px;
+  cursor: pointer;
 }
 
 <!--/*#hudcanvas {
@@ -1681,7 +1691,7 @@ function replay ()
 		document.getElementById ("theme").pause()
 		mute = true;
 		document.getElementById ("mute").innerHTML = "Unmute";
-		document.getElementById ("mutehud").innerHTML = "Unmute"
+		//document.getElementById ("mutehud").innerHTML = "Unmute"
 		first = false;
 	}//basically i only want it to stop the music the first time the button is pressed
 	else
@@ -1719,14 +1729,14 @@ function playSound (tag)
 		document.getElementById (tag).play()
 		mute = false;
 		document.getElementById ("mute").innerHTML = "Mute";
-		document.getElementById ("mutehud").innerHTML = "Mute";
+		document.getElementById ("mutehud").style.backgroundImage = 'url(sources/speaker-on-small.png)';
 	}
 	else
 	{
 		document.getElementById (tag).pause()
 		mute = true;
 		document.getElementById ("mute").innerHTML = "Unmute";
-		document.getElementById ("mutehud").innerHTML = "Unmute";
+		document.getElementById ("mutehud").style.backgroundImage = 'url(sources/speaker-off-small.png)';
 	}
 } 
 
@@ -1801,7 +1811,7 @@ function init() {
 
 <div width="window.innerWidth" id="hud2" style="color: white">
 	<div>
-		<button id="mutehud" style="height: 40px; width: 100px; font-weight: bold; float: right; "onclick="playSound ('theme')" type="button">Unmute</button>
+		<button class="btn" id="mutehud" style="float: right" onclick="playSound ('theme')" type="button"></button>
 	</div>
 </div>
 
