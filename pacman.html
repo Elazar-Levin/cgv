@@ -352,7 +352,7 @@ function createWorld()
 	//gate.position.set(10,-3,16);
 	//obstructions.add(gate);
 	
-	levelNo=1;
+	levelNo=2;
 	makeLevel(levelNo);
 
 	
@@ -365,8 +365,8 @@ function createWorld()
 	floorTexture.wrapS = THREE.RepeatWrapping;
 	floorTexture.wrapT = THREE.RepeatWrapping;
 	floor=new THREE.Mesh(new THREE.PlaneGeometry(1000,1000,5,5),new THREE.MeshBasicMaterial({side: THREE.BackSide,
-	color:'green'//comment out when using a texture
-	//map: floorTexture//doesn't work in chrome, so only use when using firefox 
+	color:'green',//comment out when using a texture
+	map: floorTexture//doesn't work in chrome, so only use when using firefox 
 	}));
 	floor.position.set(0,-5,0);
 	floor.rotation.x=Math.PI/2;//make floor on bottom 
@@ -548,17 +548,44 @@ function makePellets(x,y,z,width,height)
 	}
 }
 
-function makeLevel(levelNo)
+function makeLevel(levelNo)//TODO: change main camera view for each level, make it more cmfortable
 {
 	powerPellet=new THREE.Mesh(new THREE.SphereGeometry(1,16,16),new THREE.MeshPhongMaterial({color:'skyblue',side: THREE.DoubleSide,name: "powerpellet"}));
 	
 	if (levelNo == 1)
 	{
-		
+
+		miniMapCamera.left=window.innerWidth / - 16+20;
+		miniMapCamera.right=window.innerWidth /  16;
+		miniMapCamera.top=window.innerWidth /  16;
+		miniMapCamera.bottom=window.innerWidth / - 16+20;
+		miniMapCamera.updateProjectionMatrix();
 	//	powerPellet.position.set(12,-3,12);
 	
+		//do powerPellets
+		var powerPellet1=powerPellet.clone();
+		powerPellet1.position.set(12,-3,-8);
+		var powerPellet2=powerPellet.clone();
+		powerPellet2.position.set(-4,-3,-8);
+		var powerPellet3=powerPellet.clone();
+		powerPellet3.position.set(12,-3,32);
+		var powerPellet4=powerPellet.clone();
+		powerPellet4.position.set(-4,-3,32);
+		
+		powerPellets.add(powerPellet1);
+		powerPellets.add(powerPellet2);
+		powerPellets.add(powerPellet3);
+		powerPellets.add(powerPellet4);
 		//do floor of pellets
-	
+		
+		
+		
+		makePellets(4,-3,-4,28,1);
+		makePellets(4,-3,28,28,1);
+		makePellets(4,-3,7,1,28);
+		makePellets(20,-3,7,1,28);
+		//makePellets(16,1,18,1,8);
+
 	
 	
 	
@@ -736,7 +763,7 @@ function makeLevel(levelNo)
 		
 		
 		//set up small sphere to check if each position is a block or not
-		var bob=new THREE.Vector3();
+		/*var bob=new THREE.Vector3();
 		for(var i=0;i<11;i++)
 		{
 			for(var j=0;j<11;j++)
@@ -756,13 +783,19 @@ function makeLevel(levelNo)
 				}
 			}
 		}
-		
+		*/
 
 	
 		
 	}
 	else if(levelNo==2)
 	{
+		miniMapCamera.left=window.innerWidth / - 16-50;
+		miniMapCamera.right=window.innerWidth /  16+70;
+		miniMapCamera.top=window.innerWidth /  16-10;
+		miniMapCamera.bottom=window.innerWidth / - 16-10;
+		miniMapCamera.updateProjectionMatrix();
+	
 			//powerpellets and pellets
 		powerPellet=new THREE.Mesh(new THREE.SphereGeometry(1,16,16),new THREE.MeshPhongMaterial({color:'skyblue',side: THREE.DoubleSide,name: "powerpellet"}));
 		powerPellet.position.set(12,-3,12);
@@ -1057,14 +1090,14 @@ function makeLevel(levelNo)
  
 function updateForFrame() 
 {
-	skyboxMesh.rotateY (0.002);
+	skyboxMesh.rotateY (0.002);//make sky look like its moving
 	
 	if (objPac.lives == 0)
 	{
 		if (objPac.highscore >= hiScore)
 		{
 			hiScore = objPac.highscore;
-			localStorage.setItem("hiscore",hiScore);
+			localStorage.setItem("hiscore",hiScore);//save hi-score to local storage
 		}
 		document.getElementById ("h1").innerHTML = "GAME OVER";
 		document.getElementById ("h2").innerHTML = "YOU DIED";

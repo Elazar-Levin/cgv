@@ -446,10 +446,7 @@ class Character extends THREE.Object3D
 				this.moveBackward();
 			}//if to check when pacman can actually turn
 		}//if for when next wanted turn is a downwards
-		if(this.tweening)
-		{
-			//this.tween(this.rotation.y,this.tweeningEnd);
-		}
+	
 	
 	}//Method used to set the direction of pacman's face
 	
@@ -687,6 +684,7 @@ class Character extends THREE.Object3D
 			return;
 		}//Ghost only moves once pacman moves
 
+
 		/*if (halloween)
 		{
 			var dir = Math.floor ((Math.random() * 4) + 1);
@@ -713,7 +711,7 @@ class Character extends THREE.Object3D
 			return;
 		}//ghost gonna be running from you, so imma revert his actions*/
 
-		if (Math.abs (char1.position.x - this.position.x) < 0.5)
+		if (Math.abs (char1.position.x - this.position.x) <= 0.5)
 		{
 			if (char1.position.z > this.position.z)
 			{
@@ -725,14 +723,16 @@ class Character extends THREE.Object3D
 			}//else for when u gotta go left instead
 		}//if to stop that annoying shit when its on the same axis
 
-		else if (Math.abs (char1.position.z - this.position.z) < 0.5)
+		else if (Math.abs (char1.position.z - this.position.z) <= 0.5)
 		{
 			if (char1.position.x > this.position.x)
 			{
+				//this.futureDir = "left";
 				this.futureDir = "up";
 			}//If to turn up
 			else
 			{
+				//this.futureDir = "right";
 				this.futureDir = "down";
 			}//else for when u gotta go down instead
 		}//if to stop that annoying shit when its on the same axis
@@ -757,12 +757,14 @@ class Character extends THREE.Object3D
 			this.futureDir = "left";
 		}//if for moving left
 
+
 		
 
 		if (this.inSpawn (no) && !char1.inSpawn (no))
 		{
 			this.futureDir = "up";
-		}//Ghosts must go immediately out when they in their spawn
+		}
+
 	}
 	//dont need this
 	setTag (tag)
