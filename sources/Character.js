@@ -204,6 +204,7 @@ class Character extends THREE.Object3D
 			{
 				this.setZ (this.z - this.speed);
 			}
+			
 		}
 		
 		if (this.movingRight)
@@ -813,22 +814,22 @@ class Character extends THREE.Object3D
 			}//else for when u gotta go down instead
 		}//if to stop that annoying shit when its on the same axis
 
-		else if (char1.position.x > this.position.x && this.canMoveForward() && this.futureDir != "down")
+		else if (char1.position.x > this.position.x && this.canMoveForward() && !this.movingBackward)//this.futureDir != "down")
 		{
 			this.futureDir = "up";
 		}//if for moving up
 
-		else if (char1.position.z > this.position.z && this.canMoveRight() && this.futureDir != "left")
+		else if (char1.position.z > this.position.z && this.canMoveRight() && !this.movingLeft)// this.futureDir != "left")
 		{
 			this.futureDir = "right";
 		}//if for moving right
 
-		else if (char1.position.x < this.position.x && this.canMoveBackward() && this.futureDir != "up")
+		else if (char1.position.x < this.position.x && this.canMoveBackward() && !this.movingForward)//this.futureDir != "up")
 		{
 			this.futureDir = "down";
 		}//if for moving down
 
-		else if (char1.position.z < this.position.z && this.canMoveLeft() && this.futureDir != "right")
+		else if (char1.position.z < this.position.z && this.canMoveLeft() && !this.moveRight)//this.futureDir != "right")
 		{
 			this.futureDir = "left";
 		}//if for moving left
