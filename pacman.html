@@ -370,7 +370,7 @@ function createWorld()
 	//gate.position.set(10,-3,16);
 	//obstructions.add(gate);
 	
-	levelNo=2;
+	levelNo=4;
 	makeLevel(levelNo);
 
 	
@@ -1104,6 +1104,68 @@ function makeLevel(levelNo)//TODO: change main camera view for each level, make 
 		makePellets(-30, 12, 55, 110, 1)
 		makePellets(-55, 12, -40, 1, 40)
 		makePellets(-55, 12, 25, 1, 40)
+	}
+	else if(levelNo==4)
+	{
+			makeBlock (12,-3,0,12,4,4);
+		makeBlock (12,-3,24,12,4,4);
+		makeBlock (8,-3,12,4,4,20);
+		makeBlock (16,-3,6,4,4,8);
+		makeBlock (16,-3,18,4,4,8);
+	
+		makePellets(12,1,0,12,1);
+		makePellets(12,1,24,12,1);
+		makePellets(8,1,9,1,20);
+		makePellets(16,1,6,1,8);
+		makePellets(16,1,18,1,8);
+		
+		//top T
+		makeBlock (26,-3,12,8,4,4);
+		makeBlock (32,-3,12,4,4,28);
+		
+		makePellets(26,1,12,8,1);
+		makePellets(32,1,7,1,28);
+		
+		//bottom T
+		makeBlock (-6,-3,12,8,4,4);
+		makeBlock (0,-3,12,4,4,28);
+		
+		makePellets(-6,1,12,8,1);
+		makePellets(0,1,7,1,28);
+		
+		//left T
+		makeBlock(24,-3,0,4,4,12);
+		makeBlock(24,-3,-8,20,4,4);
+		
+		makePellets(24,1,-1,1,12);
+		makePellets(22,1,-8,20,1);
+
+		//right T
+		makeBlock(24,-3,24,4,4,12);
+		makeBlock(24,-3,32,20,4,4);
+			
+		makePellets(24,1,23,1,12);
+		makePellets(22,1,32,20,1);
+		
+		//left bar
+		makeBlock(4,-3,-8,12,4,4);	
+		
+		makePellets(4,1,-8,12,1);
+		
+		//right bar
+		makeBlock(4,-3,32,12,4,4);	
+		
+		makePellets(4,1,32,12,1);
+		
+		//bottom left bar
+		makeBlock(-8,-3,-2,4,4,16);
+		
+		makePellets(-8,1,-4,1,16);
+		
+		//bottom right bar
+		makeBlock(-8,-3,26,4,4,16);
+		
+		makePellets(-8,1,24,1,16);
 	}
 }
 

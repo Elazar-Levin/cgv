@@ -34,8 +34,9 @@ class Character extends THREE.Object3D
 		this.lives = 3;
 		this.tag = tag;
 		this.tweening =false;
-		this.tweeningStart=0;
-		this.tweeningEnd=Math.PI;
+		this.tweeningAmount=0;
+		this.tweeningDir=false;
+		this.tweeningTotal=0;
 	}
 
 	moveLeft ()
@@ -288,7 +289,7 @@ class Character extends THREE.Object3D
 					{
 						this.highscore++;
 					}//if for when u gotta add the high score also
-					console.log (this.food.children.length);
+				
 					return;
 				}//if for when food collides with pacman
 			}//for loop that distributes over number of foods
@@ -414,9 +415,27 @@ class Character extends THREE.Object3D
 		{
 			if (this.canMoveLeft ())
 			{
-				this.tween(this.rotation.y,- Math.PI / 2);
-				
-				
+				if(this.movingLeft)
+				{
+					if(this.tweeningTotal<this.tweeningAmount)
+					{
+						this.tween(this.tweeningDir,this.tweeningTotal);
+					}
+					//this.tween(false,0);
+				}
+				else if(this.movingRight)
+				{
+					this.tween(true,6);
+				}
+				else if(this.movingForward)
+				{
+					this.tween(false,3);
+				}
+				else if(this.movingBackward)
+				{
+					this.tween(true,3);
+				}
+												
 				this.moveLeft();
 			}//if to check when pacman can actually turn
 		}//if for when next wanted turn is a left
@@ -424,8 +443,26 @@ class Character extends THREE.Object3D
 		{
 			if (this.canMoveRight ())
 			{
-				this.tween(this.rotation.y,Math.PI / 2);
-			
+				if(this.movingLeft)
+				{
+					this.tween(true,6);
+				}
+				else if(this.movingRight)
+				{
+					if(this.tweeningTotal<this.tweeningAmount)
+					{
+						this.tween(this.tweeningDir,this.tweeningTotal);
+					}
+					//this.tween(false,0);
+				}
+				else if(this.movingForward)
+				{
+					this.tween(true,3);
+				}
+				else if(this.movingBackward)
+				{
+					this.tween(false,3);
+				}
 				this.moveRight();
 			}//if to check when pacman can actually turn
 		}//if for when next wanted turn is a right
@@ -433,7 +470,26 @@ class Character extends THREE.Object3D
 		{
 			if (this.canMoveForward ())
 			{
-				this.tween(this.rotation.y, Math.PI);
+				if(this.movingLeft)
+				{
+					this.tween(true,3);
+				}
+				else if(this.movingRight)
+				{
+					this.tween(false,3);
+				}
+				else if(this.movingForward)
+				{
+					if(this.tweeningTotal<this.tweeningAmount)
+					{
+						this.tween(this.tweeningDir,this.tweeningTotal);
+					}
+					//this.tween(false,0);
+				}
+				else if(this.movingBackward)
+				{
+					this.tween(true,6);
+				}
 				
 				this.moveForward();
 			}//if to check when pacman can actually turn
@@ -442,7 +498,27 @@ class Character extends THREE.Object3D
 		{
 			if (this.canMoveBackward ())
 			{
-				this.tween(this.rotation.y,0);
+				if(this.movingLeft)
+				{
+					this.tween(false,6);
+				}
+				else if(this.movingRight)
+				{
+					this.tween(true,6);
+				}
+				else if(this.movingForward)
+				{
+					this.tween(true,12);
+				}
+				else if(this.movingBackward)
+				{
+					if(this.tweeningTotal<=this.tweeningAmount)
+					{
+						this.tween(this.tweeningDir,this.tweeningTotal);
+					}
+					//this.tween(false,0);
+				}
+				
 				this.moveBackward();
 			}//if to check when pacman can actually turn
 		}//if for when next wanted turn is a downwards
@@ -777,8 +853,40 @@ class Character extends THREE.Object3D
 		return new THREE.Vector2();
 	}
 
-	tween(start,end)
+	tween(dir,no)
 	{
+		this.tweeningTotal=no;
+		this.tweeningDir=dir;
+		this.tweening=true;
+		if(dir)//clockwise
+		{
+			if(this.tweeningAmount==no)
+			{
+				this.tweening=false;
+				this.tweeningAmount=0;
+			}
+			else
+			{
+				this.tweeningAmount++;
+				this.rotateY(Math.PI/6);
+			}
+		}
+		else //counter clockwise
+		{
+			if(this.tweeningAmount==no)
+			{
+				this.tweening=false;
+				this.tweeningAmount=0;
+			}
+			else
+			{
+				this.tweeningAmount++;
+				this.rotateY(-Math.PI/6);
+			}
+		}
+		
+		
+		/*
 		var tweeningAmount=6;
 		this.tweening=true;
 		this.tweeningStart=start;
@@ -801,6 +909,7 @@ class Character extends THREE.Object3D
 								
 			}
 		}
+		*/
 	}
 	
 	clear ()
