@@ -1264,8 +1264,8 @@ function updateForFrame()
 	{
 		if (objPac.SphereSphere (charSphere1, charSphere2))
 		{
-			//reset();
-			//objPac.lives--;
+			reset();
+			objPac.lives--;
 			objPac.score = 0;
 		}
 	}
@@ -1349,9 +1349,9 @@ function updateForFrame()
 	{
 		if(powerPelletTimer==0)
 		{
-			powerMode=false;
+			powerMode = false;
 		}
-		if(powerPelletTimer>0)
+		if(powerPelletTimer > 0)
 		{
 			powerPelletTimer--;
 		}
@@ -1363,6 +1363,8 @@ function updateForFrame()
 	{
 		halloween=false;
 	}
+
+	document.getElementById ("mutehud").blur();
 }
 
 /* ---------------------------- MOUSE AND ANIMATION SUPPORT ------------------
