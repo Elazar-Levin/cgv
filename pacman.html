@@ -370,6 +370,8 @@ function createWorld()
 	//gate.position.set(10,-3,16);
 	//obstructions.add(gate);
 	
+	
+	
 	levelNo=4;
 	makeLevel(levelNo);
 
@@ -411,7 +413,18 @@ function createWorld()
 	ghost1 = new Character (0.4, 12,5, 12, ghostthing, ghost1Geometries,obstructions);//make first ghost
 	ghost1.setTag("ghost");
 	
+//	objPac.rotation.y=0;
+//	console.log(objPac.rotation.y);//down//2pi
+//	objPac.rotateY(Math.PI/2);
 	
+	//console.log(objPac.rotation.y);//right //pi/2
+	//objPac.rotateY(Math.PI/2);
+	
+	//console.log(objPac.rotation.y);//up//0
+	//objPac.rotateY(Math.PI/2);
+	
+	
+	//console.log(objPac.rotation.y);//left//-pi/2
 	
 	scene.add(camera);
 	scene.add(powerPellets)
@@ -1249,6 +1262,9 @@ function updateForFrame()
 	
 	objPac.doCollisions();
 	
+	objPac.tween();
+	
+
 	ghost1.animate (paccy);
 	
 	ghost1.findChar (objPac, levelNo, halloween);
