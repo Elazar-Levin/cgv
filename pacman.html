@@ -246,7 +246,7 @@ function createWorld()
 	plane = new THREE.Mesh( planeGeometry, material );
 	sceneHUD.add( plane );*/
 	
-	if(localStorage.getItem("hiscore")!=null)
+	if(localStorage.getItem("hiscore")!=null)//get hi-score from local storage
 	{
 		hiScore=localStorage.getItem("hiscore");
 	}
@@ -370,7 +370,7 @@ function createWorld()
 	//gate.position.set(10,-3,16);
 	//obstructions.add(gate);
 	
-	levelNo=2;
+	levelNo=4;
 	
 	makeLevel(levelNo);
 
@@ -591,6 +591,22 @@ function makeLevel(levelNo)//TODO: change main camera view for each level, make 
 		miniMapCamera.bottom=window.innerWidth / - 16+20;
 		miniMapCamera.updateProjectionMatrix();
 	//	powerPellet.position.set(12,-3,12);
+	
+	
+	
+		camera.position.x=-100;
+		camera.position.y=250;
+		camera.position.z=0;
+		//camera.fov=30;
+	
+		camera.updateProjectionMatrix();
+		if(controls!=null)
+		{
+		
+			controls.update();
+			
+		}
+	
 	
 		//do powerPellets
 		var powerPellet1=powerPellet.clone();
@@ -1119,7 +1135,7 @@ function makeLevel(levelNo)//TODO: change main camera view for each level, make 
 	}
 	else if(levelNo==4)
 	{
-			makeBlock (12,-3,0,12,4,4);
+		makeBlock (12,-3,0,12,4,4);
 		makeBlock (12,-3,24,12,4,4);
 		makeBlock (8,-3,12,4,4,20);
 		makeBlock (16,-3,6,4,4,8);
@@ -1178,6 +1194,15 @@ function makeLevel(levelNo)//TODO: change main camera view for each level, make 
 		makeBlock(-8,-3,26,4,4,16);
 		
 		makePellets(-8,1,24,1,16);
+		
+		//bottommer T
+		makeBlock (-22,-3,12,8,4,4);
+		makeBlock (-16,-3,12,4,4,28);
+		
+	//	makePellets(-6,1,12,8,1);
+	//	makePellets(0,1,7,1,28);
+		
+		
 	}
 }
 

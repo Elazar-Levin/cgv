@@ -39,7 +39,18 @@ class Character extends THREE.Object3D
 		this.tweeningTotal=0;
 		
 		
-		// new system. we start at 0, andthe every other point is every Pi/6.
+		// new system. we start at 0, and then every other point is every Pi/6.
+		/*
+						6
+					7		5
+				8				4
+			9						3
+				10				2	
+					11		1
+						0
+		*/
+		
+		
 		this.point=0;
 		
 		
@@ -868,6 +879,16 @@ class Character extends THREE.Object3D
 	
 	tween()
 	{
+		/*
+						6
+					7		5
+				8				4
+			9						3
+				10				2	
+					11		1
+						0
+		*/
+		
 		this.point=this.point%12;
 		if(this.movingBackward && this.point!=0)
 		{
