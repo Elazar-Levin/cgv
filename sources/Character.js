@@ -919,7 +919,7 @@ class Character extends THREE.Object3D
 		this.lives = 3;
 		this.vAngle = 0;
 		this.myFrame = 0;
-		this.rotationY=0;
+		this.rotationY = 0;
 		this.futureDir = "null";
 		this.jumping = false;
 		this.jumpingSpeed = 0.75;
