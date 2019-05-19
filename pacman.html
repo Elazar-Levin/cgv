@@ -370,7 +370,7 @@ function createWorld()
 	//gate.position.set(10,-3,16);
 	//obstructions.add(gate);
 	
-	levelNo=4;
+	levelNo=2;
 	makeLevel(levelNo);
 
 	
@@ -1206,7 +1206,13 @@ function updateForFrame()
 	}
 	else if (pellets.children.length == 0)
 	{
-		//win screen 
+		document.getElementById ("h1").innerHTML = "WELL DONE!";
+		document.getElementById ("h2").innerHTML = "YOU COLLECTED ALL PELLETES";
+		document.getElementById ("p").innerHTML = "Your Score: " + objPac.highscore + "                  Hi-Score: " + hiScore;
+		document.getElementById ("play").innerHTML = "PLAY AGAIN";
+		document.getElementById ("endScreen").style.display = 'inline';
+		document.getElementById ("title").innerHTML="Credits:";
+		document.getElementById ("grass").innerHTML= "grass texture from https://www.brusheezy.com/textures/20185-seamless-green-grass-textures"; 
 	}
 	var oof = frameNumber % 20;
 	if (oof > 10)
