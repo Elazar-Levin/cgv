@@ -203,10 +203,10 @@ function render()
     minmapRenderer.render(scene, miniMapCamera);
 	//make shit less visible
 
-	objPac.scale.set(1,1,1);
-	ghost1.scale.set(1,1,1);
-	pellet.material.emissive.set('black');
-	powerPellet.material.emissive.set('black');
+	objPac.scale.set (1,1,1);
+	ghost1.scale.set (1,1,1);
+	pellet.material.emissive.set ('black');
+	powerPellet.material.emissive.set ('black');
 	for(var i=0;i<pellets.children.length;i++)
 	{
 		pellets.children[i].scale.set(1,1,1);
@@ -1198,7 +1198,7 @@ function updateForFrame()
 
 		document.getElementById ("endScreen").style.display = 'inline';
 	}//If for when a homie is dead
-	if (levelNo != 2)
+	if (levelNo != 4)
 	{
 		if (pellets.children.length == 0)
 		{

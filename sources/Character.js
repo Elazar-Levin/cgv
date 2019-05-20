@@ -833,8 +833,81 @@ class Character extends THREE.Object3D
 			this.futureDir = "left";
 		}//if for moving left
 
-
-		
+		if (halloween)
+		{
+			if (this.futureDir == "up")
+			{
+				if (this.canMoveBackward())
+				{
+					this.futureDir = "down"	
+				}
+				else
+				{
+					if (this.canMoveLeft())
+					{
+						this.futureDir = "left"
+					}
+					else
+					{
+						this.futureDir = "right"
+					}
+				}
+			}
+			if (this.futureDir == "down")
+			{
+				if (this.canMoveForward())
+				{
+					this.futureDir = "up"	
+				}
+				else
+				{
+					if (this.canMoveLeft())
+					{
+						this.futureDir = "left"
+					}
+					else
+					{
+						this.futureDir = "right"
+					}
+				}
+			}
+			if (this.futureDir == "left")
+			{
+				if (this.canMoveRight())
+				{
+					this.futureDir = "right"	
+				}
+				else
+				{
+					if (this.canMoveForward())
+					{
+						this.futureDir = "up"
+					}
+					else
+					{
+						this.futureDir = "down"
+					}
+				}
+			}
+			if (this.futureDir == "right")
+			{
+				if (this.canMoveLeft())
+				{
+					this.futureDir = "left"	
+				}
+				else
+				{
+					if (this.canMoveForward())
+					{
+						this.futureDir = "up"
+					}
+					else
+					{
+						this.futureDir = "down"
+					}
+				}
+			}
+		}//If for when u wanna run away from the pacman
 
 		if (this.inSpawn (no) && !char1.inSpawn (no))
 		{
