@@ -1136,6 +1136,15 @@ function makeLevel(levelNo)//TODO: change main camera view for each level, make 
 	}
 	else if (levelNo ==  4)
 	{
+		//teleports
+		teleport1=new THREE.Mesh(new THREE.CubeGeometry(4,4,4),new THREE.MeshPhongMaterial({transparent: true, opacity: 0}));
+		teleport1.position.set(12,-3,-40);
+		teleport2=teleport1.clone();
+		teleport2.position.set(12,-3,64);
+		scene.add(teleport1);
+		scene.add(teleport2);
+	
+	
 		//power pellets
 		powerPellet1=powerPellet.clone();
 		powerPellet1.position.set(-12,-3,-28);
