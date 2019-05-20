@@ -1135,6 +1135,24 @@ function makeLevel(levelNo)//TODO: change main camera view for each level, make 
 	}
 	else if(levelNo==4)
 	{
+		//power pellets
+		powerPellet1=powerPellet.clone();
+		powerPellet1.position.set(-12,-3,-28);
+		powerPellets.add(powerPellet1);
+		
+		powerPellet2=powerPellet.clone();
+		powerPellet2.position.set(-12,-3,52);
+		powerPellets.add(powerPellet2);
+		
+		powerPellet3=powerPellet.clone();
+		powerPellet3.position.set(40,-3,-28);
+		powerPellets.add(powerPellet3);
+		
+		powerPellet4=powerPellet.clone();
+		powerPellet4.position.set(40,-3,52);
+		powerPellets.add(powerPellet4);
+	
+	//box
 		makeBlock (12,-3,0,12,4,4);
 		makeBlock (12,-3,24,12,4,4);
 		makeBlock (8,-3,12,4,4,20);
@@ -1214,11 +1232,84 @@ function makeLevel(levelNo)//TODO: change main camera view for each level, make 
 		//right r
 		makeBlock(-8,-3,44,4,4,12);
 		makeBlock (-14,-3,40,8,4,4);
-		//left r
 		
+		//left r
 		makeBlock(-8,-3,-20,4,4,12);
 		makeBlock (-14,-3,-16,8,4,4);
 		
+		//left knob
+		makeBlock (-16,-3,-26,4,4,8);
+		
+		//right knob
+		makeBlock (-16,-3,50,4,4,8);
+		
+		//left portal
+		makeBlock(4,-3,-16,12,4,4);	
+		makeBlock(20,-3,-16,12,4,4);	
+		
+		
+		makeBlock (0,-3,-24,4,4,12);
+	
+		makeBlock (8,-3,-28,4,4,20);
+		
+		makeBlock (16,-3,-28,4,4,20);
+		
+		makeBlock (24,-3,-24,4,4,12);
+				
+				
+				
+		//right portal
+		makeBlock(4,-3,40,12,4,4);	
+		makeBlock(20,-3,40,12,4,4);	
+		
+		makeBlock (0,-3,48,4,4,12);
+	
+		makeBlock (8,-3,52,4,4,20);
+		
+		makeBlock (16,-3,52,4,4,20);
+		
+		makeBlock (24,-3,48,4,4,12);
+		
+		//top knob
+		makeBlock (42,-3,12,8,4,4);
+		
+		//top left big bar
+		makeBlock(40,-3,-2,4,4,16);
+		
+		
+		//top right big bar
+		makeBlock(40,-3,26,4,4,16);
+		
+		//small block left 1
+		makeBlock(40,-3,-20,4,4,12);
+				
+		//small block left 2	
+		makeBlock(32,-3,-20,4,4,12);
+			
+		//small block right 1
+		makeBlock(40,-3,44,4,4,12);
+				
+		//small block right 2
+		makeBlock(32,-3,44,4,4,12);
+		
+		//top border
+		makeBlock(48,-3,12,4,4,92);
+		
+		//left border 1
+		makeBlock(34,-3,-32,24,4,4);
+	
+		//right border 1
+		makeBlock(34,-3,56,24,4,4);
+		
+		//left border 2
+		makeBlock(-16,-3,-32,36,4,4);
+		
+		//right border 2
+		makeBlock(-16,-3,56,36,4,4);
+		
+		
+		//bottom border
+		makeBlock(-32,-3,12,4,4,92);
 		
 		//floor pellets
 		makePellets(4,-3,-4,28,1);
@@ -1226,6 +1317,8 @@ function makeLevel(levelNo)//TODO: change main camera view for each level, make 
 		makePellets(4,-3,7,1,28);
 		makePellets(20,-3,7,1,28);
 		
+		makePellets(44,-3,-18,1,40);
+		makePellets(44,-3,26,1,40);
 	}
 }
 
