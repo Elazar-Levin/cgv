@@ -155,7 +155,8 @@ var light2;//a general light at the top of the screen
 var halloweenLight;
 var light3;//light illuminating block
 
-
+var teleport1;
+var teleport2;
 
 var canvas2;
 var destCtx;
@@ -1449,6 +1450,40 @@ function updateForFrame()
 
 		document.getElementById ("endScreen").style.display = 'inline';
 	}
+	
+	if(levelNo==4)
+	{
+		var pacBox = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
+		pacBox.setFromObject (objPac);
+		var teleBox1 = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
+		teleBox1.setFromObject (teleport1);
+		var teleBox2 = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
+		teleBox2.setFromObject (teleport2);
+		if(SquareIntersect(pacBox,teleBox1))
+		{
+			objPac.setPos(teleport2.position.x,teleport2.position.y,teleport2.position.z-5);
+		}
+		else if(SquareIntersect(pacBox,teleBox2))
+		{
+			objPac.setPos(teleport1.position.x,teleport1.position.y,teleport1.position.z+5);
+		}
+		
+		
+		var ghostBox = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
+		ghostBox.setFromObject (ghost1);
+		
+		if(SquareIntersect(ghostBox,teleBox1))
+		{
+			ghost1.setPos(teleport2.position.x,teleport2.position.y,teleport2.position.z-5);
+		}
+		else if(SquareIntersect(ghostBox,teleBox2))
+		{
+			ghost1.setPos(teleport1.position.x,teleport1.position.y,teleport1.position.z+5);
+		}
+		
+	}	
+	
+	
 	var oof = frameNumber % 20;
 	if (oof > 10)
 	{
