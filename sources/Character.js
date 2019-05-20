@@ -1135,5 +1135,19 @@ class Character extends THREE.Object3D
 				return false;
 			}
 		}//level 2 spawn
+		else if (no == 4)
+		{
+			if (this.position.z > 3 && this.position.z < 20 && this.position.x >= 12 && this.position.x <= 16)
+			{
+				return true;
+			}//this means u in the spawn, u gotta go up homie
+			else
+			{
+				return false;
+			}
+		}//level 2 spawn
+		
+		
+		
 	}//checks if ghost is in spawing block, prioritize going up if so
 }

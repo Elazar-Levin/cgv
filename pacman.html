@@ -2104,6 +2104,12 @@ function pauseSound (tag)
 	document.getElementById (tag).pause()
   //document.getElementById('ey').style = "background-color:red";
 }
+
+function SquareIntersect (sphere,Cube)
+{
+	return sphere.intersectsBox (Cube);
+}
+
 /*----------------------------- INITIALIZATION ----------------------------------------
 
 /**
