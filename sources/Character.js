@@ -37,6 +37,24 @@ class Character extends THREE.Object3D
 		this.tweeningAmount=0;
 		this.tweeningDir=false;
 		this.tweeningTotal=0;
+		
+		
+		// new system. we start at 0, and then every other point is every Pi/6.
+		/*
+						6
+					7		5
+				8				4
+			9						3
+				10				2	
+					11		1
+						0
+		*/
+		
+		
+		this.point=0;
+		
+		
+		
 	}
 
 	moveLeft ()
@@ -415,6 +433,7 @@ class Character extends THREE.Object3D
 		{
 			if (this.canMoveLeft ())
 			{
+				/*
 				if(this.movingLeft)
 				{
 					if(this.tweeningTotal<this.tweeningAmount)
@@ -435,7 +454,7 @@ class Character extends THREE.Object3D
 				{
 					this.tween(true,3);
 				}
-												
+				*/							
 				this.moveLeft();
 			}//if to check when pacman can actually turn
 		}//if for when next wanted turn is a left
@@ -443,6 +462,7 @@ class Character extends THREE.Object3D
 		{
 			if (this.canMoveRight ())
 			{
+				/*
 				if(this.movingLeft)
 				{
 					this.tween(true,6);
@@ -463,6 +483,7 @@ class Character extends THREE.Object3D
 				{
 					this.tween(false,3);
 				}
+				*/
 				this.moveRight();
 			}//if to check when pacman can actually turn
 		}//if for when next wanted turn is a right
@@ -470,6 +491,7 @@ class Character extends THREE.Object3D
 		{
 			if (this.canMoveForward ())
 			{
+				/*
 				if(this.movingLeft)
 				{
 					this.tween(true,3);
@@ -490,7 +512,7 @@ class Character extends THREE.Object3D
 				{
 					this.tween(true,6);
 				}
-				
+				*/
 				this.moveForward();
 			}//if to check when pacman can actually turn
 		}//if for when next wanted turn is a upwards
@@ -498,6 +520,8 @@ class Character extends THREE.Object3D
 		{
 			if (this.canMoveBackward ())
 			{
+				
+				/*
 				if(this.movingLeft)
 				{
 					this.tween(false,6);
@@ -513,12 +537,12 @@ class Character extends THREE.Object3D
 				else if(this.movingBackward)
 				{
 					if(this.tweeningTotal<=this.tweeningAmount)
-					{
+					//{
 						this.tween(this.tweeningDir,this.tweeningTotal);
 					}
 					//this.tween(false,0);
 				}
-				
+				*/
 				this.moveBackward();
 			}//if to check when pacman can actually turn
 		}//if for when next wanted turn is a downwards
@@ -925,7 +949,89 @@ class Character extends THREE.Object3D
 	{
 		return new THREE.Vector2();
 	}
-
+	
+	tween()
+	{
+		/*
+						6
+					7		5
+				8				4
+			9						3
+				10				2	
+					11		1
+						0
+		*/
+		
+		this.point=this.point%12;
+		if(this.movingBackward && this.point!=0)
+		{
+			/*
+			if(this.point<=6)//move anticlockwise
+			{
+				this.rotateY(Math.PI/6);
+				this.point++;
+			}
+			else//move clockwise
+			{
+				this.rotateY(-Math.PI/6);
+				this.point--;
+			}
+			*/
+			this.rotateY(Math.PI/6);
+			this.point++;
+		}
+		else if(this.movingRight && this.point!=3)
+		{
+			/*
+			if(this.point<=9 && this.point>3)//move anticlockwise
+			{
+				this.rotateY(Math.PI/6);
+				this.point++;
+			}
+			else//move clockwise
+			{
+				this.rotateY(-Math.PI/6);
+				this.point--;
+			}
+			*/
+			this.rotateY(Math.PI/6);
+			this.point++;
+		}
+		else if(this.movingForward && this.point!=6)
+		{
+			/*if(this.point<=12 && this.point>6)//move anticlockwise
+			{
+				this.rotateY(Math.PI/6);
+				this.point++;
+			}
+			else//move clockwise
+			{
+				this.rotateY(-Math.PI/6);
+				this.point--;
+			}*/
+			this.rotateY(Math.PI/6);
+			this.point++;
+		}
+		else if(this.movingLeft && this.point!=9)
+		{
+			/*if(this.point<=3 || (this.point<=12 && this.point>9))//move anticlockwise
+			{
+				this.rotateY(Math.PI/6);
+				this.point++;
+			}
+			else//move clockwise
+			{
+				this.rotateY(-Math.PI/6);
+				this.point--;
+			}
+			*/
+			this.rotateY(Math.PI/6);
+			this.point++;
+		}
+		
+	
+	}
+	/*
 	tween(dir,no)
 	{
 		this.tweeningTotal=no;
@@ -957,7 +1063,7 @@ class Character extends THREE.Object3D
 				this.rotateY(-Math.PI/6);
 			}
 		}
-		
+	*/	
 		
 		/*
 		var tweeningAmount=6;
@@ -983,7 +1089,7 @@ class Character extends THREE.Object3D
 			}
 		}
 		*/
-	}
+	//}
 	
 	clear ()
 	{
