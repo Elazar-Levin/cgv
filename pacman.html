@@ -2122,6 +2122,7 @@ function startGame ()
 function replay ()
 {
 	document.getElementById ("endScreen").style.display = 'none';
+	document.getElementById ("bonus").style.display = 'inline';
 	if (first)
 	{
 		document.getElementById ("theme").pause()
@@ -2138,26 +2139,6 @@ function replay ()
 		reset();
 	}//
 }
-
-
-function rect (x, y, w, h, c)
-{
-	context.fillStyle = c;
-	context.fillRect (x, y, w, h);
-}//Function to draw out 2D rectangle
-
-function text (txt, fnt, x, y, c)
-{
-	context.fillStyle = c;
-	context.font = fnt;
-	context.fillText (txt, x, y);
-}//Function
-
-function draw()
-{
-	rect (0, 0, canvas.width, canvas.height, 'black');
-	text ('GAME OVER', '75px Comic Sams MS', 10, 30, 'white');
-}//Function used to draw the Game Over Screen
 
 function playSound (tag) 
 {
@@ -2191,6 +2172,15 @@ function SquareIntersect (sphere,Cube)
 {
 	return sphere.intersectsBox (Cube);
 }
+
+function bonus ()
+{
+	canDie = true;
+	objPac.clear();
+	levelNo = 4;
+	reset();
+	document.getElementById ("endScreen").style.display = 'none';
+}//Method called when homie wanna play bonus level
 
 /*----------------------------- INITIALIZATION ----------------------------------------
 
@@ -2291,6 +2281,12 @@ function init() {
 		</div>
 		<br>
 		<button id="play" style="height: 40px; width: 100px; font-weight: bold;"onclick="replay()" type="button">PLAY</button>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<button id="bonus" style="height: 40px; width: 100px; font-weight: bold; display: none;"onclick="bonus()" type="button">BONUS LEVEL</button>
 		<br>
 		<button id="mute" style="float: right;"onclick="playSound ('theme')" type="image" class="button">Mute</button>
 		
