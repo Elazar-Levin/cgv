@@ -64,11 +64,17 @@
 	background-size: contain;
 	border: none;
 	padding: 17px 17px;
+	width:100;
+	height:100;
 	font-size: 16px;
+<<<<<<< HEAD
 	cursor: pointer;
 	position:fixed;
 	bottom: 0px;
 	right:0;
+=======
+
+>>>>>>> 89b8a5b2b41b14f1294b4c622fa5a989f963dc83
 }
 
 <!--/*#hudcanvas {
@@ -376,7 +382,7 @@ function createWorld()
 	//gate.position.set(10,-3,16);
 	//obstructions.add(gate);
 	
-	levelNo=3;
+	levelNo=1;
 	
 	makeLevel(levelNo);
 
@@ -1524,7 +1530,7 @@ function updateForFrame()
 	}//For loop to iterate over all the pelletes
 	
   	var myDiv = document.getElementById ("hud");
- 	myDiv.innerHTML = "Score: " + objPac.score + "      Lives: " + objPac.lives +  "    "+objPac.x+"    "+objPac.z;
+ 	myDiv.innerHTML = "Score: " + objPac.score + "      Lives: " + objPac.lives ;
 
 
  	var pacSphere;
