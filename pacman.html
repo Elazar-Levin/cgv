@@ -373,7 +373,7 @@ function createWorld()
 	//gate.position.set(10,-3,16);
 	//obstructions.add(gate);
 	
-	levelNo=4;
+	levelNo=2;
 	
 	makeLevel(levelNo);
 
@@ -1520,7 +1520,7 @@ function updateForFrame()
 	}//For loop to iterate over all the pelletes
 	
   	var myDiv = document.getElementById ("hud");
- 	myDiv.innerHTML = "Score: " + objPac.score + "      Lives: " + objPac.lives;
+ 	myDiv.innerHTML = "Score: " + objPac.score + "      Lives: " + objPac.lives +  "    "+objPac.x+"    "+objPac.z;
 
 
  	var pacSphere;
@@ -1540,8 +1540,85 @@ function updateForFrame()
 	
 
 	ghost1.animate (paccy);
+	if(halloween)
+	{
 	
-	ghost1.findChar (objPac, levelNo, halloween);
+		var fakePac=new THREE.Object3D();
+		fakePac.position.set(0,0,0);
+		fakePac.position.y=-3;
+		if(objPac.z>0)
+		{
+			if(levelNo==1)
+			{
+				fakePac.position.z=-8;
+			}
+			else if(levelNo==2)
+			{
+				fakePac.position.z=20;
+			}
+			else if(levelNo==4)
+			{
+				fakePac.position.z=-28;
+			}
+		}
+		else
+		{
+			if(levelNo==1)
+			{
+				fakePac.position.z=32;
+			}
+			else if(levelNo==2)
+			{
+				fakePac.position.z=36;
+			}
+			else if(levelNo==4)
+			{
+				fakePac.position.z=52;
+			}
+		}
+		if(objPac.x>0)
+		{
+			if(levelNo==1)
+			{
+				fakePac.position.x=-8;
+			}
+			else if(levelNo==2)
+			{
+				fakePac.position.x=-48;
+			}
+			else if(levelNo==4)
+			{
+				fakePac.position.x=-28;
+			}
+		}
+		else
+		{
+			if(levelNo==1)
+			{
+				fakePac.position.z=32;
+			}
+			else if(levelNo==2)
+			{
+				fakePac.position.x=28;
+			}
+			else if(levelNo==4)
+			{
+				fakePac.position.x=44;
+			}
+		}
+		
+	
+	
+		
+		ghost1.findChar(fakePac,levelNo,halloween);
+	
+	}
+	else
+	{
+		ghost1.findChar (objPac, levelNo, halloween);
+	}
+	
+	//ghost1.findChar (objPac, levelNo, halloween);
 	
 	ghost1.setDirection();
 	

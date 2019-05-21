@@ -818,7 +818,7 @@ class Character extends THREE.Object3D
 			}//Inverse dirtections
 			return;
 		}//ghost gonna be running from you, so imma revert his actions*/
-
+		/*
 		if (Math.abs (char1.position.x - this.position.x) <= 0.5)
 		{
 			if (char1.position.z > this.position.z)
@@ -844,10 +844,10 @@ class Character extends THREE.Object3D
 				this.futureDir = "down";
 			}//else for when u gotta go down instead
 		}//if to stop that annoying shit when its on the same axis
-
+		*/
 		
 
-		else if (char1.position.z > this.position.z && this.canMoveRight() &&!this.movingLeft)// this.futureDir != "left")
+		if (char1.position.z > this.position.z && this.canMoveRight() &&!this.movingLeft)// this.futureDir != "left")
 		{
 			this.futureDir = "right";
 		}//if for moving right
@@ -916,7 +916,7 @@ class Character extends THREE.Object3D
 	
 	
 	
-		if (halloween)
+		/*if (halloween)
 		{
 			if (this.futureDir == "up")
 			{
@@ -991,8 +991,8 @@ class Character extends THREE.Object3D
 				}
 			}
 		}//If for when u wanna run away from the pacman
-
-		if (this.inSpawn (no) && !char1.inSpawn (no))
+		*/
+		if (this.inSpawn (no) )//&& !char1.inSpawn (no))
 		{
 			this.futureDir = "up";
 		}
