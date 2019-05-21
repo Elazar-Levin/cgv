@@ -54,7 +54,7 @@ class Character extends THREE.Object3D
 		this.point=0;
 		
 		
-		
+		this.prevPos=new THREE.Vector3(0,0,0);
 	}
 
 	moveLeft ()
@@ -325,6 +325,9 @@ class Character extends THREE.Object3D
 				}//if for when the pellete collides with pacman
 			}//for loop that distributes over number of power pelletes
 		}//if to check if this character can eat
+		
+		this.prevPos=this.position.clone();
+		
 	}//Method that handles all the collisions of the object
 	
 	canMoveLeft()
@@ -842,26 +845,77 @@ class Character extends THREE.Object3D
 			}//else for when u gotta go down instead
 		}//if to stop that annoying shit when its on the same axis
 
-		else if (char1.position.x > this.position.x && this.canMoveForward() && this.futureDir != "down")
-		{
-			this.futureDir = "up";
-		}//if for moving up
+		
 
-		else if (char1.position.z > this.position.z && this.canMoveRight() && this.futureDir != "left")
+		else if (char1.position.z > this.position.z && this.canMoveRight() &&!this.movingLeft)// this.futureDir != "left")
 		{
 			this.futureDir = "right";
 		}//if for moving right
-
-		else if (char1.position.x < this.position.x && this.canMoveBackward() && this.futureDir != "up")
-		{
-			this.futureDir = "down";
-		}//if for moving down
-
-		else if (char1.position.z < this.position.z && this.canMoveLeft() && this.futureDir != "right")
+		else if (char1.position.z < this.position.z && this.canMoveLeft() && !this.movingRight)// this.futureDir != "right")
 		{
 			this.futureDir = "left";
 		}//if for moving left
 
+		else if (char1.position.x < this.position.x && this.canMoveBackward() && !this.movingForward)//this.futureDir != "up")
+		{
+			this.futureDir = "down";
+		}//if for moving down
+
+		else if (char1.position.x > this.position.x && this.canMoveForward() && !this.movingBackward)//this.futureDir != "down")
+		{
+			this.futureDir = "up";
+		}//if for moving up
+		
+		if(this.movingRight && !this.canMoveRight() && this.futureDir=="right")
+		{
+			if(this.canMoveForward())
+			{
+				this.futureDir="up";
+			}
+			else
+			{
+				this.futureDir="down";
+			}
+		}
+		else if(this.movingLeft && !this.canMoveLeft() && this.futureDir=="left")
+		{
+			if(this.canMoveBackward())
+			{
+				this.futureDir="down";
+			}
+			else
+			{
+				this.futureDir="up";
+			}
+		}
+		else if(this.movingForward && !this.canMoveForward() && this.futureDir=="up")
+		{
+			if(this.canMoveLeft())
+			{
+				this.futureDir="left";
+			}
+			else
+			{
+				this.futureDir="right";
+			}
+		}
+		else if(this.movingBackward && !this.canMoveBackward() && this.futureDir=="down")
+		{
+			if(this.canMoveRight())
+			{
+				this.futureDir="right";
+			}
+			else
+			{
+				this.futureDir="left";
+			}
+		}
+		
+		
+		
+	
+	
+	
 		if (halloween)
 		{
 			if (this.futureDir == "up")

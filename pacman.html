@@ -15,6 +15,7 @@
 #hud {
 	position: absolute;
 	bottom: 10px;
+	width:100%;
 	left :10px;
 	text-align: left;
 	z-index: 100;
@@ -24,6 +25,7 @@
 	position: absolute;
 	bottom: 10px;
 	left :1870px;
+	width:100%;
 	text-align: left;
 	z-index: 100;
 	display:block;
@@ -50,13 +52,13 @@
 	height: 100%;
 	background-color: white;
 	text-align: center;
-	background-image: url("sources/bg.png");
+	background-image: url("resources/images/bg.png");
 	background-color: #053E18;
 	background-repeat: no-repeat;
 	background-size:cover;
 }
 .btn {
-  background-image: url("sources/speaker-off-small.png");
+  background-image: url("resources/images/speaker-off-small.png");
   background-repeat: no-repeat;
   background-color: #ffffff;
   background-size: contain;
@@ -2084,14 +2086,14 @@ function playSound (tag)
 		document.getElementById (tag).play()
 		mute = false;
 		document.getElementById ("mute").innerHTML = "Mute";
-		document.getElementById ("mutehud").style.backgroundImage = 'url(sources/speaker-on-small.png)';
+		document.getElementById ("mutehud").style.backgroundImage = 'url(resources/images/speaker-on-small.png)';
 	}
 	else
 	{
 		document.getElementById (tag).pause()
 		mute = true;
 		document.getElementById ("mute").innerHTML = "Unmute";
-		document.getElementById ("mutehud").style.backgroundImage = 'url(sources/speaker-off-small.png)';
+		document.getElementById ("mutehud").style.backgroundImage = 'url(resources/images/speaker-off-small.png)';
 	}
 } 
 
@@ -2163,7 +2165,7 @@ function init() {
    <p style="color: #AA0000; font-weight: bold">Sorry, but this page requires JavaScript!</p>
 </noscript>
 
-<audio loop autoplay id="theme" src="sources/Jarro 8 bit.mp3" type="audio/mp3">
+<audio loop autoplay id="theme" src="resources/sound/Jarro 8 bit.mp3" type="audio/mp3">
 	Your browser does not support the audio element.
 </audio>
 
