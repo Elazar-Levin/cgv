@@ -454,8 +454,10 @@ class Character extends THREE.Object3D
 				{
 					this.tween(true,3);
 				}
-				*/							
+				*/	
+				this.rotation.y=-Math.PI/2;				
 				this.moveLeft();
+				
 			}//if to check when pacman can actually turn
 		}//if for when next wanted turn is a left
 		else if (this.futureDir == "right")
@@ -484,6 +486,7 @@ class Character extends THREE.Object3D
 					this.tween(false,3);
 				}
 				*/
+				this.rotation.y=Math.PI/2;				
 				this.moveRight();
 			}//if to check when pacman can actually turn
 		}//if for when next wanted turn is a right
@@ -513,6 +516,7 @@ class Character extends THREE.Object3D
 					this.tween(true,6);
 				}
 				*/
+				this.rotation.y=Math.PI;
 				this.moveForward();
 			}//if to check when pacman can actually turn
 		}//if for when next wanted turn is a upwards
@@ -543,6 +547,7 @@ class Character extends THREE.Object3D
 					//this.tween(false,0);
 				}
 				*/
+				this.rotation.y=Math.PI*2;
 				this.moveBackward();
 			}//if to check when pacman can actually turn
 		}//if for when next wanted turn is a downwards
