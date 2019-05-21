@@ -9,7 +9,7 @@ class Character extends THREE.Object3D
 		this.z = z;
 		this.transform = transform;
 		this.position.set(x,y,z);
-		this.transform.position.set(0,0,0);
+		this.transform.position.set(0,0.1,0);
 		this.animations = animations;
 		this.obstructions = obstructions;
 		this.add (transform);
@@ -38,7 +38,7 @@ class Character extends THREE.Object3D
 		this.tweeningDir=false;
 		this.tweeningTotal=0;
 		
-		
+	
 		// new system. we start at 0, and then every other point is every Pi/6.
 		/*
 						6
