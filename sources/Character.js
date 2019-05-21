@@ -1194,7 +1194,7 @@ class Character extends THREE.Object3D
 				return false;
 			}
 		}//level 2 spawn
-		else if (no == 4)
+		else if (no == 3)
 		{
 			if (this.position.z > 3 && this.position.z < 20 && this.position.x >= 12 && this.position.x <= 16)
 			{

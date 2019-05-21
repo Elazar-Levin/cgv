@@ -58,14 +58,16 @@
 	background-size:cover;
 }
 .btn {
-  background-image: url("resources/images/speaker-off-small.png");
-  background-repeat: no-repeat;
-  background-color: #ffffff;
-  background-size: contain;
-  border: none;
-  padding: 17px 17px;
-  font-size: 16px;
-  cursor: pointer;
+	background-image: url("resources/images/speaker-off-small.png");
+	background-repeat: no-repeat;
+	background-color: #ffffff;
+	background-size: contain;
+	border: none;
+	padding: 17px 17px;
+	font-size: 16px;
+	cursor: pointer;
+	position:fixed;
+	right:0;
 }
 
 <!--/*#hudcanvas {
@@ -373,7 +375,7 @@ function createWorld()
 	//gate.position.set(10,-3,16);
 	//obstructions.add(gate);
 	
-	levelNo=2;
+	levelNo=3;
 	
 	makeLevel(levelNo);
 
@@ -1041,7 +1043,7 @@ function makeLevel(levelNo)//TODO: change main camera view for each level, make 
 		makeBlock (-28, -3, 100, 4, 4, 28);
 		makeBlock (-52, -3, 100, 4, 4, 28);
 	}
-	else if (levelNo == 3)
+	else if (levelNo == 4)
 	{
 		
 		makeBlock(-108,-3, 0, 12, 4, 216)
@@ -1136,7 +1138,7 @@ function makeLevel(levelNo)//TODO: change main camera view for each level, make 
 		makePellets(-55, 12, -40, 1, 40)
 		makePellets(-55, 12, 25, 1, 40)
 	}
-	else if (levelNo ==  4)
+	else if (levelNo ==  3)
 	{
 		//teleports
 		teleport1=new THREE.Mesh(new THREE.CubeGeometry(4,4,4),new THREE.MeshPhongMaterial({transparent: true, opacity: 0}));
@@ -1145,6 +1147,7 @@ function makeLevel(levelNo)//TODO: change main camera view for each level, make 
 		teleport2.position.set(12,-3,64);
 		scene.add(teleport1);
 		scene.add(teleport2);
+		
 	
 	
 		//power pellets
@@ -1433,7 +1436,7 @@ function updateForFrame()
 
 		document.getElementById ("endScreen").style.display = 'inline';
 	}//If for when a homie is dead
-	if (levelNo != 4)
+	if (levelNo != 3 && levelNo!=4)
 	{
 		if (pellets.children.length == 0)
 		{
@@ -1462,7 +1465,7 @@ function updateForFrame()
 		document.getElementById ("endScreen").style.display = 'inline';
 	}
 	
-	if(levelNo==4)
+	if(levelNo==3)
 	{
 		var pacBox = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
 		pacBox.setFromObject (objPac);
@@ -1485,11 +1488,11 @@ function updateForFrame()
 		
 		if(SquareIntersect(ghostBox,teleBox1))
 		{
-			ghost1.setPos(teleport2.position.x,teleport2.position.y,teleport2.position.z-5);
+			ghost1.setPos(teleport2.position.x,teleport2.position.y,teleport2.position.z-4);
 		}
 		else if(SquareIntersect(ghostBox,teleBox2))
 		{
-			ghost1.setPos(teleport1.position.x,teleport1.position.y,teleport1.position.z+5);
+			ghost1.setPos(teleport1.position.x,teleport1.position.y,teleport1.position.z+4);
 		}
 		
 	}	
@@ -1556,7 +1559,7 @@ function updateForFrame()
 			{
 				fakePac.position.z=20;
 			}
-			else if(levelNo==4)
+			else if(levelNo==3)
 			{
 				fakePac.position.z=-28;
 			}
@@ -1571,7 +1574,7 @@ function updateForFrame()
 			{
 				fakePac.position.z=36;
 			}
-			else if(levelNo==4)
+			else if(levelNo==3)
 			{
 				fakePac.position.z=52;
 			}
@@ -1586,7 +1589,7 @@ function updateForFrame()
 			{
 				fakePac.position.x=-48;
 			}
-			else if(levelNo==4)
+			else if(levelNo==3)
 			{
 				fakePac.position.x=-28;
 			}
@@ -1601,7 +1604,7 @@ function updateForFrame()
 			{
 				fakePac.position.x=28;
 			}
-			else if(levelNo==4)
+			else if(levelNo==3)
 			{
 				fakePac.position.x=44;
 			}
@@ -1936,9 +1939,9 @@ function reset()
 	
 	makeLevel (levelNo);//should set walls and pellets and power pellets
 	buildSkybox();
-	if (levelNo == 3){
+	if (levelNo == 4){
 		objPac.setPos(-180,0,8)
-		ghost1.setPos(-180,20, 12);
+		ghost1.setPos(-50,20, 12);
 	}
 	else{
 		objPac.setPos(-4,0,8)
