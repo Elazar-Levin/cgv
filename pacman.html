@@ -67,14 +67,11 @@
 	width:100;
 	height:100;
 	font-size: 16px;
-<<<<<<< HEAD
 	cursor: pointer;
 	position:fixed;
 	bottom: 0px;
 	right:0;
-=======
 
->>>>>>> 89b8a5b2b41b14f1294b4c622fa5a989f963dc83
 }
 
 <!--/*#hudcanvas {
@@ -602,6 +599,8 @@ function makeLevel(levelNo)//TODO: change main camera view for each level, make 
 		miniMapCamera.top=window.innerWidth /  16;
 		miniMapCamera.bottom=window.innerWidth / - 16+20;
 		miniMapCamera.updateProjectionMatrix();
+		
+	
 	//	powerPellet.position.set(12,-3,12);
 	
 	
@@ -1052,6 +1051,12 @@ function makeLevel(levelNo)//TODO: change main camera view for each level, make 
 	}
 	else if (levelNo == 4)
 	{
+	
+		miniMapCamera.left=window.innerWidth / - 16-50;
+		miniMapCamera.right=window.innerWidth /  16+40;
+		miniMapCamera.top=window.innerWidth /  16+40;
+		miniMapCamera.bottom=window.innerWidth / - 16-40;
+		miniMapCamera.updateProjectionMatrix();
 		
 		makeBlock(-108,-3, 0, 12, 4, 216)
 		makePellets(-108,0,-50,1,216) 
@@ -1147,6 +1152,13 @@ function makeLevel(levelNo)//TODO: change main camera view for each level, make 
 	}
 	else if (levelNo ==  3)
 	{
+		miniMapCamera.left=window.innerWidth / - 16-20;
+		miniMapCamera.right=window.innerWidth /  16+40;
+		miniMapCamera.top=window.innerWidth /  16+40;
+		miniMapCamera.bottom=window.innerWidth / - 16-20;
+		miniMapCamera.updateProjectionMatrix();
+	
+	
 		//teleports
 		teleport1=new THREE.Mesh(new THREE.CubeGeometry(4,4,4),new THREE.MeshPhongMaterial({transparent: true, opacity: 0}));
 		teleport1.position.set(12,-3,-40);
@@ -1456,7 +1468,7 @@ function updateForFrame()
 	{
 		canDie = false;
 		document.getElementById ("h1").innerHTML = "WELL DONE!";
-		document.getElementById ("h2").innerHTML = "YOU COLLECTED ALL PELLETES";
+		document.getElementById ("h2").innerHTML = "YOU COLLECTED ALL PELLETS";
 		document.getElementById ("p").innerHTML = "Your Score: " + objPac.highscore + "                  Hi-Score: " + hiScore;
 		document.getElementById ("play").innerHTML = "PLAY AGAIN";
 		document.getElementById ("title").innerHTML="Credits:";
@@ -2289,10 +2301,7 @@ function init() {
 		<br>
 		<button id="play" style="height: 40px; width: 100px; font-weight: bold;"onclick="replay()" type="button">PLAY</button>
 		<br>
-		<br>
-		<br>
-		<br>
-		<br>
+	
 		<button id="bonus" style="height: 40px; width: 100px; font-weight: bold; display: none;"onclick="bonus()" type="button">BONUS LEVEL</button>
 		<br>
 		<button id="mute" style="float: right;"onclick="playSound ('theme')" type="image" class="button">Mute</button>
